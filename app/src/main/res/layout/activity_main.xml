@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.nylc.nylc.MainActivity">
+
+    <TextView
+        android:id="@+id/tv_market"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/text_black"
+        android:textSize="80sp"
+        android:gravity="center"
+        android:text="商城" />
+
+    <TextView
+        android:id="@+id/tv_im"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="@color/text_black"
+        android:layout_weight="1"
+        android:textSize="80sp"
+        android:gravity="center"
+        android:text="即时通讯" />
+</LinearLayout>
