@@ -34,4 +34,10 @@ dependencies {
 
     //上浮提示文字的EditText
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
+
+    //获取图片
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
+
+    //EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
