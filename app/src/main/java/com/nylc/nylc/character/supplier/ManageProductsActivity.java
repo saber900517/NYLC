@@ -14,16 +14,14 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.eventbus.UpdateGoodsStateEvent;
+import com.nylc.nylc.character.ProductTypeAdapter;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.Product;
 import com.nylc.nylc.model.ProductType;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -49,27 +47,17 @@ public class ManageProductsActivity extends BaseActivity implements View.OnClick
     private List<Product> products;
     private List<ProductType> productTypes;
 
-    private ManageProductTypeAdapter productTypeAdapter;
+    private ProductTypeAdapter productTypeAdapter;
     private ManageProductsAdapter productsAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_products);
-        EventBus.getDefault().register(this);
         init();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void UpdateGoodsStateEvent(UpdateGoodsStateEvent event) {
-
-    }
 
     private void init() {
         iv_back = findViewById(R.id.iv_back);
@@ -96,7 +84,7 @@ public class ManageProductsActivity extends BaseActivity implements View.OnClick
                 if ("success".equals(level)) {
                     //请求成功
                     productTypes = JSON.parseArray(baseResult.getData(), ProductType.class);
-                    productTypeAdapter = new ManageProductTypeAdapter(productTypes, ManageProductsActivity.this);
+                    productTypeAdapter = new ProductTypeAdapter(productTypes, ManageProductsActivity.this);
                     list_type.setAdapter(productTypeAdapter);
                     list_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -121,7 +109,8 @@ public class ManageProductsActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.i("", "");
+                Log.e("error", ex.getMessage());
+                Toast.makeText(ManageProductsActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -195,7 +184,8 @@ public class ManageProductsActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.i("", "");
+                Log.e("error", ex.getMessage());
+                Toast.makeText(ManageProductsActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

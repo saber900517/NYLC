@@ -105,7 +105,8 @@ public class AuthCodeActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.i("", "");
+                Log.e("error", ex.getMessage());
+                Toast.makeText(AuthCodeActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -152,7 +153,8 @@ public class AuthCodeActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Log.e("error", ex.getMessage());
+                Toast.makeText(AuthCodeActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

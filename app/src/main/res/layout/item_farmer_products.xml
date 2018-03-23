@@ -32,24 +32,4 @@
         android:layout_marginBottom="5dp"
         android:text="￥188元"
         android:textColor="@color/text_black" />
-
-    <TextView
-        android:id="@+id/tv_saleState"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:background="#eeeeee"
-        android:gravity="center"
-        android:text="下架" />
-
-    <TextView
-        android:id="@+id/tv_delete"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_saleState"
-        android:background="#eeeeee"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="删除" />
 </RelativeLayout>

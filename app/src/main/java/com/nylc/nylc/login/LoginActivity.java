@@ -20,9 +20,13 @@ import com.nylc.nylc.BaseActivity;
 
 import com.nylc.nylc.R;
 
+import com.nylc.nylc.character.company.CompanyIndexActivity;
+import com.nylc.nylc.character.farmer.FarmerIndexActivity;
+import com.nylc.nylc.character.leader.LeaderIndexActivity;
 import com.nylc.nylc.character.supplier.SupplierIndexActivity;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.Login;
+import com.nylc.nylc.receiver.TagAliasOperatorHelper;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.PhoneFormatCheckUtils;
 import com.nylc.nylc.utils.SharedPreferencesUtil;
@@ -111,10 +115,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (level.equals("success")) {
                     //登录成功
                     Login login = JSON.parseObject(baseResult.getData(), Login.class);
+                    SharedPreferencesUtil.setParam(LoginActivity.this, "accountName", et_userName.getText().toString());
                     SharedPreferencesUtil.setParam(LoginActivity.this, "token", login.getTokenKey());
                     SharedPreferencesUtil.setParam(LoginActivity.this, "empType", login.getEmpTypeName());
                     SharedPreferencesUtil.setParam(LoginActivity.this, "empTypeId", login.getEmpTypeId());
                     String empTypeName = login.getEmpTypeName();
+                    setAlias(et_userName.getText().toString());
                     judgeType(empTypeName);
                 } else {
                     //登录失败
@@ -126,6 +132,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.e("error", ex.getMessage());
+                Toast.makeText(LoginActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -150,20 +157,40 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void judgeType(String empTypeName) {
         switch (empTypeName) {
             case "农民":
-                Toast.makeText(LoginActivity.this, "农民", Toast.LENGTH_LONG).show();
+                //跳转到供应商首页
+                startActivity(new Intent(LoginActivity.this, FarmerIndexActivity.class));
+                finish();
                 break;
             case "供应商":
-                Toast.makeText(LoginActivity.this, "供应商", Toast.LENGTH_LONG).show();
                 //跳转到供应商首页
                 startActivity(new Intent(LoginActivity.this, SupplierIndexActivity.class));
+                finish();
                 break;
             case "小组长":
-                Toast.makeText(LoginActivity.this, "小组长", Toast.LENGTH_LONG).show();
+                //跳转到供应商首页
+                startActivity(new Intent(LoginActivity.this, LeaderIndexActivity.class));
+                finish();
                 break;
             case "企业":
-                Toast.makeText(LoginActivity.this, "企业", Toast.LENGTH_LONG).show();
+                //跳转到供应商首页
+                startActivity(new Intent(LoginActivity.this, CompanyIndexActivity.class));
+                finish();
                 break;
         }
+    }
+
+    /**
+     * 设置alias
+     *
+     * @param alias
+     */
+    public void setAlias(String alias) {
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.setAction(TagAliasOperatorHelper.ACTION_SET);
+        tagAliasBean.setAlias(alias);
+        tagAliasBean.setAliasAction(true);
+        TagAliasOperatorHelper.sequence++;
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), TagAliasOperatorHelper.sequence++, tagAliasBean);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.nylc.nylc.character.supplier;
+package com.nylc.nylc.character;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,24 +8,22 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.Product;
 import com.nylc.nylc.model.ProductType;
 import com.nylc.nylc.utils.ViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 管理商品列表适配器
+ * 商品列表适配器
  * Created by 吴曰阳 on 2018/3/3.
  */
 
-public class ManageProductTypeAdapter extends BaseAdapter {
+public class ProductTypeAdapter extends BaseAdapter {
 
     private List<ProductType> mList;
     private Context mContext;
 
-    public ManageProductTypeAdapter(List<ProductType> mList, Context mContext) {
+    public ProductTypeAdapter(List<ProductType> mList, Context mContext) {
         this.mList = mList;
         this.mContext = mContext;
     }
@@ -49,9 +47,9 @@ public class ManageProductTypeAdapter extends BaseAdapter {
     public View getView(int i, View v, ViewGroup viewGroup) {
         TextView textView;
         if (v == null) {
-            v = LayoutInflater.from(mContext).inflate(android.R.layout.simple_list_item_1, null);
+            v = LayoutInflater.from(mContext).inflate(R.layout.item_one_text, null);
         }
-        textView = ViewHolder.get(v, android.R.id.text1);
+        textView = ViewHolder.get(v, R.id.textView);
         textView.setText(mList.get(i).getDISPLAY_NAME_ZH());
         return v;
     }

@@ -3,12 +3,15 @@ package com.nylc.nylc.character.supplier;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.personal.PersonalActivity;
 
 /**
  * 供货商首页
@@ -39,7 +42,7 @@ public class SupplierIndexActivity extends BaseActivity implements View.OnClickL
         ll_manage.setOnClickListener(this);
         ll_supply.setOnClickListener(this);
         ll_order.setOnClickListener(this);
-        ll_order.setOnClickListener(this);
+        iv_person.setOnClickListener(this);
     }
 
     @Override
@@ -57,7 +60,23 @@ public class SupplierIndexActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.iv_person:
                 //个人中心
+                startActivity(new Intent(this, PersonalActivity.class));
                 break;
         }
+    }
+
+    long lastExit = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis() - lastExit >= 2000) {
+                Toast.makeText(this, "再按一下返回退出应用", Toast.LENGTH_SHORT).show();
+            } else {
+                finish();
+            }
+            lastExit = System.currentTimeMillis();
+        }
+        return true;
     }
 }

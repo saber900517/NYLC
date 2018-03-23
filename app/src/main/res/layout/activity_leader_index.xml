@@ -23,14 +23,16 @@
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:padding="10dp"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@mipmap/ic_launcher" />
     </RelativeLayout>
 
 
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -44,7 +46,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ic_launcher_background" />
+                android:background="@mipmap/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,7 +68,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ic_launcher_background" />
+                android:background="@mipmap/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -77,10 +79,13 @@
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -94,7 +99,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ic_launcher_background" />
+                android:background="@mipmap/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -110,14 +115,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:visibility="invisible"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ic_launcher_background" />
+                android:background="@mipmap/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -128,11 +133,15 @@
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
+
         <LinearLayout
             android:id="@+id/ll_order"
             android:layout_width="wrap_content"
@@ -144,7 +153,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ic_launcher_background" />
+                android:background="@mipmap/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,6 +163,7 @@
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_approve"
             android:layout_width="wrap_content"
@@ -165,7 +175,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ic_launcher_background" />
+                android:background="@mipmap/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"

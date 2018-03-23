@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.Product;
@@ -68,9 +70,11 @@ public class ManageProductsAdapter extends BaseAdapter {
         TextView tv_price = ViewHolder.get(v, R.id.tv_price);
         TextView tv_saleState = ViewHolder.get(v, R.id.tv_saleState);
         TextView tv_delete = ViewHolder.get(v, R.id.tv_delete);
+        ImageView iv_img = ViewHolder.get(v,R.id.iv_img);
         final Product product = mList.get(i);
         tv_name.setText(product.getGOODS_NAME());
         tv_price.setText("￥" + product.getGOODS_PRICE() + "元");
+        ImageLoader.getInstance().displayImage(Urls.IMG+product.getGOODS_PICTURE(),iv_img);
         int status = product.getSTATUS();
         if (status == 1) {//1有效；0无效
             tv_delete.setVisibility(View.INVISIBLE);
@@ -126,7 +130,8 @@ public class ManageProductsAdapter extends BaseAdapter {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.i("", "");
+                Log.e("error", ex.getMessage());
+                Toast.makeText(mContext, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -170,7 +175,8 @@ public class ManageProductsAdapter extends BaseAdapter {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.i("", "");
+                Log.e("error", ex.getMessage());
+                Toast.makeText(mContext, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
