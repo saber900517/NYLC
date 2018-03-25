@@ -217,7 +217,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
         params.addBodyParameter("goodsPrice", price);
         params.addBodyParameter("goodsType", type);
         params.addBodyParameter("goodsDescription", description);
-        params.addBodyParameter("goodsName", imageName);
+        params.addBodyParameter("goodsPicture", imageName);
         if (!isAdd) {
             params.addBodyParameter("goodsId", product.getGOODS_ID());
         }

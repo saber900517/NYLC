@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private EditText et_password;
 
-    private TextView tv_gotoActive;
+    private TextView tv_gotoActive,tv_forgetPassword;
 
     private Button bt_login;
 
@@ -64,10 +64,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         et_userName = findViewById(R.id.et_username);
         et_password = findViewById(R.id.et_password);
         tv_gotoActive = findViewById(R.id.tv_gotoActive);
+        tv_forgetPassword = findViewById(R.id.tv_forgetPassword);
         bt_login = findViewById(R.id.bt_login);
 
         bt_login.setOnClickListener(this);
         tv_gotoActive.setOnClickListener(this);
+        tv_forgetPassword.setOnClickListener(this);
 
         String token = (String) SharedPreferencesUtil.getParam(this, "token", "");
         if (!TextUtils.isEmpty(token)) {
@@ -202,6 +204,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.tv_gotoActive:
                 Intent intent = new Intent(LoginActivity.this, AuthCodeActivity.class);
                 startActivity(intent);
+                break;
+                case R.id.tv_forgetPassword:
+                startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
                 break;
         }
     }
