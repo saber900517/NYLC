@@ -13,10 +13,11 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.character.ProductTypeAdapter;
+import com.nylc.nylc.character.TypeAdapter;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.Product;
 import com.nylc.nylc.model.ProductType;
+import com.nylc.nylc.model.SaleProduct;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
 
@@ -39,10 +40,10 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
 
     private int typeIndex = 0;//当前展示的类型的index
 
-    private List<Product> products;
+    private List<SaleProduct> products;
     private List<ProductType> productTypes;
 
-    private ProductTypeAdapter productTypeAdapter;
+    private TypeAdapter productTypeAdapter;
     private FarmerProductsAdapter productsAdapter;
 
     @Override
@@ -61,117 +62,39 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
         tv_reserve.setOnClickListener(this);
         iv_back.setOnClickListener(this);
 
-        getProductsType();
+//         getProductsType();
+        defaultData();
     }
 
-    private void getProductsType() {
-        RequestParams params = new RequestParams(Urls.queryGoodsTypeAction);
-        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
-        x.http().post(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                BaseResult baseResult = JSON.parseObject(result, BaseResult.class);
-                String code = baseResult.getCode();
-                CommonUtils.judgeCode(SaleActivity.this, code);
-                String level = baseResult.getLevel();
-                if ("success".equals(level)) {
-                    //请求成功
-                    productTypes = JSON.parseArray(baseResult.getData(), ProductType.class);
-                    productTypeAdapter = new ProductTypeAdapter(productTypes, SaleActivity.this);
-                    list_type.setAdapter(productTypeAdapter);
-                    list_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            ProductType productType = productTypes.get(i);
-                            String display_name_zh = productType.getDISPLAY_NAME_ZH();
-                            getProducts();
-                            typeIndex = i;
-                        }
-                    });
-                    productTypeAdapter.notifyDataSetChanged();
-                    if (productTypes != null && productTypes.size() > 0) {
-                        ProductType productType = productTypes.get(typeIndex);
-                        String display_name_zh = productType.getDISPLAY_NAME_ZH();
-                        getProducts();
-                    }
-                } else {
-                    String msg = baseResult.getMsg();
-                    Toast.makeText(SaleActivity.this, msg, Toast.LENGTH_SHORT).show();
-                }
-            }
+    private void defaultData() {
+        productTypes = new ArrayList<>();
+        ProductType type = new ProductType();
+        type.setDISPLAY_NAME_ZH("粮食");
+        productTypes.add(type);
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("error", ex.getMessage());
-                Toast.makeText(SaleActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
-            }
+        ProductType type3 = new ProductType();
+        type3.setDISPLAY_NAME_ZH("我的");
+        productTypes.add(type3);
 
-            @Override
-            public void onCancelled(CancelledException cex) {
+        list_type.setAdapter(new TypeAdapter(productTypes, this));
 
-            }
+        products=new ArrayList<>();
+        SaleProduct product = new SaleProduct();
+        product.setName("小麦");
+        products.add(product);
 
-            @Override
-            public void onFinished() {
+        SaleProduct product1 = new SaleProduct();
+        product1.setName("水稻");
+        products.add(product1);
 
-            }
-        });
+        SaleProduct product2 = new SaleProduct();
+        product2.setName("玉米");
+        products.add(product2);
 
+        list_products.setAdapter(new SaleProductAdapter(this,products));
     }
 
-    private void getProducts() {
-        RequestParams params = new RequestParams(Urls.queryGoodsListAction);
-        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
-        x.http().post(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.i("", "");
-                BaseResult baseResult = JSON.parseObject(result, BaseResult.class);
-                CommonUtils.judgeCode(SaleActivity.this, baseResult.getCode());
-                String level = baseResult.getLevel();
-                if ("success".equals(level)) {
-                    //请求成功
-                    String data = baseResult.getData();
-                    List<Product> list = JSON.parseArray(data, Product.class);
-                    if (list != null && list.size() > 0) {
-                        //有数据
-                        if (products == null) {
-                            products = new ArrayList<>();
-                        } else {
-                            products.clear();
-                        }
-                        products.addAll(list);
-                        productsAdapter = new FarmerProductsAdapter(products, SaleActivity.this);
-                        list_products.setAdapter(productsAdapter);
-                    } else {
-                        //没有数据
-                        products.clear();
-                        productsAdapter.notifyDataSetChanged();
-                        Toast.makeText(SaleActivity.this, "没有商品", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    //请求失败
-                    Toast.makeText(SaleActivity.this, baseResult.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("error", ex.getMessage());
-                Toast.makeText(SaleActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-    }
 
     @Override
     public void onClick(View view) {

@@ -18,12 +18,12 @@ import java.util.List;
  * Created by 吴曰阳 on 2018/3/3.
  */
 
-public class ProductTypeAdapter extends BaseAdapter {
+public class TypeAdapter extends BaseAdapter {
 
     private List<ProductType> mList;
     private Context mContext;
 
-    public ProductTypeAdapter(List<ProductType> mList, Context mContext) {
+    public TypeAdapter(List<ProductType> mList, Context mContext) {
         this.mList = mList;
         this.mContext = mContext;
     }

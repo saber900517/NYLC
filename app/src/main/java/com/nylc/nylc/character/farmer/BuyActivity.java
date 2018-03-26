@@ -1,8 +1,6 @@
 package com.nylc.nylc.character.farmer;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -15,10 +13,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.character.supplier.AddProductActivity;
-import com.nylc.nylc.character.ProductTypeAdapter;
-import com.nylc.nylc.character.supplier.ManageProductsActivity;
-import com.nylc.nylc.character.supplier.ManageProductsAdapter;
+import com.nylc.nylc.character.TypeAdapter;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.Product;
 import com.nylc.nylc.model.ProductType;
@@ -33,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 我要买
  * Created by 吴曰阳 on 2018/3/4.
  */
 
@@ -47,7 +43,7 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
     private List<Product> products;
     private List<ProductType> productTypes;
 
-    private ProductTypeAdapter productTypeAdapter;
+    private TypeAdapter productTypeAdapter;
     private FarmerProductsAdapter productsAdapter;
 
     @Override
@@ -66,7 +62,38 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
         tv_reserve.setOnClickListener(this);
         iv_back.setOnClickListener(this);
 
-        getProductsType();
+//        getProductsType();
+        defaultData();
+    }
+
+    private void defaultData() {
+        productTypes = new ArrayList<>();
+        ProductType type = new ProductType();
+        type.setDISPLAY_NAME_ZH("种子");
+        productTypes.add(type);
+
+        ProductType type1 = new ProductType();
+        type1.setDISPLAY_NAME_ZH("农药");
+        productTypes.add(type1);
+
+        ProductType type2 = new ProductType();
+        type2.setDISPLAY_NAME_ZH("化肥");
+        productTypes.add(type2);
+
+        ProductType type3 = new ProductType();
+        type3.setDISPLAY_NAME_ZH("我的");
+        productTypes.add(type3);
+
+        list_type.setAdapter(new TypeAdapter(productTypes, this));
+
+        products = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            Product product = new Product();
+            product.setGOODS_PRICE("188");
+            product.setGOODS_NAME("金麦穗8号");
+            products.add(product);
+        }
+        list_products.setAdapter(new ProductAdapter(products, this));
     }
 
     private void getProductsType() {
@@ -82,7 +109,7 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
                 if ("success".equals(level)) {
                     //请求成功
                     productTypes = JSON.parseArray(baseResult.getData(), ProductType.class);
-                    productTypeAdapter = new ProductTypeAdapter(productTypes, BuyActivity.this);
+                    productTypeAdapter = new TypeAdapter(productTypes, BuyActivity.this);
                     list_type.setAdapter(productTypeAdapter);
                     list_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -194,7 +221,7 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
 
     private void sendPushMessageToLeader() {
         RequestParams params = new RequestParams(Urls.buyPublishAction);
-        params.addBodyParameter("tokenKey",CommonUtils.getToken(this));
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

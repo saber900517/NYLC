@@ -15,8 +15,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.character.ProductTypeAdapter;
-import com.nylc.nylc.character.supplier.ManageProductsActivity;
+import com.nylc.nylc.character.TypeAdapter;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.ProductType;
 import com.nylc.nylc.utils.CommonUtils;
@@ -43,7 +42,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
     private ListView list;
     private List<ProductType> productTypes;
 
-    private ProductTypeAdapter productTypeAdapter;
+    private TypeAdapter productTypeAdapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +98,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
                 if ("success".equals(level)) {
                     //请求成功
                     productTypes = JSON.parseArray(baseResult.getData(), ProductType.class);
-                    productTypeAdapter = new ProductTypeAdapter(productTypes, ApproveActivity.this);
+                    productTypeAdapter = new TypeAdapter(productTypes, ApproveActivity.this);
                     sp_type.setAdapter(productTypeAdapter);
                     sp_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.character.ProductTypeAdapter;
+import com.nylc.nylc.character.TypeAdapter;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.Product;
 import com.nylc.nylc.model.ProductType;
@@ -47,7 +47,7 @@ public class ManageProductsActivity extends BaseActivity implements View.OnClick
     private List<Product> products;
     private List<ProductType> productTypes;
 
-    private ProductTypeAdapter productTypeAdapter;
+    private TypeAdapter productTypeAdapter;
     private ManageProductsAdapter productsAdapter;
 
     @Override
@@ -84,7 +84,7 @@ public class ManageProductsActivity extends BaseActivity implements View.OnClick
                 if ("success".equals(level)) {
                     //请求成功
                     productTypes = JSON.parseArray(baseResult.getData(), ProductType.class);
-                    productTypeAdapter = new ProductTypeAdapter(productTypes, ManageProductsActivity.this);
+                    productTypeAdapter = new TypeAdapter(productTypes, ManageProductsActivity.this);
                     list_type.setAdapter(productTypeAdapter);
                     list_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

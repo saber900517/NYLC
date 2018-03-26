@@ -82,6 +82,16 @@
         <activity
             android:name=".character.farmer.BuyActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.farmer.BorrowMoneyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.farmer.BorrowHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.farmer.SaleActivity"
+            android:screenOrientation="portrait" />
+
         <receiver
             android:name="com.nylc.nylc.receiver.MyReceiver"
             android:exported="false"

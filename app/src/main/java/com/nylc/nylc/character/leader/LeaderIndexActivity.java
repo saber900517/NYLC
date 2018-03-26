@@ -11,7 +11,10 @@ import android.widget.Toast;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.character.farmer.BorrowMoneyActivity;
 import com.nylc.nylc.character.farmer.BuyActivity;
+import com.nylc.nylc.character.farmer.SaleActivity;
+import com.nylc.nylc.model.SaleProduct;
 import com.nylc.nylc.personal.PersonalActivity;
 
 /**
@@ -60,9 +63,11 @@ public class LeaderIndexActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.ll_sale:
                 //卖粮食
+                startActivity(new Intent(this, SaleActivity.class));
                 break;
             case R.id.ll_borrow:
                 //借钱
+                startActivity(new Intent(this, BorrowMoneyActivity.class));
                 break;
             case R.id.ll_order:
                 //订单
