@@ -91,7 +91,24 @@
         <activity
             android:name=".character.farmer.SaleActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".character.farmer.MyReserveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.farmer.MySaleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.farmer.FarmerOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.company.ReceiveGrainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.company.CurveGraphActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.leader.ApproveActivity"
+            android:screenOrientation="portrait" />
         <receiver
             android:name="com.nylc.nylc.receiver.MyReceiver"
             android:exported="false"

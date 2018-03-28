@@ -1,5 +1,6 @@
 package com.nylc.nylc.character.company;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -45,6 +46,7 @@ public class CompanyIndexActivity extends BaseActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.ll_purchase:
                 //收购粮食
+                startActivity(new Intent(this, ReceiveGrainActivity.class));
                 break;
             case R.id.ll_order:
                 //订单

@@ -64,6 +64,7 @@ public class FarmerIndexActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.ll_order:
                 //订单
+                startActivity(new Intent(this, FarmerOrderActivity.class));
                 break;
             case R.id.iv_person:
                 //个人中心

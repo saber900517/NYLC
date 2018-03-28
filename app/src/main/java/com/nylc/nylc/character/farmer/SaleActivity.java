@@ -1,5 +1,6 @@
 package com.nylc.nylc.character.farmer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -78,7 +79,7 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
 
         list_type.setAdapter(new TypeAdapter(productTypes, this));
 
-        products=new ArrayList<>();
+        products = new ArrayList<>();
         SaleProduct product = new SaleProduct();
         product.setName("小麦");
         products.add(product);
@@ -91,9 +92,14 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
         product2.setName("玉米");
         products.add(product2);
 
-        list_products.setAdapter(new SaleProductAdapter(this,products));
+        list_products.setAdapter(new SaleProductAdapter(this, products));
+        list_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(SaleActivity.this, MySaleActivity.class));
+            }
+        });
     }
-
 
 
     @Override
@@ -111,7 +117,7 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
 
     private void sendPushMessageToLeader() {
         RequestParams params = new RequestParams(Urls.buyPublishAction);
-        params.addBodyParameter("tokenKey",CommonUtils.getToken(this));
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

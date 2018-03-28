@@ -1,5 +1,6 @@
 package com.nylc.nylc.character.farmer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -94,6 +95,15 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
             products.add(product);
         }
         list_products.setAdapter(new ProductAdapter(products, this));
+
+        list_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                startActivity(new Intent(BuyActivity.this, MyReserveActivity.class));
+
+            }
+        });
     }
 
     private void getProductsType() {

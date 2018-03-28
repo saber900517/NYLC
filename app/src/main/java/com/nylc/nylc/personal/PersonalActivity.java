@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class PersonalActivity extends BaseActivity implements View.OnClickListen
     private LinearLayout ll_personalInfo;//个人信息
     private LinearLayout ll_changePassword;//修改密码
     private LinearLayout ll_logout;//退出
+    private ImageView iv_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,10 +42,12 @@ public class PersonalActivity extends BaseActivity implements View.OnClickListen
         ll_changePassword = findViewById(R.id.ll_changePassword);
         ll_personalInfo = findViewById(R.id.ll_personalInfo);
         ll_logout = findViewById(R.id.ll_logout);
+        iv_back = findViewById(R.id.iv_back);
 
         ll_changePassword.setOnClickListener(this);
         ll_personalInfo.setOnClickListener(this);
         ll_logout.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
     }
 
     @Override
@@ -59,6 +63,10 @@ public class PersonalActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_logout:
                 //退出
                 logout();
+                break;
+            case R.id.iv_back:
+                //返回
+                finish();
                 break;
         }
     }

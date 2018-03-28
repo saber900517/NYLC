@@ -9,28 +9,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.model.MyOrder;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
 
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * 我的预定
  * Created by 吴曰阳 on 2018/3/4.
  */
 
-public class MyOrderActivity extends BaseActivity implements View.OnClickListener {
+public class MyReserveActivity extends BaseActivity implements View.OnClickListener {
 
-    private static int TYPE_BUY = 0;//我的预定
-    private static int TYPE_SALE = 0;//我的预售
-    private static int TYPE_ORDER = 0;//订单
 
-    private TextView tv_title;
     private ImageView iv_back;
     private Spinner sp_year, sp_month, sp_other;
 
@@ -53,28 +51,49 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void init() {
-        tv_title = findViewById(R.id.tv_title);
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
 
         sp_year = findViewById(R.id.sp_year);
         sp_month = findViewById(R.id.sp_month);
         sp_other = findViewById(R.id.sp_other);
-        sp_month.setVisibility(View.GONE);
-        setSpinnerData();
+//        sp_month.setVisibility(View.GONE);
+//        setSpinnerData();
 
         list = findViewById(R.id.list);
-        View footerView = CommonUtils.getFooterView(this);
-        loadMore = footerView.findViewById(R.id.load);
-        loadMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        View footerView = CommonUtils.getFooterView(this);
+//        loadMore = footerView.findViewById(R.id.load);
+//        loadMore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+//        list.addFooterView(footerView);
 
-            }
-        });
-        list.addFooterView(footerView);
+//        getOrderList();
 
-        getOrderList();
+        defaultData();
+    }
+
+    private void defaultData() {
+        List<String> years = new ArrayList<>();
+        years.add("全部");
+        years.add("2017");
+        years.add("2018");
+        sp_year.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, years));
+        sp_other.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
+
+        List<MyOrder> orders = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            MyOrder order = new MyOrder();
+            order.setName("史丹利复合肥");
+            order.setPrice("188");
+            order.setCount("40");
+            order.setState(i % 2);
+            orders.add(order);
+        }
+        list.setAdapter(new ReserveAdapter(this, orders));
     }
 
     /**
@@ -148,6 +167,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                finish();
                 break;
         }
     }

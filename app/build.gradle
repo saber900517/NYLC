@@ -53,4 +53,7 @@ dependencies {
 
     //SuperTextView SuperButton
     compile 'com.github.lygttpod:SuperTextView:2.1.6'
+
+    //图表
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
 }

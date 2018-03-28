@@ -13,6 +13,7 @@ import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.character.farmer.BorrowMoneyActivity;
 import com.nylc.nylc.character.farmer.BuyActivity;
+import com.nylc.nylc.character.farmer.FarmerOrderActivity;
 import com.nylc.nylc.character.farmer.SaleActivity;
 import com.nylc.nylc.model.SaleProduct;
 import com.nylc.nylc.personal.PersonalActivity;
@@ -71,9 +72,11 @@ public class LeaderIndexActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.ll_order:
                 //订单
+                startActivity(new Intent(this, FarmerOrderActivity.class));
                 break;
             case R.id.ll_approve:
                 //审批
+                startActivity(new Intent(this, ApproveActivity.class));
                 break;
             case R.id.iv_person:
                 //个人中心
