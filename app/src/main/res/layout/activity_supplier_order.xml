@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -16,23 +17,16 @@
             android:src="@mipmap/ic_launcher" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="生产资料供货"
+            android:text="订单"
             android:textColor="@color/text_black"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_history"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="历史记录"
-            android:textColor="@color/text_black" />
     </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,33 +35,22 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/sp_county"
+            android:id="@+id/sp_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"></Spinner>
 
+
         <Spinner
-            android:id="@+id/sp_town"
+            android:id="@+id/sp_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"></Spinner>
     </LinearLayout>
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ListView
-            android:id="@+id/list_type"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-
-        <ListView
-            android:id="@+id/list_products"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-    </LinearLayout>
+        android:scrollbars="none" />
 </LinearLayout>

@@ -93,7 +93,6 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void approveBuyDefaultData() {
-        //TODO
         List<ApproveBuy> mList = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             ApproveBuy buy = new ApproveBuy();

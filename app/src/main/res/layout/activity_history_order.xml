@@ -23,15 +23,6 @@
             android:textColor="@color/text_black"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_history"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="历史记录"
-            android:textColor="@color/text_black" />
     </RelativeLayout>
 
     <LinearLayout

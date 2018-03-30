@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.personal.PersonalActivity;
 
 /**
  * 企业首页
@@ -19,7 +20,7 @@ import com.nylc.nylc.R;
 
 public class CompanyIndexActivity extends BaseActivity implements View.OnClickListener {
 
-    private LinearLayout ll_purchase;//商品管理
+    private LinearLayout ll_purchase;//收粮食
     private LinearLayout ll_order;//订单
     private ImageView iv_person;//个人中心
 
@@ -32,7 +33,7 @@ public class CompanyIndexActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void init() {
-        ll_purchase = findViewById(R.id.ll_manage);
+        ll_purchase = findViewById(R.id.ll_purchase);
         ll_order = findViewById(R.id.ll_order);
         iv_person = findViewById(R.id.iv_person);
 
@@ -50,9 +51,11 @@ public class CompanyIndexActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.ll_order:
                 //订单
+                startActivity(new Intent(this, CompanyOrderActivity.class));
                 break;
             case R.id.iv_person:
                 //个人中心
+                startActivity(new Intent(this, PersonalActivity.class));
                 break;
         }
     }

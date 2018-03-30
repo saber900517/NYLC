@@ -9,25 +9,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_black"
-        android:text="1 史丹利复合肥" />
-
-    <TextView
-        android:id="@+id/tv_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/text_black"
-        android:layout_toRightOf="@+id/tv_name"
-        android:text="188元/亩" />
-
+        android:text="水稻" />
     <TextView
         android:id="@+id/tv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:textColor="@color/text_black"
-        android:layout_toRightOf="@+id/tv_price"
-        android:text="40亩" />
+        android:layout_toRightOf="@+id/tv_name"
+        android:text="200亩" />
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/text_black"
+        android:layout_toRightOf="@+id/tv_count"
+        android:text="188888元" />
+
+
 
     <TextView
         android:id="@+id/tv_state"

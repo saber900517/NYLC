@@ -109,6 +109,18 @@
         <activity
             android:name=".character.leader.ApproveActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.supplier.MeansOfProductionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.supplier.HistoryOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.supplier.SupplierOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.company.CompanyOrderActivity"
+            android:screenOrientation="portrait" />
         <receiver
             android:name="com.nylc.nylc.receiver.MyReceiver"
             android:exported="false"

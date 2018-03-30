@@ -1,6 +1,5 @@
-package com.nylc.nylc.character.company;
+package com.nylc.nylc.character.supplier;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -12,31 +11,30 @@ import android.widget.TextView;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.model.HistoryOrder;
 import com.nylc.nylc.model.MeansOfProduction;
-import com.nylc.nylc.model.ReceiveGrain;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 收粮食
- * Created by kasim on 2018/3/28.
+ * 历史记录
+ * Created by 吴曰阳 on 2018/3/3.
  */
 
-public class ReceiveGrainActivity extends BaseActivity implements View.OnClickListener {
+public class HistoryOrderActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_back;
     private Spinner sp_county, sp_town;
-    private ListView list_type, list_grain;
-    private TextView tv_curveGraph;
-
+    private ListView list_type, list_products;
     private String[] counties = {"全部", "滨海县"};
     private String[] towns = {"全部", "滨海港镇"};
-    private String[] types = {"水稻", "玉米", "小麦"};
+    private String[] types = {"化肥", "种子", "农药"};
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receive_grain);
+        setContentView(R.layout.activity_history_order);
         init();
     }
 
@@ -45,35 +43,32 @@ public class ReceiveGrainActivity extends BaseActivity implements View.OnClickLi
         sp_county = findViewById(R.id.sp_county);
         sp_town = findViewById(R.id.sp_town);
         list_type = findViewById(R.id.list_type);
-        list_grain = findViewById(R.id.list_grain);
-        tv_curveGraph = findViewById(R.id.tv_curveGraph);
+        list_products = findViewById(R.id.list_products);
 
-        tv_curveGraph.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+
         defaultData();
     }
 
     private void defaultData() {
         sp_county.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, counties));
         sp_town.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, towns));
-        list_type.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
-        List<ReceiveGrain> list = new ArrayList<>();
+        List<HistoryOrder> list = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            ReceiveGrain production = new ReceiveGrain();
-            list.add(production);
+            HistoryOrder order = new HistoryOrder();
+            list.add(order);
         }
-        list_grain.setAdapter(new ReceiverGrainAdapter(this, list));
+        list_type.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
+        list_products.setAdapter(new HistoryOrderAdapter(this, list));
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
+        switch (view.getId()){
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.tv_curveGraph:
-                startActivity(new Intent(this, CurveGraphActivity.class));
-                break;
+
         }
     }
 }

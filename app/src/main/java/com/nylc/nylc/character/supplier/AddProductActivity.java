@@ -224,7 +224,6 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                //TODO 图片没有写入数据库
                 BaseResult baseResult = JSON.parseObject(result, BaseResult.class);
                 CommonUtils.judgeCode(AddProductActivity.this, baseResult.getCode());
                 String level = baseResult.getLevel();

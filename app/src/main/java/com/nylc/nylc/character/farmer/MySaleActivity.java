@@ -115,7 +115,6 @@ public class MySaleActivity extends BaseActivity implements View.OnClickListener
      * 获取订单列表
      */
     private void getOrderList() {
-        //TODO
         RequestParams params = new RequestParams(Urls.queryGoodsOrderList);
         if (!"全部".equals(year)) {
             params.addBodyParameter("year", year);

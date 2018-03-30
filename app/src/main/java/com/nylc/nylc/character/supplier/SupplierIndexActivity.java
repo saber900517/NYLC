@@ -54,9 +54,11 @@ public class SupplierIndexActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.ll_supply:
                 //供货中心
+                startActivity(new Intent(this, MeansOfProductionActivity.class));
                 break;
             case R.id.ll_order:
                 //订单
+                startActivity(new Intent(this, SupplierOrderActivity.class));
                 break;
             case R.id.iv_person:
                 //个人中心

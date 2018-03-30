@@ -27,13 +27,13 @@
     </RelativeLayout>
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/ll_purchase"
             android:layout_width="wrap_content"
@@ -51,32 +51,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="收购粮食"
+                android:text="收粮食"
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_supply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="invisible"
-            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@mipmap/ic_launcher" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="供货中心"
-                android:textColor="@color/text_black"
-                android:textSize="20sp" />
-        </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_order"
             android:layout_width="wrap_content"

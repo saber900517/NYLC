@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_town"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="A村"
+        android:textColor="@color/text_black" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_town"
+        android:layout_alignBottom="@+id/tv_town"
+        android:layout_centerHorizontal="true"
+        android:text="史丹利复合肥"
+        android:textColor="@color/text_black" />
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_name"
+        android:layout_alignBottom="@+id/tv_name"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="3600亩"
+        android:textColor="@color/text_black" />
+
+    <TextView
+        android:id="@+id/tv_myPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_town"
+        android:layout_alignStart="@+id/tv_town"
+        android:layout_below="@+id/tv_town"
+        android:layout_marginTop="16dp"
+        android:text="我的报价：50000元"
+        android:textColor="@color/text_black" />
+
+    <TextView
+        android:id="@+id/tv_minimumPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_myPrice"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="最低报价：48888元"
+        android:textColor="@color/text_black" />
+
+
+</RelativeLayout>
