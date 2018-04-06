@@ -29,7 +29,7 @@ public class MeansOfProductionActivity extends BaseActivity implements View.OnCl
     private ListView list_type, list_products;
     private String[] counties = {"全部", "滨海县"};
     private String[] towns = {"全部", "滨海港镇"};
-    private String[] types = {"化肥", "种子", "农药"};
+    private String[] types = {"小麦", "玉米", "水稻"};
 
 
     @Override

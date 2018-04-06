@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 
+import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.MeansOfProduction;
+import com.nylc.nylc.utils.ViewHolder;
 
 import java.util.List;
 
@@ -45,6 +48,14 @@ public class MeansOfProductionAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_means_of_production, null);
         }
 
+        Button bt = ViewHolder.get(view, R.id.button);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MeansOfProductsDialog dialog = new MeansOfProductsDialog();
+                dialog.show(((BaseActivity) mContext).getSupportFragmentManager(), "MeansOFProducts");
+            }
+        });
         return view;
     }
 }

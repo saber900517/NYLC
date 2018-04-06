@@ -55,16 +55,40 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".character.company.CompanyIndexActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity
             android:name=".character.farmer.FarmerIndexActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity
             android:name=".character.leader.LeaderIndexActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity
             android:name=".character.supplier.SupplierIndexActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity
             android:name=".character.supplier.ManageProductsActivity"
             android:screenOrientation="portrait">
@@ -120,6 +144,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".character.company.CompanyOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".personal.PersonalInfoActivity"
             android:screenOrientation="portrait" />
         <receiver
             android:name="com.nylc.nylc.receiver.MyReceiver"

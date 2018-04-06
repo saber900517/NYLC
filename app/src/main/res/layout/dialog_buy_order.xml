@@ -9,29 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <!--<RadioGroup-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="农药" />
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="农药" />-->
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="化肥" />
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="化肥" />-->
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="种子" />
-    </RadioGroup>
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="种子" />-->
+    <!--</RadioGroup>-->
 
+    <!--农产品类型-->
     <Spinner
-        android:id="@+id/sp_goods"
+        android:id="@+id/sp_grains"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -43,7 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="数量        "
+            android:text="亩数："
             android:textColor="@color/text_black" />
 
         <EditText
@@ -59,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="定金数量"
+            android:text="定金："
             android:textColor="@color/text_black" />
 
         <EditText
@@ -68,8 +69,8 @@
     </LinearLayout>
 
     <Button
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="确认" />
 </LinearLayout>

@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 
+import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.MeansOfProduction;
 import com.nylc.nylc.model.ReceiveGrain;
+import com.nylc.nylc.utils.ViewHolder;
 
 import java.util.List;
 
@@ -45,7 +48,14 @@ public class ReceiverGrainAdapter extends BaseAdapter {
         if (view == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_receive_grain, null);
         }
-
+        Button bt = ViewHolder.get(view,R.id.btn);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReceiveGrainDialog dialog = new ReceiveGrainDialog();
+                dialog.show(((BaseActivity)mContext).getSupportFragmentManager(),"ReceiveGrain");
+            }
+        });
         return view;
     }
 }

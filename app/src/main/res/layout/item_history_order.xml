@@ -19,7 +19,7 @@
         android:layout_alignBaseline="@+id/tv_town"
         android:layout_alignBottom="@+id/tv_town"
         android:layout_centerHorizontal="true"
-        android:text="史丹利复合肥"
+        android:text="小麦"
         android:textColor="@color/text_black" />
 
     <TextView

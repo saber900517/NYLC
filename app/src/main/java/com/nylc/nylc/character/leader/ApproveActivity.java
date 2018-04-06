@@ -118,11 +118,11 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.tv_foods:
-                state = 0;
+                state = 1;
                 approveSaleDefaultData();
                 break;
             case R.id.tv_products:
-                state = 1;
+                state = 0;
                 approveBuyDefaultData();
                 break;
             case R.id.tv_order:

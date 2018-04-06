@@ -59,7 +59,7 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
         List<MyOrder> orders = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             MyOrder order = new MyOrder();
-            order.setName("史丹利复合肥");
+            order.setName("小麦");
             order.setPrice("188");
             order.setCount("40");
             order.setState(i % 2);

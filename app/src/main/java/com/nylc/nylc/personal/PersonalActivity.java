@@ -55,6 +55,7 @@ public class PersonalActivity extends BaseActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.ll_personalInfo:
                 //个人信息
+                startActivity(new Intent(this, PersonalInfoActivity.class));
                 break;
             case R.id.ll_changePassword:
                 //修改密码
