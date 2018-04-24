@@ -30,6 +30,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="visible"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
@@ -37,6 +38,7 @@
 
         <LinearLayout
             android:id="@+id/ll_buy"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,6 +61,7 @@
 
         <LinearLayout
             android:id="@+id/ll_sale"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -78,11 +81,33 @@
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_goods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/ic_launcher" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="商品信息"
+                android:textColor="@color/text_black"
+                android:textSize="20sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"

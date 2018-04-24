@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.ProductType;
+import com.nylc.nylc.model.GoodsType;
 import com.nylc.nylc.utils.ViewHolder;
 
 import java.util.List;
@@ -20,10 +20,10 @@ import java.util.List;
 
 public class TypeAdapter extends BaseAdapter {
 
-    private List<ProductType> mList;
+    private List<GoodsType> mList;
     private Context mContext;
 
-    public TypeAdapter(List<ProductType> mList, Context mContext) {
+    public TypeAdapter(List<GoodsType> mList, Context mContext) {
         this.mList = mList;
         this.mContext = mContext;
     }

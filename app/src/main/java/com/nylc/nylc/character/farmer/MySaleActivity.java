@@ -56,7 +56,7 @@ public class MySaleActivity extends BaseActivity implements View.OnClickListener
 
         sp_year = findViewById(R.id.sp_year);
         sp_month = findViewById(R.id.sp_month);
-        sp_other = findViewById(R.id.sp_other);
+        sp_other = findViewById(R.id.sp_type);
 //        sp_month.setVisibility(View.GONE);
 //        setSpinnerData();
 

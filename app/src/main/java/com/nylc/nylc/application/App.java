@@ -6,6 +6,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nylc.nylc.utils.CrashHandler;
 
 import org.xutils.BuildConfig;
 import org.xutils.x;
@@ -17,6 +18,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 
 public class App extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -39,5 +41,7 @@ public class App extends Application {
         //极光推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+
+//        CrashHandler.getInstance().initCrashHandler(this);
     }
 }

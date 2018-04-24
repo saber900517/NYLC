@@ -4,19 +4,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 商品类型
- * Created by 吴曰阳 on 2018/3/1.
+ * Created by kasim on 2018/4/8.
+ * {"CODETABLE_ITEM_ID":"PRODUCT_TYPE_8536149027","DISPLAY_NAME_ZH":"小麦"}
  */
 
 public class ProductType implements Parcelable {
-
-    /**
-     * CODETABLE_ITEM_ID : PRODUCTS_TYPE_ZZ
-     * DISPLAY_NAME_ZH : 种子
-     */
-
     private String CODETABLE_ITEM_ID;
     private String DISPLAY_NAME_ZH;
+
 
     public String getCODETABLE_ITEM_ID() {
         return CODETABLE_ITEM_ID;

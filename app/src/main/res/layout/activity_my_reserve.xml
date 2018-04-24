@@ -45,7 +45,7 @@
         <!--android:layout_marginLeft="10dp"></Spinner>-->
 
         <Spinner
-            android:id="@+id/sp_other"
+            android:id="@+id/sp_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"></Spinner>

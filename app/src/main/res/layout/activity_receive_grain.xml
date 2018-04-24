@@ -32,7 +32,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="价格曲线"
-            android:textColor="@color/text_black" />
+            android:textColor="@color/text_black"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -63,12 +64,20 @@
             android:id="@+id/list_type"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:visibility="gone" />
 
-        <ListView
-            android:id="@+id/list_grain"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/list_grain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     </LinearLayout>
 </LinearLayout>

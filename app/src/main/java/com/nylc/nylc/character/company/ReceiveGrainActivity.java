@@ -3,17 +3,31 @@ package com.nylc.nylc.character.company;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.MeansOfProduction;
-import com.nylc.nylc.model.ReceiveGrain;
+import com.nylc.nylc.character.supplier.manage.ManageGoodsActivity;
+import com.nylc.nylc.model.BaseResult;
+import com.nylc.nylc.model.NodeMsg;
+import com.nylc.nylc.model.ProductType;
+import com.nylc.nylc.utils.CommonUtils;
+import com.nylc.nylc.utils.Urls;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +46,10 @@ public class ReceiveGrainActivity extends BaseActivity implements View.OnClickLi
     private String[] counties = {"全部", "滨海县"};
     private String[] towns = {"全部", "滨海港镇"};
     private String[] types = {"水稻", "玉米", "小麦"};
+    private List<ProductType> productTypes;
+
+    private SmartRefreshLayout mSmartRefreshLayout;
+    private int pageIndex = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,20 +68,104 @@ public class ReceiveGrainActivity extends BaseActivity implements View.OnClickLi
 
         tv_curveGraph.setOnClickListener(this);
         iv_back.setOnClickListener(this);
-        defaultData();
+        mSmartRefreshLayout = findViewById(R.id.smartRefreshLayout);
+        mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(500);
+                pageIndex++;
+                getCompanyOrderList();
+            }
+        });
+        mSmartRefreshLayout.setEnableRefresh(false);
+        getCompanyOrderList();
+        getVillageMessage();
     }
 
-    private void defaultData() {
-        sp_county.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, counties));
-        sp_town.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, towns));
-        list_type.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
-        List<ReceiveGrain> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            ReceiveGrain production = new ReceiveGrain();
-            list.add(production);
-        }
-        list_grain.setAdapter(new ReceiverGrainAdapter(this, list));
+    /**
+     * 获取县镇信息
+     */
+    private void getVillageMessage() {
+        RequestParams params = new RequestParams(Urls.queryNodeList);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
+        x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                CommonUtils.judgeCode(ReceiveGrainActivity.this, result.getCode());
+                String level = result.getLevel();
+                if (level.equals("success")) {
+                    List<NodeMsg> list = JSON.parseArray(result.getData(), NodeMsg.class);
+                    for (NodeMsg msg : list) {
+                        int node_level = msg.getNODE_LEVEL();
+                        if (node_level == 3) {
+                            //县
+                            List<NodeMsg> counties = new ArrayList<>();
+                            counties.add(msg);
+                            sp_county.setAdapter(new ArrayAdapter<NodeMsg>(ReceiveGrainActivity.this, R.layout.item_one_text, counties));
+                        }
+                        if (node_level == 4) {
+                            List<NodeMsg> towns = new ArrayList<>();
+                            towns.add(msg);
+                            sp_town.setAdapter(new ArrayAdapter<NodeMsg>(ReceiveGrainActivity.this, R.layout.item_one_text, towns));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
+
+    /**
+     * 获取竞价列表
+     */
+    private void getCompanyOrderList() {
+        RequestParams params = new RequestParams(Urls.queryCompanyOrderList);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
+        params.addBodyParameter("index", String.valueOf(pageIndex));
+        x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                CommonUtils.judgeCode(ReceiveGrainActivity.this, result.getCode());
+                String level = result.getLevel();
+                if ("success".equals(level)) {
+
+                } else {
+                    Toast.makeText(ReceiveGrainActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
+                    mSmartRefreshLayout.setLoadmoreFinished(true);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -75,5 +177,46 @@ public class ReceiveGrainActivity extends BaseActivity implements View.OnClickLi
                 startActivity(new Intent(this, CurveGraphActivity.class));
                 break;
         }
+    }
+
+    /**
+     * 获取农产品类型列表
+     */
+    private void getProductsType() {
+        RequestParams params = new RequestParams(Urls.queryProductTypeAction);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
+        x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                String code = result.getCode();
+                CommonUtils.judgeCode(ReceiveGrainActivity.this, code);
+                String level = result.getLevel();
+                if ("success".equals(level)) {
+                    //请求成功
+                    productTypes = JSON.parseArray(result.getData(), ProductType.class);
+                    list_type.setAdapter(new ArrayAdapter<ProductType>(ReceiveGrainActivity.this, R.layout.item_one_text, productTypes));
+                } else {
+                    String msg = result.getMsg();
+                    Toast.makeText(ReceiveGrainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.e("error", ex.getMessage());
+                Toast.makeText(ReceiveGrainActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
     }
 }

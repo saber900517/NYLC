@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.SaleProduct;
 import com.nylc.nylc.personal.PersonalActivity;
 
 /**
@@ -24,6 +23,7 @@ public class FarmerIndexActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout ll_sale;//卖粮食
     private LinearLayout ll_borrow;//想借钱
     private LinearLayout ll_order;//订单
+    private LinearLayout ll_goods;//商品信息
     private ImageView iv_person;//个人中心
 
     @Override
@@ -38,12 +38,14 @@ public class FarmerIndexActivity extends BaseActivity implements View.OnClickLis
         ll_sale = findViewById(R.id.ll_sale);
         ll_borrow = findViewById(R.id.ll_borrow);
         ll_order = findViewById(R.id.ll_order);
+        ll_goods = findViewById(R.id.ll_goods);
         iv_person = findViewById(R.id.iv_person);
 
         ll_buy.setOnClickListener(this);
         ll_sale.setOnClickListener(this);
         ll_borrow.setOnClickListener(this);
         ll_order.setOnClickListener(this);
+        ll_goods.setOnClickListener(this);
         iv_person.setOnClickListener(this);
     }
 
@@ -65,6 +67,10 @@ public class FarmerIndexActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_order:
                 //订单
                 startActivity(new Intent(this, FarmerOrderActivity.class));
+                break;
+            case R.id.ll_goods:
+                //个人中心
+                startActivity(new Intent(this, GoodsListActivity.class));
                 break;
             case R.id.iv_person:
                 //个人中心

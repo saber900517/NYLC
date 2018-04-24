@@ -1,4 +1,4 @@
-package com.nylc.nylc.character.supplier;
+package com.nylc.nylc.character.supplier.manage;
 
 
 import android.content.Intent;
@@ -33,8 +33,8 @@ import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.BaseResult;
-import com.nylc.nylc.model.Product;
-import com.nylc.nylc.model.ProductType;
+import com.nylc.nylc.model.Goods;
+import com.nylc.nylc.model.GoodsType;
 import com.nylc.nylc.model.UploadImage;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
@@ -54,17 +54,17 @@ import java.util.List;
  * Created by 吴曰阳 on 2018/3/3.
  */
 
-public class AddProductActivity extends BaseActivity implements View.OnClickListener, TakePhoto.TakeResultListener, InvokeListener {
+public class AddGoodsActivity extends BaseActivity implements View.OnClickListener, TakePhoto.TakeResultListener, InvokeListener {
 
     private ImageView iv_back;
     private ImageView iv_img;
-    private EditText et_productName;//商品名称
+    private EditText et_goodsName;//商品名称
     private EditText et_price;//单价
     private Spinner sp_type;//规格
     private EditText et_description;//介绍
     private Button bt_confirm;//确定按钮
-    private ArrayList<ProductType> types;
-    private Product product;
+    private ArrayList<GoodsType> types;
+    private Goods goods;
 
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
@@ -77,7 +77,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_product);
+        setContentView(R.layout.activity_add_goods);
         init();
     }
 
@@ -103,7 +103,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
     private void init() {
         iv_back = findViewById(R.id.iv_back);
         iv_img = findViewById(R.id.iv_img);
-        et_productName = findViewById(R.id.et_productName);
+        et_goodsName = findViewById(R.id.et_goodsName);
         et_price = findViewById(R.id.et_price);
         sp_type = findViewById(R.id.sp_type);
         et_description = findViewById(R.id.et_description);
@@ -118,17 +118,17 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
         bt_confirm.setOnClickListener(this);
         Intent intent = getIntent();
         types = intent.getParcelableArrayListExtra("types");
-        ArrayAdapter<ProductType> adapter = new ArrayAdapter<ProductType>(this, android.R.layout.simple_list_item_1, types);
+        ArrayAdapter<GoodsType> adapter = new ArrayAdapter<GoodsType>(this, android.R.layout.simple_list_item_1, types);
         sp_type.setAdapter(adapter);
 
         int typeIndex = intent.getIntExtra("typeIndex", 0);
         sp_type.setSelection(typeIndex);
-        if (intent.hasExtra("product")) {
+        if (intent.hasExtra("goods")) {
             isAdd = false;
-            product = intent.getParcelableExtra("product");
-            et_productName.setText(product.getGOODS_NAME());
-            et_price.setText(product.getGOODS_PRICE());
-            et_description.setText(product.getGOODS_DESCRIPTION());
+            goods = intent.getParcelableExtra("goods");
+            et_goodsName.setText(goods.getGOODS_NAME());
+            et_price.setText(goods.getGOODS_PRICE());
+            et_description.setText(goods.getGOODS_DESCRIPTION());
         }
 
 
@@ -186,7 +186,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
      */
     private void addGoods() {
 
-        if (et_productName.getText() == null) {
+        if (et_goodsName.getText() == null) {
             Toast.makeText(this, "请输入商品名称", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -207,7 +207,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
 
     private void uploadParams(String imageName) {
 
-        String name = et_productName.getText().toString();
+        String name = et_goodsName.getText().toString();
         String price = et_price.getText().toString();
         String type = sp_type.getSelectedItem().toString();
         String description = et_description.getText().toString();
@@ -219,27 +219,27 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
         params.addBodyParameter("goodsDescription", description);
         params.addBodyParameter("goodsPicture", imageName);
         if (!isAdd) {
-            params.addBodyParameter("goodsId", product.getGOODS_ID());
+            params.addBodyParameter("goodsId", goods.getGOODS_ID());
         }
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 BaseResult baseResult = JSON.parseObject(result, BaseResult.class);
-                CommonUtils.judgeCode(AddProductActivity.this, baseResult.getCode());
+                CommonUtils.judgeCode(AddGoodsActivity.this, baseResult.getCode());
                 String level = baseResult.getLevel();
                 if ("success".equals(level)) {
-                    Toast.makeText(AddProductActivity.this, (isAdd ? "新增" : "修改") + "商品成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddGoodsActivity.this, (isAdd ? "新增" : "修改") + "商品成功", Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toast.makeText(AddProductActivity.this, (isAdd ? "新增" : "修改") + "商品失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddGoodsActivity.this, (isAdd ? "新增" : "修改") + "商品失败", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.e("error", ex.getMessage());
-                Toast.makeText(AddProductActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddGoodsActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -275,21 +275,21 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onSuccess(String result) {
                 BaseResult baseResult = JSON.parseObject(result, BaseResult.class);
-                CommonUtils.judgeCode(AddProductActivity.this, baseResult.getCode());
+                CommonUtils.judgeCode(AddGoodsActivity.this, baseResult.getCode());
                 String level = baseResult.getLevel();
                 if ("success".equals(level)) {
                     String data = baseResult.getData();
                     UploadImage image = JSON.parseObject(data, UploadImage.class);
                     uploadParams(image.getImageNewName());
                 } else {
-                    Toast.makeText(AddProductActivity.this, baseResult.getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddGoodsActivity.this, baseResult.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.e("error", ex.getMessage());
-                Toast.makeText(AddProductActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddGoodsActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

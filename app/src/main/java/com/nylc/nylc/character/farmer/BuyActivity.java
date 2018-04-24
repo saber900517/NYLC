@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -16,10 +18,13 @@ import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.character.TypeAdapter;
 import com.nylc.nylc.model.BaseResult;
-import com.nylc.nylc.model.Product;
-import com.nylc.nylc.model.ProductType;
+import com.nylc.nylc.model.Goods;
+import com.nylc.nylc.model.GoodsType;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -37,15 +42,17 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_back;//返回
     private TextView tv_reserve;//添加
     private ListView list_type;//商品类型列表
-    private ListView list_products;//商品列表
+    private ListView list_goods;//商品列表
 
     private int typeIndex = 0;//当前展示的类型的index
 
-    private List<Product> products;
-    private List<ProductType> productTypes;
+    private List<Goods> goods;
+    private List<GoodsType> goodsTypes;
 
-    private TypeAdapter productTypeAdapter;
-    private FarmerProductsAdapter productsAdapter;
+    private TypeAdapter typeAdapter;
+    private FarmerGoodsAdapter farmerGoodsAdapter;
+    private int pageIndex = 1;
+    private SmartRefreshLayout mSmartRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,56 +64,37 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
     private void init() {
         iv_back = findViewById(R.id.iv_back);
         tv_reserve = findViewById(R.id.tv_reserve);
-        list_products = findViewById(R.id.list_products);
+        list_goods = findViewById(R.id.list_goods);
         list_type = findViewById(R.id.list_type);
-
-        tv_reserve.setOnClickListener(this);
-        iv_back.setOnClickListener(this);
-
-//        getProductsType();
-        defaultData();
-    }
-
-    private void defaultData() {
-        productTypes = new ArrayList<>();
-        ProductType type = new ProductType();
-        type.setDISPLAY_NAME_ZH("种子");
-        productTypes.add(type);
-
-        ProductType type1 = new ProductType();
-        type1.setDISPLAY_NAME_ZH("农药");
-        productTypes.add(type1);
-
-        ProductType type2 = new ProductType();
-        type2.setDISPLAY_NAME_ZH("化肥");
-        productTypes.add(type2);
-
-        ProductType type3 = new ProductType();
-        type3.setDISPLAY_NAME_ZH("我的");
-        productTypes.add(type3);
-
-        list_type.setAdapter(new TypeAdapter(productTypes, this));
-
-        products = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            Product product = new Product();
-            product.setGOODS_PRICE("188");
-            product.setGOODS_NAME("金麦穗8号");
-            products.add(product);
-        }
-        list_products.setAdapter(new ProductAdapter(products, this));
-
-        list_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        View footerView = LayoutInflater.from(this).inflate(android.R.layout.simple_list_item_1, null);
+        TextView tv_my = footerView.findViewById(android.R.id.text1);
+        tv_my.setGravity(Gravity.CENTER);
+        tv_my.setTextSize(14);
+        tv_my.setText("我的");
+        footerView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public void onClick(View view) {
                 startActivity(new Intent(BuyActivity.this, MyReserveActivity.class));
-
             }
         });
+        list_type.addFooterView(footerView);
+        tv_reserve.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
+        mSmartRefreshLayout = findViewById(R.id.srl);
+        mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(500);
+                pageIndex++;
+                getGoods(goodsTypes.get(typeIndex).getDISPLAY_NAME_ZH());
+            }
+        });
+        mSmartRefreshLayout.setEnableRefresh(false);
+        getGoodsType();
     }
 
-    private void getProductsType() {
+
+    private void getGoodsType() {
         RequestParams params = new RequestParams(Urls.queryGoodsTypeAction);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -118,23 +106,23 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
                 String level = baseResult.getLevel();
                 if ("success".equals(level)) {
                     //请求成功
-                    productTypes = JSON.parseArray(baseResult.getData(), ProductType.class);
-                    productTypeAdapter = new TypeAdapter(productTypes, BuyActivity.this);
-                    list_type.setAdapter(productTypeAdapter);
+                    goodsTypes = JSON.parseArray(baseResult.getData(), GoodsType.class);
+                    typeAdapter = new TypeAdapter(goodsTypes, BuyActivity.this);
+                    list_type.setAdapter(typeAdapter);
                     list_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            ProductType productType = productTypes.get(i);
-                            String display_name_zh = productType.getDISPLAY_NAME_ZH();
-                            getProducts(display_name_zh);
+                            GoodsType goodsType = goodsTypes.get(i);
+                            String display_name_zh = goodsType.getDISPLAY_NAME_ZH();
+                            getGoods(display_name_zh);
                             typeIndex = i;
                         }
                     });
-                    productTypeAdapter.notifyDataSetChanged();
-                    if (productTypes != null && productTypes.size() > 0) {
-                        ProductType productType = productTypes.get(typeIndex);
-                        String display_name_zh = productType.getDISPLAY_NAME_ZH();
-                        getProducts(display_name_zh);
+                    typeAdapter.notifyDataSetChanged();
+                    if (goodsTypes != null && goodsTypes.size() > 0) {
+                        GoodsType goodsType = goodsTypes.get(typeIndex);
+                        String display_name_zh = goodsType.getDISPLAY_NAME_ZH();
+                        getGoods(display_name_zh);
                     }
                 } else {
                     String msg = baseResult.getMsg();
@@ -161,10 +149,11 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    private void getProducts(final String display_name_zh) {
+    private void getGoods(final String display_name_zh) {
         RequestParams params = new RequestParams(Urls.queryGoodsListAction);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
         params.addBodyParameter("goodsType", display_name_zh);
+        params.addBodyParameter("index", pageIndex + "");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -175,22 +164,31 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
                 if ("success".equals(level)) {
                     //请求成功
                     String data = baseResult.getData();
-                    List<Product> list = JSON.parseArray(data, Product.class);
+                    List<Goods> list = JSON.parseArray(data, Goods.class);
                     if (list != null && list.size() > 0) {
                         //有数据
-                        if (products == null) {
-                            products = new ArrayList<>();
+                        if (goods == null) {
+                            goods = new ArrayList<>();
                         } else {
-                            products.clear();
+                            goods.clear();
                         }
-                        products.addAll(list);
-                        productsAdapter = new FarmerProductsAdapter(products, BuyActivity.this);
-                        list_products.setAdapter(productsAdapter);
+                        goods.addAll(list);
+                        if (farmerGoodsAdapter == null) {
+                            farmerGoodsAdapter = new FarmerGoodsAdapter(goods, BuyActivity.this);
+                            list_goods.setAdapter(farmerGoodsAdapter);
+                        } else {
+                            if (farmerGoodsAdapter != null)
+                                farmerGoodsAdapter.notifyDataSetChanged();
+                        }
+
                     } else {
                         //没有数据
-                        products.clear();
-                        productsAdapter.notifyDataSetChanged();
+                        if (goods != null) {
+                            goods.clear();
+                        }
+                        if (farmerGoodsAdapter != null) farmerGoodsAdapter.notifyDataSetChanged();
                         Toast.makeText(BuyActivity.this, "没有" + display_name_zh + "类型的商品", Toast.LENGTH_SHORT).show();
+                        mSmartRefreshLayout.setLoadmoreFinished(true);
                     }
                 } else {
                     //请求失败
@@ -221,6 +219,7 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.tv_reserve:
                 //预定
+                Toast.makeText(this, "预定", Toast.LENGTH_SHORT).show();
                 sendPushMessageToLeader();
                 break;
             case R.id.iv_back:
@@ -230,8 +229,9 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void sendPushMessageToLeader() {
-        RequestParams params = new RequestParams(Urls.buyPublishAction);
+        RequestParams params = new RequestParams(Urls.addPublishAction);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
+        params.addBodyParameter("type", "1");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

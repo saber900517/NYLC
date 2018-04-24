@@ -19,7 +19,7 @@ import java.util.List;
  * Created by kasim on 2018/3/28.
  */
 
-public class ApproveSaleAdapter extends BaseAdapter {
+public class ApproveSaleAdapter extends BaseAdapter implements View.OnClickListener {
     private Context mContext;
     private List<ApproveSale> mList;
     private FragmentManager mManager;
@@ -51,32 +51,76 @@ public class ApproveSaleAdapter extends BaseAdapter {
         TextView tv_right1 = view.findViewById(R.id.tv_right1);
         TextView tv_right2 = view.findViewById(R.id.tv_right2);
         Button btn = view.findViewById(R.id.btn);
+        Button btn_edit = view.findViewById(R.id.btn_edit);
+        Button btn_delete = view.findViewById(R.id.btn_delete);
+        ApproveSale approveSale = mList.get(i);
+        int subscription = approveSale.getSUBSCRIPTION();//定金
+        tv_right1.setVisibility(subscription > 0 ? View.VISIBLE : View.INVISIBLE);
+        tv_right1.setText("定金" + subscription);
         int i1 = i % 4;
-        tv_right1.setVisibility(i1 == 0 ? View.INVISIBLE : View.VISIBLE);
-        tv_right1.setText(i1 == 0 ? "" : i1 == 1 ? "定金300" : i1 == 2 ? "待收购商交易" : "总价11200");
+        int status = approveSale.getSTATUS();
 
-        tv_right2.setVisibility(i1 == 2 ? View.GONE : View.VISIBLE);
-        tv_right2.setText(i1 == 0 ? "已发布" : i1 == 1 ? "已预订" : i1 == 2 ? "" : "已完成");
-
-        btn.setVisibility(i1 == 1 || i1 == 2 ? View.VISIBLE : View.GONE);
-        btn.setText(i1 == 1 ? "提货" : "确认");
-        if (i1 == 1) {
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TakeDeliveryOfGoodsFragmentDialog takeDialog = new TakeDeliveryOfGoodsFragmentDialog();
-                    takeDialog.show(mManager, "takeDeliverOfGoods");
-                }
-            });
+        if (status == 0) {
+            btn_edit.setVisibility(View.VISIBLE);
+            btn_delete.setVisibility(View.VISIBLE);
+            btn_edit.setOnClickListener(this);
+            btn_delete.setOnClickListener(this);
         } else {
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ConfirmFragmentDialog confirmFragmentDialog = new ConfirmFragmentDialog();
-                    confirmFragmentDialog.show(mManager, "confirmDialog");
-                }
-            });
+            btn_edit.setVisibility(View.GONE);
+            btn_delete.setVisibility(View.GONE);
+            if (status == 30 || status == 40) {
+                tv_right2.setVisibility(View.GONE);
+                btn.setVisibility(View.VISIBLE);
+                btn.setText(status == 30 ? "发货" : "完成交易");
+                btn.setOnClickListener(status == 30
+                        ?
+                        //发货
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                TakeDeliveryOfGoodsFragmentDialog takeDialog = new TakeDeliveryOfGoodsFragmentDialog();
+                                takeDialog.show(mManager, "takeDeliverOfGoods");
+                            }
+                        }
+                        :
+                        //完成交易
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ConfirmFragmentDialog confirmFragmentDialog = new ConfirmFragmentDialog();
+                                confirmFragmentDialog.show(mManager, "confirmDialog");
+                            }
+                        });
+            } else {
+                tv_right2.setVisibility(View.VISIBLE);
+                btn.setVisibility(View.GONE);
+                tv_right2.setText(getStatusText(status));
+            }
         }
+
         return view;
+    }
+
+    private String getStatusText(int status) {
+        switch (status) {
+            case 0:
+                return "待确认";
+            case 10:
+                return "已预定";
+            case 20:
+                return "已发布";
+            case 30:
+                return "待企业交易";
+            case 40:
+                return "交易完成";
+            case 50:
+                return "失效";
+        }
+        return "";
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }

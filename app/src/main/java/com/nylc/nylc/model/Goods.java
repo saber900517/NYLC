@@ -4,11 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 产品信息
+ * 商品信息
  * Created by 吴曰阳 on 2018/3/1.
  */
 
-public class Product implements Parcelable {
+public class Goods implements Parcelable {
 
     /**
      * GOODS_DESCRIPTION : null
@@ -133,10 +133,10 @@ public class Product implements Parcelable {
         dest.writeString(this.SUPPLIER_NAME);
     }
 
-    public Product() {
+    public Goods() {
     }
 
-    protected Product(Parcel in) {
+    protected Goods(Parcel in) {
         this.GOODS_DESCRIPTION = in.readString();
         this.GOODS_ID = in.readString();
         this.GOODS_NAME = in.readString();
@@ -149,15 +149,15 @@ public class Product implements Parcelable {
         this.SUPPLIER_NAME = in.readString();
     }
 
-    public static final Creator<Product> CREATOR = new Creator<Product>() {
+    public static final Creator<Goods> CREATOR = new Creator<Goods>() {
         @Override
-        public Product createFromParcel(Parcel source) {
-            return new Product(source);
+        public Goods createFromParcel(Parcel source) {
+            return new Goods(source);
         }
 
         @Override
-        public Product[] newArray(int size) {
-            return new Product[size];
+        public Goods[] newArray(int size) {
+            return new Goods[size];
         }
     };
 }

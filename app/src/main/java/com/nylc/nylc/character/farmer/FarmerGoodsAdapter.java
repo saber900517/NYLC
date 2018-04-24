@@ -1,29 +1,19 @@
 package com.nylc.nylc.character.farmer;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.BaseResult;
-import com.nylc.nylc.model.Product;
-import com.nylc.nylc.utils.CommonUtils;
+import com.nylc.nylc.model.Goods;
 import com.nylc.nylc.utils.Urls;
 import com.nylc.nylc.utils.ViewHolder;
 
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,12 +21,12 @@ import java.util.List;
  * Created by 吴曰阳 on 2018/3/3.
  */
 
-public class FarmerProductsAdapter extends BaseAdapter {
+public class FarmerGoodsAdapter extends BaseAdapter {
 
-    private List<Product> mList;
+    private List<Goods> mList;
     private Context mContext;
 
-    public FarmerProductsAdapter(List<Product> mList, Context mContext) {
+    public FarmerGoodsAdapter(List<Goods> mList, Context mContext) {
         this.mList = mList;
         this.mContext = mContext;
     }
@@ -56,7 +46,7 @@ public class FarmerProductsAdapter extends BaseAdapter {
         return i;
     }
 
-    public List<Product> getList() {
+    public List<Goods> getList() {
         return mList;
     }
 
@@ -69,7 +59,7 @@ public class FarmerProductsAdapter extends BaseAdapter {
         TextView tv_name = ViewHolder.get(v, R.id.tv_name);
         TextView tv_price = ViewHolder.get(v, R.id.tv_price);
         ImageView iv_img = ViewHolder.get(v, R.id.iv_img);
-        final Product product = mList.get(i);
+        final Goods product = mList.get(i);
         tv_name.setText(product.getGOODS_NAME());
         tv_price.setText("￥" + product.getGOODS_PRICE() + "元");
         ImageLoader.getInstance().displayImage(Urls.IMG + product.getGOODS_PICTURE(), iv_img);

@@ -2,6 +2,7 @@ package com.nylc.nylc.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -88,6 +89,7 @@ public class CommonUtils {
      */
     public static ArrayList<String> getDays(String year, String month) {
         ArrayList<String> days = new ArrayList<>();
+        days.add("全部");
         for (int i = 1; i < 29; i++) {
             days.add(i < 10 ? "0" + i : "" + i);
         }
@@ -115,4 +117,5 @@ public class CommonUtils {
     public static View getFooterView(Context context) {
         return LayoutInflater.from(context).inflate(R.layout.bottom, null);
     }
+
 }

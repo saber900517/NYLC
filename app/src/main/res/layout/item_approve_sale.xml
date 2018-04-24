@@ -10,7 +10,7 @@
         android:text="张三" />
 
     <TextView
-        android:id="@+id/tv_goods"
+        android:id="@+id/tv_products"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/tv_goods"
+        android:layout_toRightOf="@+id/tv_products"
         android:text="20亩" />
 
     <TextView
@@ -68,6 +68,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_right2"
+        android:layout_below="@+id/tv_right1"
         android:text="提货" />
+
+    <Button
+        android:id="@+id/btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn"
+        android:text="修改"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btn"
+        android:text="删除"
+        android:visibility="gone" />
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.nylc.nylc.character.farmer;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,14 +13,16 @@ import android.widget.Spinner;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.MyOrder;
+import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.xutils.x;
 
 /**
  * 我的预定
@@ -30,16 +33,15 @@ public class MyReserveActivity extends BaseActivity implements View.OnClickListe
 
 
     private ImageView iv_back;
-    private Spinner sp_year, sp_month, sp_other;
+    private Spinner sp_year, sp_month, sp_type;
+    private SmartRefreshLayout mSmartRefreshLayout;
 
     private ListView list;
 
-    private ArrayList<String> years, months;
-    private String[] types = new String[]{"全部", "待确认", "被选中", "已发布", "待发货", "已发货", "交易完成"};
+    private String[] types = new String[]{"全部", "待确认", "已预定", "已发布", "待企业交易", "交易完成", "失效"};
 
-    private String year = "全部", month = "全部", type = "全部";
 
-    private int index = 1;
+    private int pageIndex = 1;
 
     private Button loadMore;
 
@@ -56,77 +58,81 @@ public class MyReserveActivity extends BaseActivity implements View.OnClickListe
 
         sp_year = findViewById(R.id.sp_year);
         sp_month = findViewById(R.id.sp_month);
-        sp_other = findViewById(R.id.sp_other);
-//        sp_month.setVisibility(View.GONE);
-//        setSpinnerData();
+        sp_type = findViewById(R.id.sp_type);
+
+        setSpinnerData();
+
 
         list = findViewById(R.id.list);
-//        View footerView = CommonUtils.getFooterView(this);
-//        loadMore = footerView.findViewById(R.id.load);
-//        loadMore.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-//        list.addFooterView(footerView);
+        mSmartRefreshLayout = findViewById(R.id.smartRefreshLayout);
+        mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(500);
+                pageIndex++;
+                getOrderList();
+            }
+        });
+        mSmartRefreshLayout.setEnableRefresh(false);
 
-//        getOrderList();
-
-        defaultData();
     }
 
-    private void defaultData() {
-        List<String> years = new ArrayList<>();
-        years.add("全部");
-        years.add("2017");
-        years.add("2018");
-        sp_year.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, years));
-        sp_other.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
-
-        List<MyOrder> orders = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            MyOrder order = new MyOrder();
-            order.setName("小麦");
-            order.setPrice("188");
-            order.setCount("40");
-            order.setState(i % 2);
-            orders.add(order);
-        }
-        list.setAdapter(new ReserveAdapter(this, orders));
-    }
 
     /**
      * 获取订单列表
      */
     private void getOrderList() {
 
-        RequestParams params = new RequestParams(Urls.queryGoodsOrderList);
-        if (!"全部".equals(year)) {
-            params.addBodyParameter("year", year);
-            if (!"全部".equals(month)) {
-                params.addBodyParameter("month", month);
-            }
-        }
-        if (!"全部".equals(type)) {
-            params.addBodyParameter("type", type);
-        }
+        RequestParams params = new RequestParams(Urls.queryProductOrderList);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
-        params.addBodyParameter("index", String.valueOf(index));
+        params.addBodyParameter("index", String.valueOf(pageIndex));
+        if (sp_year.getSelectedItemPosition() != 0) {
+            params.addBodyParameter("year", sp_year.getSelectedItem().toString());
+        }
+        if (sp_month.getSelectedItemPosition() != 0) {
+            params.addBodyParameter("month", sp_month.getSelectedItem().toString());
+        }
+        params.addBodyParameter("type", sp_type.getSelectedItemPosition() == 0 ? null : sp_type.getSelectedItem().toString());
+
+        x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                //TODO
+                Log.i("","");
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.i("","");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                Log.i("","");
+            }
+
+            @Override
+            public void onFinished() {
+                Log.i("","");
+            }
+        });
     }
 
     private void setSpinnerData() {
-        years = CommonUtils.getYears();
-        months = CommonUtils.getMonths();
-        sp_year.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, years));
-        sp_month.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, months));
-        sp_other.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
+        sp_year.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, CommonUtils.getYears()));
+        sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, new String[]{"全部"}));
+        sp_type.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, types));
 
         sp_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                sp_month.setVisibility(i == 0 ? View.GONE : View.VISIBLE);
-
+                if (i == 0) {
+                    sp_month.setAdapter(new ArrayAdapter<String>(MyReserveActivity.this, R.layout.item_one_text, new String[]{"全部"}));
+                } else {
+                    sp_month.setAdapter(new ArrayAdapter<String>(MyReserveActivity.this, R.layout.item_one_text, CommonUtils.getMonths()));
+                }
+                sp_month.setSelection(0);
+                getOrderList();
             }
 
             @Override
@@ -139,7 +145,7 @@ public class MyReserveActivity extends BaseActivity implements View.OnClickListe
         sp_month.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                getOrderList();
             }
 
             @Override
@@ -148,10 +154,10 @@ public class MyReserveActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        sp_other.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                getOrderList();
             }
 
             @Override

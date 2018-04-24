@@ -14,8 +14,8 @@ import com.nylc.nylc.R;
 import com.nylc.nylc.character.farmer.BorrowMoneyActivity;
 import com.nylc.nylc.character.farmer.BuyActivity;
 import com.nylc.nylc.character.farmer.FarmerOrderActivity;
+import com.nylc.nylc.character.farmer.GoodsListActivity;
 import com.nylc.nylc.character.farmer.SaleActivity;
-import com.nylc.nylc.model.SaleProduct;
 import com.nylc.nylc.personal.PersonalActivity;
 
 /**
@@ -29,6 +29,7 @@ public class LeaderIndexActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout ll_borrow;//想借钱
     private LinearLayout ll_order;//订单
     private LinearLayout ll_approve;//审批
+    private LinearLayout ll_goods;//商品信息
     private ImageView iv_person;//个人中心
 
     @Override
@@ -44,6 +45,7 @@ public class LeaderIndexActivity extends BaseActivity implements View.OnClickLis
         ll_borrow = findViewById(R.id.ll_borrow);
         ll_order = findViewById(R.id.ll_order);
         ll_approve = findViewById(R.id.ll_approve);
+        ll_goods = findViewById(R.id.ll_goods);
         iv_person = findViewById(R.id.iv_person);
 
         ll_buy.setOnClickListener(this);
@@ -51,6 +53,7 @@ public class LeaderIndexActivity extends BaseActivity implements View.OnClickLis
         ll_borrow.setOnClickListener(this);
         ll_order.setOnClickListener(this);
         ll_approve.setOnClickListener(this);
+        ll_goods.setOnClickListener(this);
         iv_person.setOnClickListener(this);
     }
 
@@ -77,6 +80,10 @@ public class LeaderIndexActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_approve:
                 //审批
                 startActivity(new Intent(this, ApproveActivity.class));
+                break;
+            case R.id.ll_goods:
+                //个人中心
+                startActivity(new Intent(this, GoodsListActivity.class));
                 break;
             case R.id.iv_person:
                 //个人中心

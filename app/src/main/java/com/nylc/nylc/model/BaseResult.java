@@ -3,11 +3,16 @@ package com.nylc.nylc.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.nylc.nylc.xutilsjsonparser.JsonParser;
+
+import org.xutils.http.annotation.HttpResponse;
+
 /**
  * 基础结果类，返回结果都可以用这个来接收
  * Created by 吴曰阳 on 2018/3/1.
  */
 
+@HttpResponse(parser = JsonParser.class)
 public class BaseResult implements Parcelable {
     private String level;
     private String method;

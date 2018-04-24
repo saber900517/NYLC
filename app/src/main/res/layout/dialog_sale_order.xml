@@ -10,19 +10,20 @@
         android:layout_height="wrap_content" />
 
     <RadioGroup
+        android:id="@+id/rg_sellType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="预定" />
+        <!--<RadioButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="预定" />-->
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发布" />
+        <!--<RadioButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="发布" />-->
 
 
     </RadioGroup>
@@ -32,6 +33,7 @@
         android:id="@+id/sp_grains"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,12 +45,19 @@
             android:text="单价："
             android:textColor="@color/text_black" />
 
+        <EditText
+            android:id="@+id/et_price"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.2元/斤"
+            android:text="元/斤"
             android:textColor="@color/text_black" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,8 +70,16 @@
             android:textColor="@color/text_black" />
 
         <EditText
-            android:layout_width="match_parent"
+            android:id="@+id/et_water"
+            android:layout_width="100dp"
+            android:inputType="numberDecimal"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%"
+            android:textColor="@color/text_black" />
     </LinearLayout>
 
     <LinearLayout
@@ -77,8 +94,16 @@
             android:textColor="@color/text_black" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:id="@+id/et_count"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="亩"
+            android:textColor="@color/text_black" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,11 +118,15 @@
             android:textColor="@color/text_black" />
 
         <EditText
+            android:id="@+id/et_earnest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+
     </LinearLayout>
 
     <Button
+        android:id="@+id/bt_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

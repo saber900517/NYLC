@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.MeansOfProduction;
+import com.nylc.nylc.model.NodeMsg;
+import com.nylc.nylc.model.ProductType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,11 @@ public class MeansOfProductionActivity extends BaseActivity implements View.OnCl
     private TextView tv_history;
     private Spinner sp_county, sp_town;
     private ListView list_type, list_products;
-    private String[] counties = {"全部", "滨海县"};
-    private String[] towns = {"全部", "滨海港镇"};
-    private String[] types = {"小麦", "玉米", "水稻"};
+    //    private String[] counties = {"全部", "滨海县"};
+//    private String[] towns = {"全部", "滨海港镇"};
+//    private String[] types = {"小麦", "玉米", "水稻"};
+//    private List<NodeMsg> counties, towns;
+    private List<ProductType> types;
 
 
     @Override
@@ -45,25 +49,25 @@ public class MeansOfProductionActivity extends BaseActivity implements View.OnCl
         sp_county = findViewById(R.id.sp_county);
         sp_town = findViewById(R.id.sp_town);
         list_type = findViewById(R.id.list_type);
-        list_products = findViewById(R.id.list_products);
+        list_products = findViewById(R.id.list_goods);
 
         iv_back.setOnClickListener(this);
         tv_history.setOnClickListener(this);
 
-        defaultData();
+//        defaultData();
     }
 
-    private void defaultData() {
-        sp_county.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, counties));
-        sp_town.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, towns));
-        List<MeansOfProduction> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            MeansOfProduction production = new MeansOfProduction();
-            list.add(production);
-        }
-        list_type.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
-        list_products.setAdapter(new MeansOfProductionAdapter(this, list));
-    }
+//    private void defaultData() {
+//        sp_county.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, counties));
+//        sp_town.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, towns));
+//        List<MeansOfProduction> list = new ArrayList<>();
+//        for (int i = 0; i < 4; i++) {
+//            MeansOfProduction production = new MeansOfProduction();
+//            list.add(production);
+//        }
+//        list_type.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
+//        list_products.setAdapter(new MeansOfProductionAdapter(this, list));
+//    }
 
     @Override
     public void onClick(View view) {

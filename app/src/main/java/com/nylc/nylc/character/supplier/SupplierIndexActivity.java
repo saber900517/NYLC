@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.character.supplier.manage.ManageGoodsActivity;
 import com.nylc.nylc.personal.PersonalActivity;
 
 /**
@@ -50,7 +51,7 @@ public class SupplierIndexActivity extends BaseActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.ll_manage:
                 //商品管理
-                startActivity(new Intent(this, ManageProductsActivity.class));
+                startActivity(new Intent(this, ManageGoodsActivity.class));
                 break;
             case R.id.ll_supply:
                 //供货中心

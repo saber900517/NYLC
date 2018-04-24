@@ -3,21 +3,18 @@ package com.nylc.nylc.character.farmer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.character.TypeAdapter;
 import com.nylc.nylc.model.BaseResult;
-import com.nylc.nylc.model.Product;
-import com.nylc.nylc.model.ProductType;
+import com.nylc.nylc.model.GoodsType;
 import com.nylc.nylc.model.SaleProduct;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
@@ -42,10 +39,10 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
     private int typeIndex = 0;//当前展示的类型的index
 
     private List<SaleProduct> products;
-    private List<ProductType> productTypes;
+    private List<GoodsType> productTypes;
 
     private TypeAdapter productTypeAdapter;
-    private FarmerProductsAdapter productsAdapter;
+    private FarmerGoodsAdapter productsAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +54,7 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
     private void init() {
         iv_back = findViewById(R.id.iv_back);
         tv_reserve = findViewById(R.id.tv_reserve);
-        list_products = findViewById(R.id.list_products);
+        list_products = findViewById(R.id.list_goods);
         list_type = findViewById(R.id.list_type);
 
         tv_reserve.setOnClickListener(this);
@@ -69,11 +66,11 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
 
     private void defaultData() {
         productTypes = new ArrayList<>();
-        ProductType type = new ProductType();
+        GoodsType type = new GoodsType();
         type.setDISPLAY_NAME_ZH("粮食");
         productTypes.add(type);
 
-        ProductType type3 = new ProductType();
+        GoodsType type3 = new GoodsType();
         type3.setDISPLAY_NAME_ZH("我的");
         productTypes.add(type3);
 

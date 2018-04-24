@@ -2,17 +2,29 @@ package com.nylc.nylc.character.farmer;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.MyOrder;
-import com.nylc.nylc.model.MySale;
+import com.nylc.nylc.model.BaseResult;
+import com.nylc.nylc.model.GoodsOrder;
+import com.nylc.nylc.model.ProductOrder;
+import com.nylc.nylc.utils.CommonUtils;
+import com.nylc.nylc.utils.Urls;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +33,25 @@ import java.util.List;
  * Created by kasim on 2018/3/28.
  */
 
-public class FarmerOrderActivity extends BaseActivity implements View.OnClickListener {
+public class FarmerOrderActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private ListView list;
-    private Spinner sp_year, sp_other;
+    private Spinner sp_year, sp_month, sp_type;
     private ImageView iv_back;
     private TextView tv_goods, tv_products;
-    private String[] types = new String[]{"全部", "待确认", "被选中", "已发布", "待发货", "已发货", "交易完成"};
+    private ArrayList<String> years, months;
+    private String[] typesArray = new String[]{"待确认", "被选中", "已发布", "待发货", "已发货", "交易完成"};
+    private List<GoodsOrder> goodsOrders;
+    private FarmerGoodsOrderAdapter farmerGoodsOrderAdapter;
+    private FarmerProductsOrderAdapter farmerProductsOrderAdapter;
+
+    private List<ProductOrder> productOrders;
+
+    private int state = STATE_GOODS;
+    private static final int STATE_GOODS = 1;
+    private static final int STATE_PRODUCTS = 2;
+
+    private int productsPageSize = 1;
+    private int goodsPageSize = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,71 +62,89 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
 
     private void init() {
         list = findViewById(R.id.listView);
-        sp_other = findViewById(R.id.sp_other);
+        sp_type = findViewById(R.id.sp_type);
         sp_year = findViewById(R.id.sp_year);
+        sp_month = findViewById(R.id.sp_month);
         iv_back = findViewById(R.id.iv_back);
-        tv_goods = findViewById(R.id.tv_goods);
+        tv_goods = findViewById(R.id.tv_products);
         tv_products = findViewById(R.id.tv_products);
         iv_back.setOnClickListener(this);
         tv_goods.setOnClickListener(this);
         tv_products.setOnClickListener(this);
-        goodsDefaultData();
+        initSpinner();
     }
 
-    private void goodsDefaultData() {
-        List<String> years = new ArrayList<>();
-        years.add("全部");
-        years.add("2017");
-        years.add("2018");
-        sp_year.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, years));
-        sp_other.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
+    private void initSpinner() {
+        years = CommonUtils.getYears();
+        months = new ArrayList<>();
+        months.add("全部");
+        sp_year.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, years));
+        sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, months));
+        sp_type.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, typesArray));
 
-        List<MyOrder> orders = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            MyOrder order = new MyOrder();
-            order.setName("小麦");
-            order.setPrice("188");
-            order.setCount("40");
-            order.setState(i % 2);
-            orders.add(order);
-        }
-        list.setAdapter(new ReserveAdapter(this, orders));
+        sp_year.setOnItemSelectedListener(this);
+        sp_month.setOnItemSelectedListener(this);
+        sp_type.setOnItemSelectedListener(this);
+        getGoodsOrders();
     }
 
-    private void productsDefaultData() {
-        List<String> years = new ArrayList<>();
-        years.add("全部");
-        years.add("2017");
-        years.add("2018");
-        sp_year.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, years));
-        sp_other.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types));
+    Callback.Cancelable post;
 
-        List<MySale> sales = new ArrayList<>();
-        MySale sale = new MySale();
-        sale.setName("水稻");
-        sale.setPrice("1.6");
-        sale.setCount("40");
-        sale.setState(0);
-        sale.setEarnest("300");
-        sales.add(sale);
+    private void getGoodsOrders() {
+        if (post != null && !post.isCancelled()) post.cancel();
+        String year = sp_year.getSelectedItem().toString();
+        String month = sp_month.getSelectedItem().toString();
+        RequestParams params = new RequestParams(Urls.queryGoodsOrderList);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
+        params.addBodyParameter("index", state == STATE_PRODUCTS ? String.valueOf(productsPageSize) : String.valueOf(goodsPageSize));
+        if (!TextUtils.isEmpty(year) && !"全部".equals(year)) params.addBodyParameter("year", year);
+        if (!TextUtils.isEmpty(month) && !"全部".equals(month))
+            params.addBodyParameter("month", month);
+        if (sp_type.getSelectedItemPosition() != 0)
+            params.addBodyParameter("type", String.valueOf(sp_type.getSelectedItemPosition()));
+        post = x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                CommonUtils.judgeCode(FarmerOrderActivity.this, result.getCode());
+                String level = result.getLevel();
+                if ("success".equals(level)) {
+                    if (goodsOrders == null) {
+                        goodsOrders = new ArrayList<>();
+                    }
+                    if (farmerGoodsOrderAdapter == null) {
+                        farmerGoodsOrderAdapter = new FarmerGoodsOrderAdapter(FarmerOrderActivity.this, goodsOrders);
+                    }
+                    list.setAdapter(farmerGoodsOrderAdapter);
+                    List<GoodsOrder> goodsOrderLists = JSON.parseArray(result.getData(), GoodsOrder.class);
+                    goodsOrders.addAll(goodsOrderLists);
+                    farmerGoodsOrderAdapter.notifyDataSetChanged();
+                    if (goodsOrders == null || goodsOrders.size() <= 0) {
 
-        MySale sale1 = new MySale();
-        sale1.setName("小麦");
-        sale1.setPrice("1.4");
-        sale1.setCount("60");
-        sale1.setEarnest("300");
-        sale1.setState(1);
-        sales.add(sale1);
+                        Toast.makeText(FarmerOrderActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
+                    }
 
-        MySale sale2 = new MySale();
-        sale2.setName("小麦");
-        sale2.setPrice("1.4");
-        sale2.setCount("70");
-        sale2.setState(2);
-        sale2.setEarnest("300");
-        sales.add(sale2);
-        list.setAdapter(new SaleAdapter(this, sales));
+                } else {
+                    Toast.makeText(FarmerOrderActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.i("", "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
+
 
     @Override
     public void onClick(View view) {
@@ -110,11 +153,138 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.tv_goods:
-                goodsDefaultData();
+                state = STATE_GOODS;
+                goodsPageSize = 1;
+                resetSpinner();
+                getGoodsOrders();
                 break;
             case R.id.tv_products:
-                productsDefaultData();
+                state = STATE_PRODUCTS;
+                productsPageSize = 1;
+                resetSpinner();
+                getProductOrders();
                 break;
         }
+    }
+
+    private void resetSpinner() {
+        if (sp_year.getSelectedItemPosition() != 0) {
+            sp_year.setSelection(0);
+        }
+        months.clear();
+        months.add("全部");
+        sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, months));
+        sp_type.setSelection(0);
+    }
+
+    private void getProductOrders() {
+        if (post != null && !post.isCancelled()) {
+            post.cancel();
+        }
+        RequestParams params = new RequestParams(Urls.queryProductOrderList);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
+        if (sp_type.getSelectedItemPosition() != 0)
+            params.addBodyParameter("type", sp_type.getSelectedItemPosition() + "");
+
+        if (sp_year.getSelectedItemPosition() != 0)
+            params.addBodyParameter("year", sp_year.getSelectedItem().toString());
+
+        if (sp_month.getSelectedItemPosition() != 0)
+            params.addBodyParameter("month", sp_month.getSelectedItem().toString());
+
+        params.addBodyParameter("index", state == STATE_GOODS ? String.valueOf(goodsPageSize) : String.valueOf(productsPageSize));
+
+        post = x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                CommonUtils.judgeCode(FarmerOrderActivity.this, result.getCode());
+                String level = result.getLevel();
+                if ("success".equals(level)) {
+                    if (productOrders == null) {
+                        productOrders = new ArrayList<>();
+                    }
+                    if (farmerProductsOrderAdapter == null) {
+                        farmerProductsOrderAdapter = new FarmerProductsOrderAdapter(FarmerOrderActivity.this, productOrders);
+                    }
+                    list.setAdapter(farmerProductsOrderAdapter);
+                    List<ProductOrder> productOrdersList = JSON.parseArray(result.getData(), ProductOrder.class);
+                    productOrders.addAll(productOrdersList);
+                    farmerProductsOrderAdapter.notifyDataSetChanged();
+                    if (productOrders == null || productOrders.size() <= 0) {
+
+                        Toast.makeText(FarmerOrderActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(FarmerOrderActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.i("", "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (adapterView.getId()) {
+            case R.id.sp_year:
+                if (i == 0) {
+                    resetSpinner();
+                } else {
+                    months = CommonUtils.getMonths();
+                    sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, months));
+                }
+                sp_month.setSelection(0);
+                sp_type.setSelection(0);
+                if (state == STATE_GOODS) {
+                    if (goodsOrders != null && goodsOrders.size() > 0) goodsOrders.clear();
+                    getGoodsOrders();
+                } else {
+                    if (productOrders != null && productOrders.size() > 0) productOrders.clear();
+                    getProductOrders();
+                }
+                break;
+            case R.id.sp_month:
+                if (i == 0) {
+                    sp_type.setSelection(0);
+                }
+                if (state == STATE_GOODS) {
+                    if (goodsOrders != null && goodsOrders.size() > 0) goodsOrders.clear();
+                    getGoodsOrders();
+                } else {
+                    if (productOrders != null && productOrders.size() > 0) productOrders.clear();
+                    getProductOrders();
+                }
+                break;
+            case R.id.sp_type:
+                if (state == STATE_GOODS) {
+                    if (goodsOrders != null && goodsOrders.size() > 0) goodsOrders.clear();
+                    getGoodsOrders();
+                } else {
+                    if (productOrders != null && productOrders.size() > 0) productOrders.clear();
+                    getProductOrders();
+                }
+
+                break;
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

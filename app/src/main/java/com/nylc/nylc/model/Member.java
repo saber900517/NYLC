@@ -113,4 +113,9 @@ public class Member implements Parcelable {
             return new Member[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return this.EMPNAME;
+    }
 }

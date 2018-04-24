@@ -7,12 +7,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.HistoryOrder;
-import com.nylc.nylc.model.MeansOfProduction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,7 @@ public class HistoryOrderActivity extends BaseActivity implements View.OnClickLi
         sp_county = findViewById(R.id.sp_county);
         sp_town = findViewById(R.id.sp_town);
         list_type = findViewById(R.id.list_type);
-        list_products = findViewById(R.id.list_products);
+        list_products = findViewById(R.id.list_goods);
 
         iv_back.setOnClickListener(this);
 

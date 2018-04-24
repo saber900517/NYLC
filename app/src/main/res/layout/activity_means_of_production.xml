@@ -65,7 +65,7 @@
             android:scrollbars="none" />
 
         <ListView
-            android:id="@+id/list_products"
+            android:id="@+id/list_goods"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" />

@@ -1,4 +1,4 @@
-package com.nylc.nylc.character.supplier;
+package com.nylc.nylc.character.supplier.manage;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.BaseResult;
-import com.nylc.nylc.model.Product;
+import com.nylc.nylc.model.Goods;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
 import com.nylc.nylc.utils.ViewHolder;
@@ -23,7 +23,6 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,12 +30,12 @@ import java.util.List;
  * Created by 吴曰阳 on 2018/3/3.
  */
 
-public class ManageProductsAdapter extends BaseAdapter {
+public class ManageGoodsAdapter extends BaseAdapter {
 
-    private List<Product> mList;
+    private List<Goods> mList;
     private Context mContext;
 
-    public ManageProductsAdapter(List<Product> mList, Context mContext) {
+    public ManageGoodsAdapter(List<Goods> mList, Context mContext) {
         this.mList = mList;
         this.mContext = mContext;
     }
@@ -56,7 +55,7 @@ public class ManageProductsAdapter extends BaseAdapter {
         return i;
     }
 
-    public List<Product> getList() {
+    public List<Goods> getList() {
         return mList;
     }
 
@@ -64,14 +63,14 @@ public class ManageProductsAdapter extends BaseAdapter {
     public View getView(final int i, View v, ViewGroup viewGroup) {
 
         if (v == null) {
-            v = LayoutInflater.from(mContext).inflate(R.layout.item_manage_products, null);
+            v = LayoutInflater.from(mContext).inflate(R.layout.item_manage_goods, null);
         }
         TextView tv_name = ViewHolder.get(v, R.id.tv_name);
         TextView tv_price = ViewHolder.get(v, R.id.tv_price);
         TextView tv_saleState = ViewHolder.get(v, R.id.tv_saleState);
         TextView tv_delete = ViewHolder.get(v, R.id.tv_delete);
         ImageView iv_img = ViewHolder.get(v,R.id.iv_img);
-        final Product product = mList.get(i);
+        final Goods product = mList.get(i);
         tv_name.setText(product.getGOODS_NAME());
         tv_price.setText("￥" + product.getGOODS_PRICE() + "元");
         ImageLoader.getInstance().displayImage(Urls.IMG+product.getGOODS_PICTURE(),iv_img);
@@ -104,7 +103,7 @@ public class ManageProductsAdapter extends BaseAdapter {
      * @param position
      */
     private void updateGoodsState(final int position) {
-        final Product product = mList.get(position);
+        final Goods product = mList.get(position);
         RequestParams params = new RequestParams(Urls.updateStatusAction);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(mContext));
         params.addBodyParameter("goodsId", product.getGOODS_ID());
@@ -152,7 +151,7 @@ public class ManageProductsAdapter extends BaseAdapter {
      * @param position
      */
     private void deleteGoods(final int position) {
-        Product product = mList.get(position);
+        Goods product = mList.get(position);
         RequestParams params = new RequestParams(Urls.delGoodsAction);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(mContext));
         params.addBodyParameter("goodsId", product.getGOODS_ID());

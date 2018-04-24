@@ -38,22 +38,29 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"></Spinner>
 
-        <!--<Spinner-->
-            <!--android:id="@+id/sp_month"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"></Spinner>-->
+        <Spinner
+            android:id="@+id/sp_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"></Spinner>
 
         <Spinner
-            android:id="@+id/sp_other"
+            android:id="@+id/sp_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"></Spinner>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"></ListView>
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"></ListView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </LinearLayout>

@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.MeansOfProduction;
 import com.nylc.nylc.model.ReceiveGrain;
 import com.nylc.nylc.utils.ViewHolder;
 
