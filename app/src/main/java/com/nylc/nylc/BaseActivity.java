@@ -32,6 +32,4 @@ public class BaseActivity extends AppCompatActivity {
     public <T> void onEvent(T t) {
 
     }
-
-    ;
 }

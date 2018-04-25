@@ -9,11 +9,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.eventbus.RefreshEvent;
 import com.nylc.nylc.model.BaseResult;
+import com.nylc.nylc.model.MeansOfProduction;
 import com.nylc.nylc.model.NodeMsg;
 import com.nylc.nylc.model.ProductType;
 import com.nylc.nylc.utils.CommonUtils;
@@ -22,10 +25,13 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,10 +44,12 @@ public class MeansOfProductionActivity extends BaseActivity implements View.OnCl
     private TextView tv_history;
     private Spinner sp_county, sp_town;
     private ListView list_type, list_products;
-    private List<ProductType> types;
+    //    private List<ProductType> types;
     private NodeMsg townNodeMsg;
     private int pageIndex = 1;
     private SmartRefreshLayout mSmartRefreshLayout;
+    private List<MeansOfProduction> meansOfProductions;
+    private MeansOfProductionAdapter meansOfProductionAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +83,14 @@ public class MeansOfProductionActivity extends BaseActivity implements View.OnCl
 
         getVillageMessage();
 
+    }
+
+    @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public <RefreshEvent> void onEvent(RefreshEvent event) {
+        pageIndex = 1;
+        if (meansOfProductions != null) meansOfProductions.clear();
+        getQuoteOrderAction();
     }
 
     /**
@@ -128,6 +144,23 @@ public class MeansOfProductionActivity extends BaseActivity implements View.OnCl
             @Override
             public void onSuccess(BaseResult result) {
                 CommonUtils.judgeCode(MeansOfProductionActivity.this, result.getCode());
+                String level = result.getLevel();
+                if ("success".equals(level)) {
+                    if (meansOfProductions == null) {
+                        meansOfProductions = new ArrayList<>();
+                    }
+                    if (meansOfProductionAdapter == null) {
+                        meansOfProductionAdapter = new MeansOfProductionAdapter(MeansOfProductionActivity.this, meansOfProductions);
+                        list_products.setAdapter(meansOfProductionAdapter);
+                    }
+                    List<MeansOfProduction> list = JSON.parseArray(result.getData(), MeansOfProduction.class);
+                    if (list != null && list.size() > 0) {
+                        meansOfProductions.addAll(list);
+                        meansOfProductionAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(MeansOfProductionActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
             @Override

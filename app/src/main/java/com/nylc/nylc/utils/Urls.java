@@ -85,7 +85,7 @@ public class Urls {
     //查询待竞价的订单列表
     public static String queryQuoteOrderAction = ROOT + "/goodsorder/queryQuoteOrderAction";
     //添加、修改报价
-    public static String addUpdateQuoteOrderAction = ROOT + "/goodsorder/delQuoteOrderAction";
+    public static String addUpdateQuoteOrderAction = ROOT + "/goodsorder/addUpdateQuoteOrderAction";
     //删除报价
     public static String delQuoteOrderAction = ROOT + "/goodsorder/delQuoteOrderAction";
 }
