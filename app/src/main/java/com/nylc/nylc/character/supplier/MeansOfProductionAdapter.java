@@ -9,8 +9,15 @@ import android.widget.Button;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.MeansOfProduction;
+import com.nylc.nylc.utils.CommonUtils;
+import com.nylc.nylc.utils.Urls;
 import com.nylc.nylc.utils.ViewHolder;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -47,8 +54,10 @@ public class MeansOfProductionAdapter extends BaseAdapter {
         if (view == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_means_of_production, null);
         }
-
-        Button bt = ViewHolder.get(view, R.id.button);
+        final MeansOfProduction meansOfProduction = mList.get(i);
+        boolean showDeleteButton = i % 2 == 0 ? true : false;
+        Button bt = ViewHolder.get(view, R.id.btn_quote);
+        bt.setText(showDeleteButton ? "修改" : "报价");
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +65,42 @@ public class MeansOfProductionAdapter extends BaseAdapter {
                 dialog.show(((BaseActivity) mContext).getSupportFragmentManager(), "MeansOFProducts");
             }
         });
+        Button btn_delete = ViewHolder.get(view, R.id.btn_delete);
+        btn_delete.setVisibility(showDeleteButton ? View.VISIBLE : View.INVISIBLE);
+        btn_delete.setOnClickListener(showDeleteButton ? new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteQuote(meansOfProduction);
+            }
+        } : null);
         return view;
+    }
+
+    private void deleteQuote(MeansOfProduction meansOfProduction) {
+        RequestParams params = new RequestParams(Urls.delQuoteOrderAction);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(mContext));
+        params.addBodyParameter("townId", "");
+        params.addBodyParameter("orderVillageId", "");//供应商订单ID
+        x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                CommonUtils.judgeCode(mContext, result.getCode());
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 }

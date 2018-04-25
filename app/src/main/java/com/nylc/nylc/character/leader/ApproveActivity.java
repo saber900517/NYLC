@@ -64,6 +64,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
     private SmartRefreshLayout mSmartRefreshLayout;
     private ApproveBuyAdapter approveBuyAdapter;
     private ApproveSaleAdapter approveSaleAdapter;
+    private boolean isFirstLoaded = false;
 
     //    private String[] years = new String[]{"全部", "2017", "2018"};
 //    private String[] months = new String[]{"全部", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
@@ -267,6 +268,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
         post = x.http().post(params, new Callback.CommonCallback<BaseResult>() {
             @Override
             public void onSuccess(BaseResult result) {
+                isFirstLoaded = true;
                 CommonUtils.judgeCode(ApproveActivity.this, result.getCode());
                 String level = result.getLevel();
                 if ("success".equals(level)) {
@@ -322,6 +324,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
                 sp_month.setSelection(0);
                 if (state == STATE_GOODS) {
                     if (approveBuyList != null && approveBuyList.size() > 0) approveBuyList.clear();
+                    if (!isFirstLoaded) return;
                     getGoodsOrders();
                 } else {
                     if (approveSaleList != null && approveSaleList.size() > 0)
@@ -332,6 +335,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
             case R.id.sp_month:
                 if (state == STATE_GOODS) {
                     if (approveBuyList != null && approveBuyList.size() > 0) approveBuyList.clear();
+                    if (!isFirstLoaded) return;
                     getGoodsOrders();
                 } else {
                     if (approveSaleList != null && approveSaleList.size() > 0)
@@ -343,6 +347,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
             case R.id.sp_type:
                 if (state == STATE_GOODS) {
                     if (approveBuyList != null && approveBuyList.size() > 0) approveBuyList.clear();
+                    if (!isFirstLoaded) return;
                     getGoodsOrders();
                 } else {
                     if (approveSaleList != null && approveSaleList.size() > 0)

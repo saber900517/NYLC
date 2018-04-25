@@ -43,6 +43,13 @@ public class CommonUtils {
                 ((BaseActivity) context).finish();
             }
             return;
+        } else if ("003".equals(code)) {
+            //当前农民没有历史订单，请新增
+
+        } else if ("004".equals(code)) {
+            //当前农民没有历史订单，请新增
+        } else if ("005".equals(code)) {
+            //当前时间段不是收购商报价的时间段
         } else {
             //正常
         }

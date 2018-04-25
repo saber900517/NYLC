@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,7 +20,7 @@
         android:layout_alignLeft="@+id/tv_town"
         android:layout_alignStart="@+id/tv_town"
         android:layout_below="@+id/tv_town"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="5dp"
         android:text="小麦"
         android:textColor="@color/text_black" />
 
@@ -36,13 +37,44 @@
         android:textColor="@color/text_black" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_quote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tv_count"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="27dp"
-        android:layout_marginRight="27dp"
+        android:layout_alignTop="@+id/tv_town"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
         android:text="报价" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn_quote"
+        android:layout_alignStart="@+id/btn_quote"
+        android:layout_below="@+id/btn_quote"
+        android:text="删除" />
+
+    <TextView
+        android:id="@+id/tv_my_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_name"
+        android:layout_alignStart="@+id/tv_name"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="5dp"
+        android:text="我的报价：1.12元/斤"
+        android:textColor="@color/text_black" />
+
+    <TextView
+        android:id="@+id/tv_min_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_my_price"
+        android:layout_alignStart="@+id/tv_my_price"
+        android:layout_below="@+id/tv_my_price"
+        android:layout_marginTop="5dp"
+        android:text="最低报价：1.1元/斤"
+        android:textColor="@color/text_black" />
 </RelativeLayout>
