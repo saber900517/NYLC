@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">@color/bg_green_light</color>
+    <color name="colorPrimaryDark">@color/bg_green_dark</color>
+    <color name="colorAccent">@color/bg_green_dark</color>
 
     <!--字体颜色-->
     <color name="text_black">#000000</color>
+    <color name="text_grey">#C4C4C4</color>
+    <color name="text_index">#928B6E</color>
+    <!--背景颜色-->
+    <color name="bg_green_light">#D5FFE9</color>
+    <color name="bg_green_dark">#93DBB5</color>
+    <color name="bg_pink">#F5F5F5</color>
+    <color name="bg_index">#fff8db</color>
+    <color name="bg_other">#69ce98</color>
+
 </resources>

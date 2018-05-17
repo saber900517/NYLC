@@ -1,11 +1,15 @@
 package com.nylc.nylc.character.supplier.manage;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.Goods;
+import com.nylc.nylc.model.MeansOfProduction;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
 import com.nylc.nylc.utils.ViewHolder;
@@ -34,6 +39,7 @@ public class ManageGoodsAdapter extends BaseAdapter {
 
     private List<Goods> mList;
     private Context mContext;
+    private AlertDialog deleteDialog;
 
     public ManageGoodsAdapter(List<Goods> mList, Context mContext) {
         this.mList = mList;
@@ -69,11 +75,11 @@ public class ManageGoodsAdapter extends BaseAdapter {
         TextView tv_price = ViewHolder.get(v, R.id.tv_price);
         TextView tv_saleState = ViewHolder.get(v, R.id.tv_saleState);
         TextView tv_delete = ViewHolder.get(v, R.id.tv_delete);
-        ImageView iv_img = ViewHolder.get(v,R.id.iv_img);
+        ImageView iv_img = ViewHolder.get(v, R.id.iv_img);
         final Goods product = mList.get(i);
         tv_name.setText(product.getGOODS_NAME());
         tv_price.setText("￥" + product.getGOODS_PRICE() + "元");
-        ImageLoader.getInstance().displayImage(Urls.IMG+product.getGOODS_PICTURE(),iv_img);
+        ImageLoader.getInstance().displayImage(Urls.IMG + product.getGOODS_PICTURE(), iv_img);
         int status = product.getSTATUS();
         if (status == 1) {//1有效；0无效
             tv_delete.setVisibility(View.INVISIBLE);
@@ -91,10 +97,43 @@ public class ManageGoodsAdapter extends BaseAdapter {
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteGoods(i);
+//                deleteGoods(i);
+                showDeleteDialog(i);
             }
         });
         return v;
+    }
+
+    private void showDeleteDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.dialog_title_content_towbtn, null);
+        Button btn_confirm = v.findViewById(R.id.btn_confirm);
+        Button btn_cancel = v.findViewById(R.id.btn_cancel);
+        TextView tv_title = v.findViewById(R.id.tv_title);
+        TextView tv_content = v.findViewById(R.id.tv_content);
+        tv_title.setText("删除");
+        tv_content.setText("您确定要删除当前商品吗？");
+        deleteDialog = builder.create();
+        deleteDialog.getWindow().setBackgroundDrawable(new BitmapDrawable());
+        deleteDialog.setCanceledOnTouchOutside(false);
+        deleteDialog.show();
+        deleteDialog.getWindow().setContentView(v);
+        deleteDialog.getWindow().setGravity(Gravity.CENTER);
+        deleteDialog.getWindow().setLayout(700, 410);
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteGoods(position);
+                if (deleteDialog != null && deleteDialog.isShowing()) deleteDialog.dismiss();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (deleteDialog != null && deleteDialog.isShowing()) deleteDialog.dismiss();
+            }
+        });
+
     }
 
     /**

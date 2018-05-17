@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:padding="20dp">
 
     <ImageView
         android:id="@+id/iv_img"
@@ -31,25 +31,27 @@
         android:layout_alignLeft="@+id/tv_name"
         android:layout_marginBottom="5dp"
         android:text="￥188元"
-        android:textColor="@color/text_black" />
+        android:textColor="@android:color/holo_red_dark" />
 
     <TextView
         android:id="@+id/tv_saleState"
         android:layout_width="60dp"
-        android:layout_height="30dp"
+        android:layout_height="25dp"
         android:layout_alignParentRight="true"
-        android:background="#eeeeee"
+        android:background="@drawable/shape_round_darkgreenbackground"
         android:gravity="center"
-        android:text="下架" />
+        android:text="下架"
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/tv_delete"
         android:layout_width="60dp"
-        android:layout_height="30dp"
+        android:layout_height="25dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_saleState"
-        android:background="#eeeeee"
+        android:layout_alignBottom="@id/iv_img"
         android:layout_marginTop="5dp"
+        android:background="@drawable/shape_round_darkgreenbackground"
         android:gravity="center"
-        android:text="删除" />
+        android:text="删除"
+        android:textColor="@color/white" />
 </RelativeLayout>

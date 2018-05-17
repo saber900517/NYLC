@@ -15,16 +15,18 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
-import com.nylc.nylc.character.supplier.manage.ManageGoodsActivity;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.NodeMsg;
 import com.nylc.nylc.model.ProductType;
+import com.nylc.nylc.model.ReceiveGrain;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -47,6 +49,9 @@ public class ReceiveGrainActivity extends BaseActivity implements View.OnClickLi
     private String[] towns = {"全部", "滨海港镇"};
     private String[] types = {"水稻", "玉米", "小麦"};
     private List<ProductType> productTypes;
+
+    private List<ReceiveGrain> receiveGrainList;
+    private ReceiverGrainAdapter receiverGrainAdapter;
 
     private SmartRefreshLayout mSmartRefreshLayout;
     private int pageIndex = 1;
@@ -74,12 +79,19 @@ public class ReceiveGrainActivity extends BaseActivity implements View.OnClickLi
             public void onLoadmore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadmore(500);
                 pageIndex++;
-                getCompanyOrderList();
+                getQuoteOrderList();
             }
         });
         mSmartRefreshLayout.setEnableRefresh(false);
-        getCompanyOrderList();
+        getQuoteOrderList();
         getVillageMessage();
+    }
+    @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public <RefreshEvent> void onEvent(RefreshEvent event) {
+        pageIndex = 1;
+        if (receiveGrainList != null) receiveGrainList.clear();
+        getQuoteOrderList();
     }
 
     /**
@@ -132,8 +144,8 @@ public class ReceiveGrainActivity extends BaseActivity implements View.OnClickLi
     /**
      * 获取竞价列表
      */
-    private void getCompanyOrderList() {
-        RequestParams params = new RequestParams(Urls.queryCompanyOrderList);
+    private void getQuoteOrderList() {
+        RequestParams params = new RequestParams(Urls.queryQuoteOrderList);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
         params.addBodyParameter("index", String.valueOf(pageIndex));
         x.http().post(params, new Callback.CommonCallback<BaseResult>() {
@@ -142,7 +154,18 @@ public class ReceiveGrainActivity extends BaseActivity implements View.OnClickLi
                 CommonUtils.judgeCode(ReceiveGrainActivity.this, result.getCode());
                 String level = result.getLevel();
                 if ("success".equals(level)) {
-
+                    if (receiveGrainList == null) {
+                        receiveGrainList = new ArrayList<>();
+                    }
+                    if (receiverGrainAdapter == null) {
+                        receiverGrainAdapter = new ReceiverGrainAdapter(ReceiveGrainActivity.this, receiveGrainList);
+                        list_grain.setAdapter(receiverGrainAdapter);
+                    }
+                    List<ReceiveGrain> receiveGrains = JSON.parseArray(result.getData(), ReceiveGrain.class);
+                    if (receiveGrains != null && receiveGrains.size() > 0) {
+                        receiveGrainList.addAll(receiveGrains);
+                        receiverGrainAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     Toast.makeText(ReceiveGrainActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
                     mSmartRefreshLayout.setLoadmoreFinished(true);

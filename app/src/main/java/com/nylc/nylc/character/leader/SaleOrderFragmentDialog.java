@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseDialogFragment;
 import com.nylc.nylc.R;
+import com.nylc.nylc.eventbus.ApproveEvent;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.GoodsType;
 import com.nylc.nylc.model.Member;
@@ -34,6 +35,7 @@ import com.nylc.nylc.model.SellType;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -271,6 +273,9 @@ public class SaleOrderFragmentDialog extends BaseDialogFragment implements View.
                 Log.i("", "");
                 if (result.getLevel().equals("success")) {
                     Toast.makeText(getActivity(), result.getMsg(), Toast.LENGTH_SHORT).show();
+                    ApproveEvent event = new ApproveEvent();
+                    event.setRefreshType(ApproveEvent.STATE_GOODS);
+                    EventBus.getDefault().post(event);
                     dismiss();
                 } else {
                     Toast.makeText(getActivity(), result.getMsg(), Toast.LENGTH_SHORT).show();

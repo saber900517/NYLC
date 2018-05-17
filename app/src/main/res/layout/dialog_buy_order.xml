@@ -4,41 +4,53 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/sp_name"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="下订单"
+        android:textColor="@color/bg_green_dark"
+        android:textSize="20sp" />
 
-    <!--<RadioGroup-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<RadioButton-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="农药" />-->
-
-    <!--<RadioButton-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="化肥" />-->
-
-    <!--<RadioButton-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="种子" />-->
-    <!--</RadioGroup>-->
-
-    <!--农产品类型-->
-    <Spinner
-        android:id="@+id/sp_grains"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="1px"
+        android:background="@color/text_grey" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/sp_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1" />
+
+        <Spinner
+            android:id="@+id/sp_grains"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+    <!--农产品类型-->
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="@color/text_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -49,15 +61,21 @@
 
         <EditText
             android:id="@+id/et_count"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:inputType="number" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="亩"
+            android:textColor="@color/text_black" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,14 +85,31 @@
 
         <EditText
             android:id="@+id/et_earnest"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="元"
+            android:textColor="@color/text_black" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="@color/text_grey" />
+
 
     <Button
         android:id="@+id/bt_confirm"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="50dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:background="@drawable/selector_corner_btn_green"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="确认" />

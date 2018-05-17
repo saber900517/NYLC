@@ -1,10 +1,15 @@
 package com.nylc.nylc.personal;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -30,6 +35,7 @@ public class PersonalActivity extends BaseActivity implements View.OnClickListen
     private LinearLayout ll_changePassword;//修改密码
     private LinearLayout ll_logout;//退出
     private ImageView iv_back;
+    private AlertDialog logoutDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class PersonalActivity extends BaseActivity implements View.OnClickListen
         ll_personalInfo.setOnClickListener(this);
         ll_logout.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+
     }
 
     @Override
@@ -63,13 +70,40 @@ public class PersonalActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.ll_logout:
                 //退出
-                logout();
+                showLogoutDialog();
                 break;
             case R.id.iv_back:
                 //返回
                 finish();
                 break;
         }
+    }
+
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_title_content_towbtn, null);
+        Button btn_confirm = v.findViewById(R.id.btn_confirm);
+        Button btn_cancel = v.findViewById(R.id.btn_cancel);
+        logoutDialog = builder.create();
+        logoutDialog.getWindow().setBackgroundDrawable(new BitmapDrawable());
+        logoutDialog.setCanceledOnTouchOutside(false);
+        logoutDialog.show();
+        logoutDialog.getWindow().setContentView(v);
+        logoutDialog.getWindow().setGravity(Gravity.CENTER);
+        logoutDialog.getWindow().setLayout(700, 410);
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+                if (logoutDialog != null && logoutDialog.isShowing()) logoutDialog.dismiss();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (logoutDialog != null && logoutDialog.isShowing()) logoutDialog.dismiss();
+            }
+        });
     }
 
     private void logout() {

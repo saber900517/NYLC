@@ -1,11 +1,16 @@
 package com.nylc.nylc.character.supplier;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.widget.TextViewCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +37,7 @@ import java.util.List;
 public class MeansOfProductionAdapter extends BaseAdapter {
     private Context mContext;
     private List<MeansOfProduction> mList;
+    private AlertDialog deleteDialog;
 
     public MeansOfProductionAdapter(Context mContext, List<MeansOfProduction> mList) {
         this.mContext = mContext;
@@ -61,11 +67,13 @@ public class MeansOfProductionAdapter extends BaseAdapter {
         final MeansOfProduction meansOfProduction = mList.get(i);
         int minQuote = meansOfProduction.getMinQuote();
         int myQuote = meansOfProduction.getMyQuote();
-        boolean showDeleteButton = myQuote > 0 ? true : false;
-        Button bt = ViewHolder.get(view, R.id.btn_quote);
+        final boolean showDeleteButton = myQuote > 0 ? true : false;
+        TextView bt = ViewHolder.get(view, R.id.btn_quote);
+        TextView tv_town = ViewHolder.get(view, R.id.tv_town);
         TextView tv_myPrice = ViewHolder.get(view, R.id.tv_my_price);
         TextView tv_minPrice = ViewHolder.get(view, R.id.tv_min_price);
         TextView tv_name = ViewHolder.get(view, R.id.tv_name);
+        tv_town.setText(meansOfProduction.getVILLAGE());
         tv_name.setText(meansOfProduction.getPRODUCT_TYPE());
         tv_minPrice.setVisibility(minQuote > 0 ? View.VISIBLE : View.GONE);
         tv_myPrice.setVisibility(myQuote > 0 ? View.VISIBLE : View.GONE);
@@ -79,15 +87,47 @@ public class MeansOfProductionAdapter extends BaseAdapter {
                 dialog.show(((BaseActivity) mContext).getSupportFragmentManager(), "MeansOFProducts");
             }
         });
-        Button btn_delete = ViewHolder.get(view, R.id.btn_delete);
+        TextView btn_delete = ViewHolder.get(view, R.id.btn_delete);
         btn_delete.setVisibility(showDeleteButton ? View.VISIBLE : View.INVISIBLE);
         btn_delete.setOnClickListener(showDeleteButton ? new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteQuote(meansOfProduction);
+                showDeleteDialog(meansOfProduction);
             }
         } : null);
         return view;
+    }
+
+    private void showDeleteDialog(final MeansOfProduction meansOfProduction) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.dialog_title_content_towbtn, null);
+        Button btn_confirm = v.findViewById(R.id.btn_confirm);
+        Button btn_cancel = v.findViewById(R.id.btn_cancel);
+        TextView tv_title = v.findViewById(R.id.tv_title);
+        TextView tv_content = v.findViewById(R.id.tv_content);
+        tv_title.setText("删除");
+        tv_content.setText("您确定要删除当前报价吗？");
+        deleteDialog = builder.create();
+        deleteDialog.getWindow().setBackgroundDrawable(new BitmapDrawable());
+        deleteDialog.setCanceledOnTouchOutside(false);
+        deleteDialog.show();
+        deleteDialog.getWindow().setContentView(v);
+        deleteDialog.getWindow().setGravity(Gravity.CENTER);
+        deleteDialog.getWindow().setLayout(700, 410);
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteQuote(meansOfProduction);
+                if (deleteDialog != null && deleteDialog.isShowing()) deleteDialog.dismiss();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (deleteDialog != null && deleteDialog.isShowing()) deleteDialog.dismiss();
+            }
+        });
+
     }
 
     private void deleteQuote(MeansOfProduction meansOfProduction) {

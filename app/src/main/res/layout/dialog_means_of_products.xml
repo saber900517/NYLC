@@ -2,12 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="100dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="报价"
+        android:textColor="@color/bg_green_dark"
+        android:textSize="20sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@color/text_grey" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -21,7 +37,7 @@
             android:id="@+id/tv_minQuote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="128元/亩" />
+            android:text="120元/亩" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,26 +50,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="报价："
-            android:textColor="@color/text_black" />
+            android:textColor="@color/text_black"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/et_myQuote"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="元/亩"
-            android:textColor="@color/text_black" />
-
+            android:textColor="@color/text_black"
+            android:textSize="18sp" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@color/text_grey" />
 
     <Button
         android:id="@+id/btn_confirm"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="确认" />
+        android:layout_marginTop="50dp"
+        android:background="@drawable/selector_corner_btn_green"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 </LinearLayout>

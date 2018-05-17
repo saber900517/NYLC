@@ -1,15 +1,25 @@
 package com.nylc.nylc.character.farmer;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nylc.nylc.R;
+import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.GoodsOrder;
+import com.nylc.nylc.utils.CommonUtils;
+import com.nylc.nylc.utils.SharedPreferencesUtil;
+import com.nylc.nylc.utils.Urls;
 import com.nylc.nylc.utils.ViewHolder;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -43,19 +53,119 @@ public class FarmerGoodsOrderAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view = LayoutInflater.from(mContext).inflate(R.layout.item_approve_buy, null);
+        view = LayoutInflater.from(mContext).inflate(R.layout.item_farmer_goods_order, null);
+        final int position = i;
         TextView tv_name = ViewHolder.get(view, R.id.tv_name);
         TextView tv_products = ViewHolder.get(view, R.id.tv_products);
         TextView tv_count = ViewHolder.get(view, R.id.tv_count);
         TextView tv_state = ViewHolder.get(view, R.id.tv_state);
+        TextView btn = ViewHolder.get(view, R.id.btn);
 
-        GoodsOrder item = mList.get(i);
-        tv_name.setText(item.getFARMER_NAME());
+        final GoodsOrder item = mList.get(i);
+        String farmer_name = item.getFARMER_NAME();
+        String village = item.getVILLAGE();
+        tv_name.setText(TextUtils.isEmpty(farmer_name) ? village : farmer_name);
         tv_products.setText(item.getPRODUCT_TYPE());
         tv_count.setText(item.getQUANTITY() + "亩");
-        //（0：待确认10：被选中20：已发布 30：待发货 40：已发货 50：交易完成）
+        //（0：待确认 10：已预定 20：已发布 30：待企业交易 40：交易完成 50：失效）
+        String empType = (String) SharedPreferencesUtil.getParam(mContext, "empType", "农民");
+        boolean isSupplier = empType.equals("供应商");
+
+        if (isSupplier) {
+            btn.setVisibility(item.getSTATUS() == 30 || item.getSTATUS() == 40 ? View.VISIBLE : View.GONE);
+            btn.setText(item.getSTATUS() == 30 ? "发货" : item.getSTATUS() == 40 ? "完成交易" : "");
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    operateQuoteOrderAction(item, position);
+                }
+            });
+        } else {
+            btn.setVisibility(item.getSTATUS() == 0 ? View.VISIBLE : View.GONE);
+            btn.setText("删除");
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    delGoodsOrder(item);
+                }
+            });
+        }
+
+
         tv_state.setText(getStateText(item.getSTATUS()));
         return view;
+    }
+
+    private void delGoodsOrder(final GoodsOrder goodsOrder) {
+        RequestParams params = new RequestParams(Urls.delGoodsOrder);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(mContext));
+        params.addBodyParameter("id", goodsOrder.getID());
+        x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                CommonUtils.judgeCode(mContext, result.getCode());
+                Toast.makeText(mContext, result.getMsg(), Toast.LENGTH_SHORT).show();
+                if ("success".equals(result.getLevel())) {
+                    mList.remove(goodsOrder);
+                    notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    //发货、完成交易
+    private void operateQuoteOrderAction(final GoodsOrder item, final int position) {
+        final int status = item.getSTATUS();
+        RequestParams params = new RequestParams(Urls.operateQuoteOrderAction);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(mContext));
+        params.addBodyParameter("townId", item.getTOWN_ID());
+        params.addBodyParameter("orderVillageId", item.getID());
+        params.addBodyParameter("type", status == 30 ? "1" : "2");//1:发货 2:交易完成
+        x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                CommonUtils.judgeCode(mContext, result.getCode());
+
+                if ("success".equals(result.getLevel())) {
+                    item.setSTATUS(status == 30 ? 40 : 50);
+                    mList.set(position, item);
+                    notifyDataSetChanged();
+                } else {
+                    Toast.makeText(mContext, result.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
     }
 
     private String getStateText(int status) {

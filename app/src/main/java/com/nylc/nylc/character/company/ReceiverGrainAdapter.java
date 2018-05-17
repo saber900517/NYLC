@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
@@ -47,12 +48,21 @@ public class ReceiverGrainAdapter extends BaseAdapter {
         if (view == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_receive_grain, null);
         }
-        Button bt = ViewHolder.get(view,R.id.btn);
+        TextView tv_village = ViewHolder.get(view, R.id.tv_village);
+        TextView tv_productType = ViewHolder.get(view, R.id.tv_name);
+        TextView tv_count = ViewHolder.get(view, R.id.tv_count);
+        TextView tv_price = ViewHolder.get(view, R.id.tv_price);
+        final ReceiveGrain receiveGrain = mList.get(i);
+        tv_village.setText(receiveGrain.getVILLAGE());
+        tv_productType.setText(receiveGrain.getPRODUCT_TYPE());
+        tv_count.setText(receiveGrain.getQUANTITY() + "亩");
+        tv_price.setText(receiveGrain.getQUANTITY_JIN() + "元/斤");
+        TextView bt = ViewHolder.get(view, R.id.btn);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReceiveGrainDialog dialog = new ReceiveGrainDialog();
-                dialog.show(((BaseActivity)mContext).getSupportFragmentManager(),"ReceiveGrain");
+                ReceiveGrainDialog dialog = ReceiveGrainDialog.getInstance(receiveGrain.getQUANTITY_JIN(), receiveGrain.getID());
+                dialog.show(((BaseActivity) mContext).getSupportFragmentManager(), "ReceiveGrain");
             }
         });
         return view;

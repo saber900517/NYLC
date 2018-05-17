@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -62,7 +63,7 @@ public class AddGoodsActivity extends BaseActivity implements View.OnClickListen
     private EditText et_price;//单价
     private Spinner sp_type;//规格
     private EditText et_description;//介绍
-    private Button bt_confirm;//确定按钮
+    private TextView bt_confirm;//确定按钮
     private ArrayList<GoodsType> types;
     private Goods goods;
 

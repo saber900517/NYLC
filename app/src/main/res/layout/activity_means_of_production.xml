@@ -7,21 +7,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/bg_green_dark">
 
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="生产资料供货"
-            android:textColor="@color/text_black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <TextView
@@ -32,7 +33,8 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="历史记录"
-            android:textColor="@color/text_black" />
+            android:textColor="@color/text_black"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -77,6 +79,8 @@
                 android:id="@+id/list_goods"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:divider="@color/white"
+                android:dividerHeight="10dp"
                 android:scrollbars="none" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

@@ -44,12 +44,14 @@ import java.util.List;
 public class ApproveActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private ImageView iv_back;
-    private TextView tv_goods, tv_products, tv_order, tv_order1;
+    private TextView tv_goods, tv_products;
+    private ImageView iv_order, iv_order1;
     private Spinner sp_year, sp_month, sp_type;
     //1：待确认2：被选中3：已发布 4：待发货 5：已发货 6：交易完成
     private ArrayList<String> years, months;
     private ListView list;
     private List<GoodsType> goodsTypes;
+    private View v_goods, v_products;
 
     private TypeAdapter typeAdapter;
 
@@ -66,10 +68,12 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
     private ApproveSaleAdapter approveSaleAdapter;
     private boolean isFirstLoaded = false;
 
+
     //    private String[] years = new String[]{"全部", "2017", "2018"};
 //    private String[] months = new String[]{"全部", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
 //    private String[] days = new String[]{"全部", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
     private String[] typesArray = new String[]{"全部", "待确认", "被选中", "已发布", "待发货", "已发货", "交易完成"};
+    private String[] productsTypesArray = new String[]{"全部", "待确认", "已预订", "已发布", "待企业交易", "交易完成", "失效"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,13 +92,16 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
         tv_products = findViewById(R.id.tv_products);
         tv_products.setOnClickListener(this);
 
-        tv_order = findViewById(R.id.tv_order);
-        tv_order.setOnClickListener(this);
+        iv_order = findViewById(R.id.iv_order);
+        iv_order.setOnClickListener(this);
 
-        tv_order1 = findViewById(R.id.tv_order1);
-        tv_order1.setOnClickListener(this);
+        iv_order1 = findViewById(R.id.iv_order1);
+        iv_order1.setOnClickListener(this);
 
         list = findViewById(R.id.list);
+
+        v_goods = findViewById(R.id.v_goods);
+        v_products = findViewById(R.id.v_products);
 
         sp_year = findViewById(R.id.sp_year);
         sp_month = findViewById(R.id.sp_month);
@@ -125,12 +132,21 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
         months.add("全部");
         sp_year.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, years));
         sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, months));
-        sp_type.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, typesArray));
+        sp_type.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, state == STATE_GOODS ? typesArray : productsTypesArray));
 
         sp_year.setOnItemSelectedListener(this);
         sp_month.setOnItemSelectedListener(this);
         sp_type.setOnItemSelectedListener(this);
-        getGoodsOrders();
+
+        if (state == STATE_GOODS) {
+            goodsPageSize = 1;
+            if (approveBuyList != null && approveBuyList.size() > 0) approveBuyList.clear();
+            getGoodsOrders();
+        } else {
+            productsPageSize = 1;
+            if (approveSaleList != null && approveSaleList.size() > 0) approveSaleList.clear();
+            getProductsOrders();
+        }
     }
 
 //    private void approveBuyDefaultData() {
@@ -145,9 +161,19 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public <AddGoodsOrderEvent> void onEvent(AddGoodsOrderEvent t) {
+    public <ApproveEvent> void onEvent(ApproveEvent t) {
         super.onEvent(t);
-        initSpinner();
+        com.nylc.nylc.eventbus.ApproveEvent event = (com.nylc.nylc.eventbus.ApproveEvent) t;
+        int refreshType = event.getRefreshType();
+        if (refreshType == STATE_GOODS) {
+            //刷新商品列表
+            initSpinner();
+        }
+        if (refreshType == STATE_PRODUCTS) {
+            //刷新农产品列表
+            initSpinner();
+        }
+
     }
 
     private void approveSaleDefaultData() {
@@ -167,20 +193,28 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.tv_products:
                 state = STATE_PRODUCTS;
+                mSmartRefreshLayout.setLoadmoreFinished(false);
                 productsPageSize = 1;
-                tv_order1.setVisibility(View.VISIBLE);
+                iv_order1.setVisibility(View.VISIBLE);
                 if (approveSaleList != null && approveSaleList.size() > 0) approveSaleList.clear();
                 getProductsOrders();
+                v_goods.setVisibility(View.INVISIBLE);
+                v_products.setVisibility(View.VISIBLE);
+                initSpinner();
                 break;
             case R.id.tv_goods:
                 state = STATE_GOODS;
                 goodsPageSize = 1;
-                tv_order1.setVisibility(View.GONE);
+                mSmartRefreshLayout.setLoadmoreFinished(false);
+                iv_order1.setVisibility(View.GONE);
                 if (approveBuyList != null && approveBuyList.size() > 0) approveBuyList.clear();
                 getGoodsOrders();
+                v_goods.setVisibility(View.VISIBLE);
+                v_products.setVisibility(View.INVISIBLE);
+                initSpinner();
                 break;
-            case R.id.tv_order:
-                if (state == 0) {
+            case R.id.iv_order:
+                if (state == STATE_GOODS) {
                     BuyOrderFragmentDialog buyOrderFragmentDialog = new BuyOrderFragmentDialog();
                     buyOrderFragmentDialog.show(getSupportFragmentManager(), "buyOrderDialog");
                 } else {
@@ -188,7 +222,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
                     saleOrderFragmentDialog.show(getSupportFragmentManager(), "saleOrderDialog");
                 }
                 break;
-            case R.id.tv_order1:
+            case R.id.iv_order1:
                 SaleBatchOrderFragmentDialog saleBatchOrderFragmentDialog = new SaleBatchOrderFragmentDialog();
                 saleBatchOrderFragmentDialog.show(getSupportFragmentManager(), "saleBatchOrderDialog");
                 break;
@@ -227,6 +261,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
                     approveSaleAdapter.notifyDataSetChanged();
                     if (approveSales == null || approveSales.size() <= 0) {
                         Toast.makeText(ApproveActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
+                        mSmartRefreshLayout.setLoadmoreFinished(true);
                     }
                 } else {
                     Toast.makeText(ApproveActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
@@ -285,6 +320,7 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
                     if (approveBuys == null || approveBuys.size() <= 0) {
 
                         Toast.makeText(ApproveActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
+                        mSmartRefreshLayout.setLoadmoreFinished(true);
                     }
 
                 } else {

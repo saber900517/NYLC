@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,14 +36,16 @@ import java.util.List;
  * Created by kasim on 2018/3/28.
  */
 
-public class SupplierOrderActivity extends BaseActivity implements View.OnClickListener {
+public class SupplierOrderActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private ListView list;
     private Spinner sp_year, sp_type, sp_month;
     private ImageView iv_back;
+    private List<String> years, months;
     private String[] types = new String[]{"全部", "待确认", "被选中", "已发布", "待发货", "已发货", "交易完成"};
     private int pageIndex = 1;
     private List<GoodsOrder> goodsOrders;
     private FarmerGoodsOrderAdapter farmerGoodsOrderAdapter;
+    private boolean isFirstLoaded = false;//第一次加载完成
 
     private SmartRefreshLayout mSmartRefreshLayout;
 
@@ -60,9 +63,15 @@ public class SupplierOrderActivity extends BaseActivity implements View.OnClickL
         sp_month = findViewById(R.id.sp_month);
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
-        sp_year.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, CommonUtils.getYears()));
-        sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, new String[]{"全部"}));
+        years = CommonUtils.getYears();
+        months = new ArrayList<>();
+        months.add("全部");
+        sp_year.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, years));
+        sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, months));
         sp_type.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, types));
+        sp_year.setOnItemSelectedListener(this);
+        sp_month.setOnItemSelectedListener(this);
+        sp_type.setOnItemSelectedListener(this);
         mSmartRefreshLayout = findViewById(R.id.smartRefreshLayout);
         mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
@@ -92,6 +101,7 @@ public class SupplierOrderActivity extends BaseActivity implements View.OnClickL
         post = x.http().post(params, new Callback.CommonCallback<BaseResult>() {
             @Override
             public void onSuccess(BaseResult result) {
+                isFirstLoaded = true;
                 CommonUtils.judgeCode(SupplierOrderActivity.this, result.getCode());
                 String level = result.getLevel();
                 if ("success".equals(level)) {
@@ -140,5 +150,48 @@ public class SupplierOrderActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (adapterView.getId()) {
+            case R.id.sp_year:
+                if (i == 0) {
+                    months.clear();
+                    months.add("全部");
+                    sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, months));
+                } else {
+                    months = CommonUtils.getMonths();
+                    sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, months));
+                }
+                sp_month.setSelection(0);
+
+                if (goodsOrders != null && goodsOrders.size() > 0) goodsOrders.clear();
+                if (!isFirstLoaded) return;
+                getGoodsOrders();
+
+                break;
+            case R.id.sp_month:
+
+                if (goodsOrders != null && goodsOrders.size() > 0) goodsOrders.clear();
+                if (!isFirstLoaded) return;
+                getGoodsOrders();
+
+
+                break;
+            case R.id.sp_type:
+
+                if (goodsOrders != null && goodsOrders.size() > 0) goodsOrders.clear();
+                if (!isFirstLoaded) return;
+                getGoodsOrders();
+
+                break;
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

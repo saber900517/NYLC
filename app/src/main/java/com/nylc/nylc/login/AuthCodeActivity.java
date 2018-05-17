@@ -18,6 +18,7 @@ import com.nylc.nylc.R;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.utils.PhoneFormatCheckUtils;
 import com.nylc.nylc.utils.Urls;
+import com.nylc.nylc.widget.CountDownTextView;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -32,7 +33,7 @@ public class AuthCodeActivity extends BaseActivity implements View.OnClickListen
     private EditText et_userName;
     private EditText et_authCode;
     private Button bt_active;
-    private TextView tv_getAuthCode;
+    private CountDownTextView tv_getAuthCode;
     private ImageView iv_back;
 
     private String accountName;
@@ -65,6 +66,8 @@ public class AuthCodeActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.tv_getAuthCode:
                 //获取验证码
+                tv_getAuthCode.setCountDownMillis(60 * 1000);
+                tv_getAuthCode.start();
                 getAuthCode();
                 break;
             case R.id.iv_back:

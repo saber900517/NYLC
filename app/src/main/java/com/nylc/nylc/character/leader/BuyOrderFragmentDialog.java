@@ -17,7 +17,8 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseDialogFragment;
 import com.nylc.nylc.R;
-import com.nylc.nylc.eventbus.AddGoodsOrderEvent;
+import com.nylc.nylc.eventbus.AddOrderEvent;
+import com.nylc.nylc.eventbus.ApproveEvent;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.Member;
 import com.nylc.nylc.model.ProductType;
@@ -177,7 +178,10 @@ public class BuyOrderFragmentDialog extends BaseDialogFragment implements View.O
                 CommonUtils.judgeCode(getActivity(), result.getCode());
                 String level = result.getLevel();
                 if ("success".equals(level)) {
-                    EventBus.getDefault().post(new AddGoodsOrderEvent());
+                    ApproveEvent event = new ApproveEvent();
+                    event.setRefreshType(ApproveEvent.STATE_GOODS);
+                    EventBus.getDefault().post(event);
+
                     Toast.makeText(getActivity(), result.getMsg(), Toast.LENGTH_SHORT).show();
                     dismiss();
                 } else {

@@ -2,18 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:background="@color/bg_green_dark">
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:background="@mipmap/ic_launcher" />
+            android:src="@drawable/back" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,54 +24,91 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
             android:text="激活"
-            android:textColor="@color/text_black"
-            android:textSize="40sp" />
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/shape_round_darkgreenborder_lightgreenbackground"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/editText_padding"
+        android:paddingRight="@dimen/editText_padding">
 
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/phone" />
 
         <EditText
             android:id="@+id/et_username"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="请输入手机号"
-            android:inputType="phone" />
-
-        <TextView
-            android:id="@+id/tv_getAuthCode"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="#ccc"
-            android:gravity="center"
-            android:text="获取验证码"
-            android:textColor="@color/text_black" />
+            android:background="@null"
+            android:hint="请输入手机号"
+            android:inputType="phone"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_grey" />
+
+
     </LinearLayout>
 
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_round_darkgreenborder_lightgreenbackground"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/editText_padding"
+        android:paddingRight="@dimen/editText_padding">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/authcode" />
 
         <EditText
             android:id="@+id/et_authCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="3"
+            android:background="@null"
             android:hint="请输入验证码"
-            android:inputType="phone" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            android:inputType="phone"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_grey" />
+
+        <com.nylc.nylc.widget.CountDownTextView
+            android:id="@+id/tv_getAuthCode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:gravity="center"
+            android:text="获取验证码"
+            android:textColor="@color/bg_green_dark" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/bt_active"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
         android:layout_marginTop="50dp"
+        android:background="@drawable/selector_round_btn_green"
         android:text="激活"
-        android:textSize="30sp" />
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 </LinearLayout>

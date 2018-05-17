@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@color/bg_pink"
+    android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/tv_town"
@@ -17,10 +19,12 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_town"
-        android:layout_alignStart="@+id/tv_town"
-        android:layout_below="@+id/tv_town"
-        android:layout_marginTop="5dp"
+        android:layout_alignBaseline="@+id/tv_town"
+        android:layout_alignBottom="@+id/tv_town"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_toEndOf="@+id/tv_town"
+        android:layout_toRightOf="@+id/tv_town"
         android:text="小麦"
         android:textColor="@color/text_black" />
 
@@ -36,7 +40,7 @@
         android:text="3600亩"
         android:textColor="@color/text_black" />
 
-    <Button
+    <TextView
         android:id="@+id/btn_quote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,25 +49,39 @@
         android:layout_alignTop="@+id/tv_town"
         android:layout_marginEnd="11dp"
         android:layout_marginRight="11dp"
-        android:text="报价" />
+        android:background="@drawable/shape_round_darkgreenborder_alphabackground"
+        android:paddingBottom="2dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="2dp"
+        android:text="报价"
+        android:textColor="@color/bg_green_dark" />
 
-    <Button
+    <TextView
         android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btn_quote"
         android:layout_alignStart="@+id/btn_quote"
         android:layout_below="@+id/btn_quote"
-        android:text="删除" />
+        android:layout_marginTop="14dp"
+        android:background="@drawable/shape_round_darkgreenborder_alphabackground"
+        android:paddingBottom="2dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="2dp"
+        android:text="删除"
+        android:textColor="@color/bg_green_dark" />
 
     <TextView
         android:id="@+id/tv_my_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_name"
-        android:layout_alignStart="@+id/tv_name"
-        android:layout_below="@+id/tv_name"
-        android:layout_marginTop="5dp"
+        android:layout_alignBottom="@+id/btn_delete"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/tv_count"
+        android:layout_toRightOf="@+id/tv_count"
         android:text="我的报价：1.12元/斤"
         android:textColor="@color/text_black" />
 
@@ -71,10 +89,10 @@
         android:id="@+id/tv_min_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_my_price"
-        android:layout_alignStart="@+id/tv_my_price"
-        android:layout_below="@+id/tv_my_price"
-        android:layout_marginTop="5dp"
+        android:layout_alignBaseline="@+id/tv_my_price"
+        android:layout_alignBottom="@+id/tv_my_price"
+        android:layout_alignLeft="@+id/tv_town"
+        android:layout_alignStart="@+id/tv_town"
         android:text="最低报价：1.1元/斤"
         android:textColor="@color/text_black" />
 </RelativeLayout>

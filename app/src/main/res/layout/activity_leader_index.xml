@@ -3,18 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_index"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/bg_green_dark">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="农业联产平台"
-            android:textColor="@color/text_black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <ImageView
@@ -23,26 +25,29 @@
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:padding="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/selector_person" />
     </RelativeLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/bg" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="visible"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/ll_buy"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="100dp"
@@ -61,11 +66,11 @@
 
         <LinearLayout
             android:id="@+id/ll_sale"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="100dp"
@@ -81,6 +86,7 @@
                 android:textColor="@color/text_black"
                 android:textSize="20sp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_goods"
             android:layout_width="wrap_content"
@@ -89,17 +95,18 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@mipmap/ic_launcher" />
+                android:background="@drawable/selector_goods" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:text="商品信息"
-                android:textColor="@color/text_black"
+                android:textColor="@color/text_index"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
@@ -107,11 +114,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/ll_borrow"
@@ -178,14 +185,15 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@mipmap/ic_launcher" />
+                android:background="@drawable/selector_order" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:text="订单"
-                android:textColor="@color/text_black"
+                android:textColor="@color/text_index"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -200,14 +208,15 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@mipmap/ic_launcher" />
+                android:background="@drawable/selector_approve" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:text="审批"
-                android:textColor="@color/text_black"
+                android:textColor="@color/text_index"
                 android:textSize="20sp" />
         </LinearLayout>
 

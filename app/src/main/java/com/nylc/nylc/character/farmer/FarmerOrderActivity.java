@@ -21,6 +21,9 @@ import com.nylc.nylc.model.GoodsOrder;
 import com.nylc.nylc.model.ProductOrder;
 import com.nylc.nylc.utils.CommonUtils;
 import com.nylc.nylc.utils.Urls;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -39,12 +42,15 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
     private ImageView iv_back;
     private TextView tv_goods, tv_products;
     private ArrayList<String> years, months;
-    private String[] typesArray = new String[]{"待确认", "被选中", "已发布", "待发货", "已发货", "交易完成"};
+    private String[] typesArray = new String[]{"全部", "待确认", "被选中", "已发布", "待发货", "已发货", "交易完成"};
+    private String[] productsTypesArray = new String[]{"全部", "待确认", "已预订", "已发布", "待企业交易", "交易完成", "失效"};
     private List<GoodsOrder> goodsOrders;
     private FarmerGoodsOrderAdapter farmerGoodsOrderAdapter;
     private FarmerProductsOrderAdapter farmerProductsOrderAdapter;
+    private View v_goods, v_products;
 
     private List<ProductOrder> productOrders;
+    private SmartRefreshLayout mSmartRefreshLayout;
 
     private int state = STATE_GOODS;
     private static final int STATE_GOODS = 1;
@@ -60,17 +66,54 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
         init();
     }
 
+//    @Override
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public <RefreshEvent> void onEvent(RefreshEvent t) {
+//        super.onEvent(t);
+//        com.nylc.nylc.eventbus.RefreshEvent event = (com.nylc.nylc.eventbus.RefreshEvent) t;
+//        String action = event.getAction();
+//        if ("productRefresh".equals(action)) {
+//            resetSpinner();
+//            productsPageSize = 1;
+//            getProductOrders();
+//            mSmartRefreshLayout.setLoadmoreFinished(false);
+//        }else{
+//            resetSpinner();
+//            goodsPageSize = 1;
+//            getGoodsOrders();
+//            mSmartRefreshLayout.setLoadmoreFinished(false);
+//        }
+//    }
+
     private void init() {
         list = findViewById(R.id.listView);
         sp_type = findViewById(R.id.sp_type);
         sp_year = findViewById(R.id.sp_year);
         sp_month = findViewById(R.id.sp_month);
         iv_back = findViewById(R.id.iv_back);
-        tv_goods = findViewById(R.id.tv_products);
+        tv_goods = findViewById(R.id.tv_goods);
         tv_products = findViewById(R.id.tv_products);
+
+        v_goods = findViewById(R.id.v_goods);
+        v_products = findViewById(R.id.v_products);
         iv_back.setOnClickListener(this);
         tv_goods.setOnClickListener(this);
         tv_products.setOnClickListener(this);
+
+        mSmartRefreshLayout = findViewById(R.id.smartRefreshLayout);
+        mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(500);
+                if (state == STATE_GOODS) {
+                    goodsPageSize++;
+                    getGoodsOrders();
+                } else {
+                    productsPageSize++;
+                    getProductOrders();
+                }
+            }
+        });
         initSpinner();
     }
 
@@ -101,7 +144,7 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
         if (!TextUtils.isEmpty(month) && !"全部".equals(month))
             params.addBodyParameter("month", month);
         if (sp_type.getSelectedItemPosition() != 0)
-            params.addBodyParameter("type", String.valueOf(sp_type.getSelectedItemPosition()));
+            params.addBodyParameter("type", String.valueOf(sp_type.getSelectedItemPosition() + 1));
         post = x.http().post(params, new Callback.CommonCallback<BaseResult>() {
             @Override
             public void onSuccess(BaseResult result) {
@@ -120,7 +163,9 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
                     farmerGoodsOrderAdapter.notifyDataSetChanged();
                     if (goodsOrders == null || goodsOrders.size() <= 0) {
 
-                        Toast.makeText(FarmerOrderActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FarmerOrderActivity.this, "没有查询到买生产资料订单", Toast.LENGTH_SHORT).show();
+                        mSmartRefreshLayout.setLoadmoreFinished(true);
+
                     }
 
                 } else {
@@ -155,14 +200,20 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
             case R.id.tv_goods:
                 state = STATE_GOODS;
                 goodsPageSize = 1;
+                mSmartRefreshLayout.setLoadmoreFinished(false);
                 resetSpinner();
                 getGoodsOrders();
+                v_goods.setVisibility(View.VISIBLE);
+                v_products.setVisibility(View.INVISIBLE);
                 break;
             case R.id.tv_products:
                 state = STATE_PRODUCTS;
                 productsPageSize = 1;
+                mSmartRefreshLayout.setLoadmoreFinished(false);
                 resetSpinner();
                 getProductOrders();
+                v_goods.setVisibility(View.INVISIBLE);
+                v_products.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -174,7 +225,8 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
         months.clear();
         months.add("全部");
         sp_month.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, R.id.textView, months));
-        sp_type.setSelection(0);
+        sp_type.setAdapter(new ArrayAdapter<String>(this, R.layout.item_one_text, state == STATE_GOODS ? typesArray : productsTypesArray));
+        sp_type.setOnItemSelectedListener(this);
     }
 
     private void getProductOrders() {
@@ -212,7 +264,8 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
                     farmerProductsOrderAdapter.notifyDataSetChanged();
                     if (productOrders == null || productOrders.size() <= 0) {
 
-                        Toast.makeText(FarmerOrderActivity.this, "没有查询到相关数据", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FarmerOrderActivity.this, "没有查询到卖粮食订单", Toast.LENGTH_SHORT).show();
+                        mSmartRefreshLayout.setLoadmoreFinished(true);
                     }
 
                 } else {

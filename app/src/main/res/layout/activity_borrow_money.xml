@@ -6,6 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/bg_green_dark"
         android:layout_height="50dp">
 
         <ImageView
@@ -13,14 +14,14 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="想借钱"
-            android:textColor="@color/text_black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <TextView
@@ -28,7 +29,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:gravity="center"
-            android:textColor="@color/text_black"
+            android:textColor="@color/white"
             android:layout_alignParentRight="true"
             android:text="管理"/>
     </RelativeLayout>

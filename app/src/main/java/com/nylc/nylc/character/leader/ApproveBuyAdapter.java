@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.nylc.nylc.R;
@@ -48,8 +49,9 @@ public class ApproveBuyAdapter extends BaseAdapter {
         TextView tv_products = ViewHolder.get(view, R.id.tv_products);
         TextView tv_count = ViewHolder.get(view, R.id.tv_count);
         TextView tv_state = ViewHolder.get(view, R.id.tv_state);
+        TextView btn = ViewHolder.get(view, R.id.btn);
 
-        ApproveBuy approveBuy = mList.get(i);
+        final ApproveBuy approveBuy = mList.get(i);
         tv_name.setText(approveBuy.getFARMER_NAME());
         tv_products.setText(approveBuy.getPRODUCT_TYPE());
         tv_count.setText(approveBuy.getQUANTITY() + "亩");
@@ -57,6 +59,7 @@ public class ApproveBuyAdapter extends BaseAdapter {
         tv_state.setText(getStateText(approveBuy.getSTATUS()));
         return view;
     }
+
 
     private String getStateText(int status) {
         if (status == 0) {

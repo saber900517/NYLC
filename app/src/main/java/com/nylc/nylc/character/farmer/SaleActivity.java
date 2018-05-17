@@ -113,7 +113,7 @@ public class SaleActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void sendPushMessageToLeader() {
-        RequestParams params = new RequestParams(Urls.buyPublishAction);
+        RequestParams params = new RequestParams(Urls.addPublishAction);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(this));
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override

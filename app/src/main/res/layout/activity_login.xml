@@ -3,76 +3,143 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="登录"
-        android:textColor="@color/text_black"
-        android:textSize="40sp" />
-
-
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/bg_green_dark"
+        android:gravity="center"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+
+    <!--<com.wrapp.floatlabelededittext.FloatLabeledEditText-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="40dp">-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_username"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:hint="请输入手机号"-->
+    <!--android:inputType="phone" />-->
+    <!--</com.wrapp.floatlabelededittext.FloatLabeledEditText>-->
+
+
+    <!--<com.wrapp.floatlabelededittext.FloatLabeledEditText-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="20dp">-->
+
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_password"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:hint="请输入密码"-->
+    <!--android:inputType="textPassword" />-->
+    <!--</com.wrapp.floatlabelededittext.FloatLabeledEditText>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/shape_round_darkgreenborder_lightgreenbackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/editText_padding"
+        android:paddingRight="@dimen/editText_padding">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:background="@drawable/phone" />
 
         <EditText
             android:id="@+id/et_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
             android:hint="请输入手机号"
-            android:inputType="phone" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            android:inputType="phone"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_grey" />
+    </LinearLayout>
 
-
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_round_darkgreenborder_lightgreenbackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/editText_padding"
+        android:paddingRight="@dimen/editText_padding">
 
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:background="@drawable/lock" />
 
         <EditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
             android:hint="请输入密码"
-            android:inputType="textPassword" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            android:inputType="textPassword"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_grey" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/bt_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
         android:layout_marginTop="50dp"
+        android:background="@drawable/selector_round_btn_green"
         android:text="登录"
-        android:textSize="30sp" />
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding">
+
         <TextView
             android:id="@+id/tv_forgetPassword"
             android:layout_width="wrap_content"
-            android:autoLink="all"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:autoLink="all"
             android:text="忘记密码"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="20dp" />
+            android:textColor="@color/text_grey"
+            android:textSize="18dp" />
+
         <TextView
             android:id="@+id/tv_gotoActive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:autoLink="all"
             android:layout_marginTop="20dp"
+            android:autoLink="all"
             android:text="去激活"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="20dp" />
+            android:textColor="@color/text_grey"
+            android:textSize="18dp" />
     </RelativeLayout>
 
 </LinearLayout>

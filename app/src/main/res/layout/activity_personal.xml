@@ -2,30 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeeeee"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ffffffff">
+        android:background="@color/bg_green_dark"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
             android:text="个人中心"
-            android:textColor="@color/text_black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/text_grey" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/text_grey" />
 
     <LinearLayout
         android:id="@+id/ll_personalInfo"
@@ -35,8 +47,8 @@
         android:background="#ffffffff"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-
-        android:paddingLeft="10dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -49,8 +61,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="个人信息"
+            android:textColor="@color/text_black"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/text_grey" />
 
     <LinearLayout
         android:id="@+id/ll_changePassword"
@@ -60,7 +80,8 @@
         android:background="#ffffffff"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="10dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -73,8 +94,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="修改密码"
+            android:textColor="@color/text_black"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/text_grey" />
 
     <LinearLayout
         android:id="@+id/ll_logout"
@@ -84,7 +113,8 @@
         android:background="#ffffffff"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="10dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -97,6 +127,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="退出登录"
+            android:textColor="@color/text_black"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/text_grey" />
 </LinearLayout>

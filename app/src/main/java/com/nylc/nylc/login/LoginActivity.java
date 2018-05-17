@@ -103,7 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         }
 
-        RequestParams params = new RequestParams(Urls.LOGIN);
+        RequestParams params = new RequestParams(Urls.loginAction);
         params.addBodyParameter("accountName", identifier);
         params.addBodyParameter("accountPwd", credential);
         x.http().post(params, new Callback.CommonCallback<String>() {

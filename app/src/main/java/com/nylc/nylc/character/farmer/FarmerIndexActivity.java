@@ -69,7 +69,7 @@ public class FarmerIndexActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, FarmerOrderActivity.class));
                 break;
             case R.id.ll_goods:
-                //个人中心
+                //商品信息
                 startActivity(new Intent(this, GoodsListActivity.class));
                 break;
             case R.id.iv_person:

@@ -8,10 +8,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nylc.nylc.R;
-import com.nylc.nylc.model.ApproveBuy;
 import com.nylc.nylc.model.ApproveSale;
+import com.nylc.nylc.model.BaseResult;
+import com.nylc.nylc.utils.CommonUtils;
+import com.nylc.nylc.utils.Urls;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -19,7 +26,7 @@ import java.util.List;
  * Created by kasim on 2018/3/28.
  */
 
-public class ApproveSaleAdapter extends BaseAdapter implements View.OnClickListener {
+public class ApproveSaleAdapter extends BaseAdapter {
     private Context mContext;
     private List<ApproveSale> mList;
     private FragmentManager mManager;
@@ -48,46 +55,60 @@ public class ApproveSaleAdapter extends BaseAdapter implements View.OnClickListe
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = LayoutInflater.from(mContext).inflate(R.layout.item_approve_sale, null);
+        final int position = i;
         TextView tv_right1 = view.findViewById(R.id.tv_right1);
         TextView tv_right2 = view.findViewById(R.id.tv_right2);
-        Button btn = view.findViewById(R.id.btn);
-        Button btn_edit = view.findViewById(R.id.btn_edit);
-        Button btn_delete = view.findViewById(R.id.btn_delete);
-        ApproveSale approveSale = mList.get(i);
+        TextView tv_name = view.findViewById(R.id.tv_name);
+        TextView tv_productType = view.findViewById(R.id.tv_products);
+        TextView tv_count = view.findViewById(R.id.tv_count);
+        TextView tv_price = view.findViewById(R.id.tv_price);
+        TextView tv_realWeight = view.findViewById(R.id.tv_real_weight);
+        TextView tv_water = view.findViewById(R.id.tv_water);
+        TextView btn = view.findViewById(R.id.btn);
+        TextView btn_edit = view.findViewById(R.id.btn_edit);
+        TextView btn_delete = view.findViewById(R.id.btn_delete);
+        final ApproveSale approveSale = mList.get(i);
         int subscription = approveSale.getSUBSCRIPTION();//定金
-        tv_right1.setVisibility(subscription > 0 ? View.VISIBLE : View.INVISIBLE);
+        tv_right1.setVisibility(subscription > 0 ? View.VISIBLE : View.GONE);
         tv_right1.setText("定金" + subscription);
-        int i1 = i % 4;
+        tv_name.setText(approveSale.getFARMER_NAME());
+        tv_productType.setText(approveSale.getPRODUCT_TYPE());
+        tv_count.setText(approveSale.getQUANTITY() + "亩");
+        tv_price.setText(approveSale.getPRICE() + "元/斤");
+        tv_water.setText("水分点" + approveSale.getWARTER() + "%");
         int status = approveSale.getSTATUS();
 
         if (status == 0) {
+            btn.setVisibility(View.GONE);
+            tv_right2.setText(getStatusText(status));
             btn_edit.setVisibility(View.VISIBLE);
             btn_delete.setVisibility(View.VISIBLE);
-            btn_edit.setOnClickListener(this);
-            btn_delete.setOnClickListener(this);
+            btn_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditSaleOrderFragmentDialog dialog = EditSaleOrderFragmentDialog.getInstance(approveSale, position);
+                    dialog.show(mManager, "editOrder");
+                }
+            });
+            btn_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    delSaleOrder(approveSale);
+                }
+            });
         } else {
             btn_edit.setVisibility(View.GONE);
             btn_delete.setVisibility(View.GONE);
-            if (status == 30 || status == 40) {
+            if (status == 30 || status == 10) {
                 tv_right2.setVisibility(View.GONE);
                 btn.setVisibility(View.VISIBLE);
-                btn.setText(status == 30 ? "发货" : "完成交易");
-                btn.setOnClickListener(status == 30
-                        ?
-                        //发货
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                TakeDeliveryOfGoodsFragmentDialog takeDialog = new TakeDeliveryOfGoodsFragmentDialog();
-                                takeDialog.show(mManager, "takeDeliverOfGoods");
-                            }
-                        }
-                        :
+                btn.setText("完成交易");
+                btn.setOnClickListener(
                         //完成交易
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                ConfirmFragmentDialog confirmFragmentDialog = new ConfirmFragmentDialog();
+                                ConfirmFragmentDialog confirmFragmentDialog = ConfirmFragmentDialog.getInstance(approveSale);
                                 confirmFragmentDialog.show(mManager, "confirmDialog");
                             }
                         });
@@ -99,6 +120,40 @@ public class ApproveSaleAdapter extends BaseAdapter implements View.OnClickListe
         }
 
         return view;
+    }
+
+    private void delSaleOrder(final ApproveSale approveSale) {
+        RequestParams params = new RequestParams(Urls.delProductOrder);
+        params.addBodyParameter("tokenKey", CommonUtils.getToken(mContext));
+        params.addBodyParameter("farmerId", approveSale.getFARMER_ID());
+        params.addBodyParameter("orderId", approveSale.getID());
+        x.http().post(params, new Callback.CommonCallback<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult result) {
+                CommonUtils.judgeCode(mContext, result.getCode());
+                if ("success".equals(result.getLevel())) {
+                    mList.remove(approveSale);
+                    notifyDataSetChanged();
+                } else {
+                    Toast.makeText(mContext, result.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private String getStatusText(int status) {
@@ -119,8 +174,5 @@ public class ApproveSaleAdapter extends BaseAdapter implements View.OnClickListe
         return "";
     }
 
-    @Override
-    public void onClick(View view) {
 
-    }
 }
