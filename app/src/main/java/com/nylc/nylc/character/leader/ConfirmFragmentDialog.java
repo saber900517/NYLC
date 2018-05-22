@@ -55,6 +55,8 @@ public class ConfirmFragmentDialog extends BaseDialogFragment implements View.On
     EditText et_water;
     TextView tv_amount;
     TextView tv_needPay;
+    TextView tv_sellType;
+    TextView tv_productType;
     ApproveSale approveSale;
 
     @Nullable
@@ -70,6 +72,8 @@ public class ConfirmFragmentDialog extends BaseDialogFragment implements View.On
 
         et_price = view.findViewById(R.id.et_price);
         et_water = view.findViewById(R.id.et_water);
+        tv_sellType = view.findViewById(R.id.tv_sellType);
+        tv_productType = view.findViewById(R.id.tv_productType);
         et_amount = view.findViewById(R.id.et_amount);
 
         et_price.addTextChangedListener(new MyTextWatcher());
@@ -78,6 +82,8 @@ public class ConfirmFragmentDialog extends BaseDialogFragment implements View.On
         approveSale = getArguments().getParcelable("approveSale");
         tv_count.setText(approveSale.getQUANTITY() + "");
         tv_earnest.setText(approveSale.getSUBSCRIPTION() + "");
+        tv_sellType.setText(approveSale.getSELL_TYPE());
+        tv_productType.setText(approveSale.getPRODUCT_TYPE());
         return view;
     }
 
@@ -155,7 +161,7 @@ public class ConfirmFragmentDialog extends BaseDialogFragment implements View.On
             String price = et_price.getText().toString();
             if (!TextUtils.isEmpty(amount) && !TextUtils.isEmpty(price)) {
                 double totalAmount = new BigDecimal(amount).multiply(new BigDecimal(price)).doubleValue();
-                double needPay = new BigDecimal(String.valueOf(totalAmount)).add(new BigDecimal(approveSale.getSUBSCRIPTION())).doubleValue();
+                double needPay = new BigDecimal(String.valueOf(totalAmount)).subtract(new BigDecimal(approveSale.getSUBSCRIPTION())).doubleValue();
                 tv_amount.setText(String.valueOf(totalAmount));
                 tv_needPay.setText(String.valueOf(needPay));
             }

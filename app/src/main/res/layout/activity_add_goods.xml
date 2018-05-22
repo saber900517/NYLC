@@ -85,7 +85,7 @@
             android:background="@null"
             android:gravity="top"
             android:hint="价格：   元"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:padding="10dp" />
     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
     <View

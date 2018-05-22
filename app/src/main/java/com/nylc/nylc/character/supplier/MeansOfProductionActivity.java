@@ -24,6 +24,7 @@ import com.nylc.nylc.utils.Urls;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -76,11 +77,23 @@ public class MeansOfProductionActivity extends BaseActivity implements View.OnCl
         mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(500);
                 pageIndex++;
                 getQuoteOrderAction();
             }
         });
 
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(500);
+                pageIndex = 1;
+                if (meansOfProductions != null && meansOfProductions.size() > 0) {
+                    meansOfProductions.clear();
+                }
+                getQuoteOrderAction();
+            }
+        });
         getVillageMessage();
 
     }

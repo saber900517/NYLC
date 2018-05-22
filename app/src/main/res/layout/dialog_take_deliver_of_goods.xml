@@ -52,6 +52,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:text="1"
             android:textColor="@color/text_black" />
     </LinearLayout>
@@ -69,6 +70,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:text="15"
             android:textColor="@color/text_black" />
     </LinearLayout>
@@ -86,6 +88,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:text="1000"
             android:textColor="@color/text_black" />
     </LinearLayout>

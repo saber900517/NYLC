@@ -19,6 +19,7 @@ import com.nylc.nylc.utils.Urls;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -73,7 +74,13 @@ public class MyReserveActivity extends BaseActivity implements View.OnClickListe
                 getOrderList();
             }
         });
-        mSmartRefreshLayout.setEnableRefresh(false);
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(500);
+                pageIndex=1;
+            }
+        });
 
     }
 

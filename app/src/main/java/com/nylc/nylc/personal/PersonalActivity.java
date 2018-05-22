@@ -90,7 +90,7 @@ public class PersonalActivity extends BaseActivity implements View.OnClickListen
         logoutDialog.show();
         logoutDialog.getWindow().setContentView(v);
         logoutDialog.getWindow().setGravity(Gravity.CENTER);
-        logoutDialog.getWindow().setLayout(700, 410);
+        logoutDialog.getWindow().setLayout(700, CommonUtils.dip2px(140, this));
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

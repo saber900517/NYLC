@@ -106,7 +106,7 @@ public class EditSaleOrderFragmentDialog extends BaseDialogFragment implements V
                             int id = button.getId();
                             rg_sellTypes.check(id);
                         }
-                        if (type.getDISPLAY_NAME_ZH().equals("预定")) {
+                        if (!type.getDISPLAY_NAME_ZH().equals("预定")) {
                             et_earnest.setText("0");
                             et_earnest.setEnabled(false);
                         }
@@ -115,7 +115,7 @@ public class EditSaleOrderFragmentDialog extends BaseDialogFragment implements V
                         @Override
                         public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                             RadioButton button = radioGroup.findViewById(checkedId);
-                            if (button.getText().toString().equals("预定")) {
+                            if (!button.getText().toString().equals("预定")) {
                                 et_earnest.setText("0");
                                 et_earnest.setEnabled(false);
                             } else {
@@ -265,8 +265,8 @@ public class EditSaleOrderFragmentDialog extends BaseDialogFragment implements V
             RadioButton radioButton = (RadioButton) rg_sellTypes.getChildAt(i);
             if (radioButton.isChecked()) {
                 type = (SellType) radioButton.getTag();
-                int id = radioButton.getId();
-                if (id == 1) {
+//                int id = radioButton.getId();
+                if (!type.getDISPLAY_NAME_ZH().equals("预定")) {
                     earnest = "0";
                 } else {
                     if (TextUtils.isEmpty(et_earnest.getText().toString())) {

@@ -24,6 +24,7 @@ import com.nylc.nylc.utils.Urls;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -110,6 +111,26 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
                     getGoodsOrders();
                 } else {
                     productsPageSize++;
+                    getProductOrders();
+                }
+            }
+        });
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mSmartRefreshLayout.setLoadmoreFinished(false);
+                refreshlayout.finishRefresh(500);
+                if (state == STATE_GOODS) {
+                    goodsPageSize = 1;
+                    if (goodsOrders != null && goodsOrders.size() > 0) {
+                        goodsOrders.clear();
+                    }
+                    getGoodsOrders();
+                } else {
+                    productsPageSize = 1;
+                    if (productOrders != null && productOrders.size() > 0) {
+                        productOrders.clear();
+                    }
                     getProductOrders();
                 }
             }

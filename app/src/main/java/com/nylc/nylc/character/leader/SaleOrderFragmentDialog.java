@@ -95,14 +95,26 @@ public class SaleOrderFragmentDialog extends BaseDialogFragment implements View.
                         if (i == 0) {
                             int id = button.getId();
                             rg_sellTypes.check(id);
-                            et_earnest.setText("0");
-                            et_earnest.setEnabled(false);
+//                            et_earnest.setText("0");
+//                            et_earnest.setEnabled(false);
                         }
+//                        if (!type.getDISPLAY_NAME_ZH().equals("预定")) {
+//                            et_earnest.setText("0");
+//                            et_earnest.setEnabled(false);
+//                        }
                     }
                     rg_sellTypes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                            if (i == 1) {
+//                            if (!type.getDISPLAY_NAME_ZH().equals("预定")) {
+//                                et_earnest.setText("0");
+//                                et_earnest.setEnabled(false);
+//                            } else {
+//                                et_earnest.setText("");
+//                                et_earnest.setEnabled(true);
+//                            }
+                            RadioButton button = radioGroup.findViewById(i);
+                            if (!button.getText().toString().equals("预定")) {
                                 et_earnest.setText("0");
                                 et_earnest.setEnabled(false);
                             } else {
@@ -238,7 +250,7 @@ public class SaleOrderFragmentDialog extends BaseDialogFragment implements View.
             if (radioButton.isChecked()) {
                 type = (SellType) radioButton.getTag();
                 int id = radioButton.getId();
-                if (id == 1) {
+                if (!type.getDISPLAY_NAME_ZH().equals("预定")) {
                     earnest = "0";
                 } else {
                     if (TextUtils.isEmpty(et_earnest.getText().toString())) {

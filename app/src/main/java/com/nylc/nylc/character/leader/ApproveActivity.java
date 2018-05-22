@@ -26,6 +26,7 @@ import com.nylc.nylc.utils.Urls;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -122,7 +123,27 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-        mSmartRefreshLayout.setEnableRefresh(false);
+//        mSmartRefreshLayout.setEnableRefresh(false);
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(500);
+                mSmartRefreshLayout.setLoadmoreFinished(false);
+                if (state == STATE_GOODS) {
+                    goodsPageSize = 1;
+                    if (approveBuyList != null && approveBuyList.size() > 0) {
+                        approveBuyList.clear();
+                    }
+                    getGoodsOrders();
+                } else {
+                    productsPageSize = 1;
+                    if (approveSaleList != null && approveSaleList.size() > 0) {
+                        approveSaleList.clear();
+                    }
+                    getProductsOrders();
+                }
+            }
+        });
         initSpinner();
     }
 

@@ -3,6 +3,7 @@ package com.nylc.nylc.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -125,4 +126,32 @@ public class CommonUtils {
         return LayoutInflater.from(context).inflate(R.layout.bottom, null);
     }
 
+    public static int dip2px(int dp, Context context) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * density + 0.5);
+    }
+
+    /**
+     * px转换dip
+     */
+    public static int px2dip(int px, Context context) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (px / scale + 0.5f);
+    }
+
+    /**
+     * px转换sp
+     */
+    public static int px2sp(int pxValue, Context context) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
+    /**
+     * sp转换px
+     */
+    public static int sp2px(int spValue, Context context) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
 }

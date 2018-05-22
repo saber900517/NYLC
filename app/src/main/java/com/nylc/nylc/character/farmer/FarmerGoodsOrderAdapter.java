@@ -60,8 +60,16 @@ public class FarmerGoodsOrderAdapter extends BaseAdapter {
         TextView tv_count = ViewHolder.get(view, R.id.tv_count);
         TextView tv_state = ViewHolder.get(view, R.id.tv_state);
         TextView btn = ViewHolder.get(view, R.id.btn);
+        TextView tv_date = ViewHolder.get(view, R.id.tv_date);
+        TextView tv_earnest = ViewHolder.get(view, R.id.tv_earnest);
+
 
         final GoodsOrder item = mList.get(i);
+
+        String created_date = item.getCREATED_DATE();
+        tv_date.setText(created_date);
+        int subscription = item.getSUBSCRIPTION();
+        tv_earnest.setText("定金" + subscription + "元");
         String farmer_name = item.getFARMER_NAME();
         String village = item.getVILLAGE();
         tv_name.setText(TextUtils.isEmpty(farmer_name) ? village : farmer_name);
@@ -81,14 +89,15 @@ public class FarmerGoodsOrderAdapter extends BaseAdapter {
                 }
             });
         } else {
-            btn.setVisibility(item.getSTATUS() == 0 ? View.VISIBLE : View.GONE);
-            btn.setText("删除");
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    delGoodsOrder(item);
-                }
-            });
+//            btn.setVisibility(item.getSTATUS() == 0 ? View.VISIBLE : View.GONE);
+//            btn.setText("删除");
+//            btn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    delGoodsOrder(item);
+//                }
+//            });
+            btn.setVisibility(View.GONE);
         }
 
 

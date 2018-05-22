@@ -23,6 +23,7 @@ import com.nylc.nylc.utils.Urls;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 
 import org.xutils.common.Callback;
@@ -82,7 +83,18 @@ public class ManageGoodsActivity extends BaseActivity implements View.OnClickLis
                 getGoods(goodsTypes.get(typeIndex).getDISPLAY_NAME_ZH());
             }
         });
-        mSmartRefreshLayout.setEnableRefresh(false);
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(500);
+                pageIndex = 1;
+                if (goods != null && goods.size() > 0) {
+                    goods.clear();
+                }
+                getGoods(goodsTypes.get(typeIndex).getDISPLAY_NAME_ZH());
+                mSmartRefreshLayout.setLoadmoreFinished(false);
+            }
+        });
 
         getGoodsType();
     }
@@ -189,7 +201,7 @@ public class ManageGoodsActivity extends BaseActivity implements View.OnClickLis
                                 }
                             });
                         } else {
-                            if (goodsAdapter != null)   goodsAdapter.notifyDataSetChanged();
+                            if (goodsAdapter != null) goodsAdapter.notifyDataSetChanged();
                         }
 
                     } else {

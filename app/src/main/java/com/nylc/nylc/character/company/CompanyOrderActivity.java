@@ -21,6 +21,8 @@ import com.nylc.nylc.utils.Urls;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -75,8 +77,21 @@ public class CompanyOrderActivity extends BaseActivity implements View.OnClickLi
         mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(500);
                 pageIndex++;
                 getCompanyOrders();
+            }
+        });
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(500);
+                pageIndex = 1;
+                if (companyOrders != null && companyOrders.size() > 0) {
+                    companyOrders.clear();
+                }
+                getCompanyOrders();
+                mSmartRefreshLayout.setLoadmoreFinished(false);
             }
         });
         mSmartRefreshLayout.setEnableAutoLoadmore(false);

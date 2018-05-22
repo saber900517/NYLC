@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,7 +120,7 @@ public class ManageGoodsAdapter extends BaseAdapter {
         deleteDialog.show();
         deleteDialog.getWindow().setContentView(v);
         deleteDialog.getWindow().setGravity(Gravity.CENTER);
-        deleteDialog.getWindow().setLayout(700, 410);
+        deleteDialog.getWindow().setLayout(700, CommonUtils.dip2px(140, mContext));
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

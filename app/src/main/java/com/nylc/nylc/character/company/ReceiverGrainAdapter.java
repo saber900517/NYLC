@@ -56,12 +56,12 @@ public class ReceiverGrainAdapter extends BaseAdapter {
         tv_village.setText(receiveGrain.getVILLAGE());
         tv_productType.setText(receiveGrain.getPRODUCT_TYPE());
         tv_count.setText(receiveGrain.getQUANTITY() + "亩");
-        tv_price.setText(receiveGrain.getQUANTITY_JIN() + "元/斤");
+        tv_price.setText(receiveGrain.getMostQuote() + "元/斤");
         TextView bt = ViewHolder.get(view, R.id.btn);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReceiveGrainDialog dialog = ReceiveGrainDialog.getInstance(receiveGrain.getQUANTITY_JIN(), receiveGrain.getID());
+                ReceiveGrainDialog dialog = ReceiveGrainDialog.getInstance(receiveGrain.getMostQuote(), receiveGrain.getID());
                 dialog.show(((BaseActivity) mContext).getSupportFragmentManager(), "ReceiveGrain");
             }
         });

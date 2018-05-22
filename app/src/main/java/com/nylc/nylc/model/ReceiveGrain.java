@@ -11,39 +11,48 @@ public class ReceiveGrain implements Parcelable {
 
 
     /**
-     * AMOUNT : 2000
+     * AMOUNT : null
      * CITY : 金华
      * CITY_ID : 28c3355340f1462388b9e541ee28bcf2
+     * COMPANY_ID : null
+     * COMPANY_NAME : null
      * COUNTY : 义乌
      * COUNTY_ID : c746e017e658410e80fb947d33439f23
      * CREATED_BY : 丙队长
      * CREATED_BY_ID : 12ff6ebd46704100aeece3847bdba323
-     * CREATED_DATE : 2018-05-03 16:18:42
-     * ID : 919c5bdd28574b57899192c8576be4fb
+     * CREATED_DATE : 2018-05-21 20:34:26
+     * ID : bffd069448784cc99c7320262cfa3223
      * MODIFIED_BY : 丙队长
      * MODIFIED_BY_ID : 12ff6ebd46704100aeece3847bdba323
-     * MODIFIED_DATE : 2018-05-03 16:19:17
-     * NEED_PAY : 1800
-     * PRODUCT_TYPE : 小麦
-     * PRODUCT_TYPE_ID : PRODUCT_TYPE_8536149027
+     * MODIFIED_DATE : 2018-05-21 20:34:26
+     * mostQuote : null
+     * myQuote : null
+     * NEED_PAY : null
+     * PRICE : null
+     * PRODUCT_TYPE : 玉米
+     * PRODUCT_TYPE_ID : PRODUCT_TYPE_8307652491
      * PROVINCE : 浙江省
      * PROVINCE_ID : ba8783f2af5a4d7dae3f6546af4920e6
-     * QUANTITY : 40
-     * QUANTITY_JIN : 20
+     * QUANTITY : 1000
+     * QUANTITY_JIN : null
+     * REAL_AMOUNT : null
+     * REAL_NEED_AMOUNT : null
      * ROWNUM_ : 1
      * SELL_TYPE : 随行交易
      * SELL_TYPE_ID : SELL_TYPE_4591837620
      * STATUS : 20
-     * SUBSCRIPTION : 642
+     * SUBSCRIPTION : 0
      * TOWN : 稠城街道
      * TOWN_ID : 2b1b683c78e94ac6ab942719d207d3de
      * VILLAGE : 森屋村
      * VILLAGE_ID : 670fd03ae25d4027975e25d658abe429
      */
 
-    private int AMOUNT;
+    private String AMOUNT;
     private String CITY;
     private String CITY_ID;
+    private String COMPANY_ID;
+    private String COMPANY_NAME;
     private String COUNTY;
     private String COUNTY_ID;
     private String CREATED_BY;
@@ -53,13 +62,18 @@ public class ReceiveGrain implements Parcelable {
     private String MODIFIED_BY;
     private String MODIFIED_BY_ID;
     private String MODIFIED_DATE;
-    private int NEED_PAY;
+    private String mostQuote;
+    private String myQuote;
+    private String NEED_PAY;
+    private String PRICE;
     private String PRODUCT_TYPE;
     private String PRODUCT_TYPE_ID;
     private String PROVINCE;
     private String PROVINCE_ID;
     private int QUANTITY;
     private int QUANTITY_JIN;
+    private String REAL_AMOUNT;
+    private String REAL_NEED_AMOUNT;
     private int ROWNUM_;
     private String SELL_TYPE;
     private String SELL_TYPE_ID;
@@ -71,11 +85,11 @@ public class ReceiveGrain implements Parcelable {
     private String VILLAGE_ID;
 
 
-    public int getAMOUNT() {
+    public String getAMOUNT() {
         return AMOUNT;
     }
 
-    public void setAMOUNT(int AMOUNT) {
+    public void setAMOUNT(String AMOUNT) {
         this.AMOUNT = AMOUNT;
     }
 
@@ -93,6 +107,22 @@ public class ReceiveGrain implements Parcelable {
 
     public void setCITY_ID(String CITY_ID) {
         this.CITY_ID = CITY_ID;
+    }
+
+    public String getCOMPANY_ID() {
+        return COMPANY_ID;
+    }
+
+    public void setCOMPANY_ID(String COMPANY_ID) {
+        this.COMPANY_ID = COMPANY_ID;
+    }
+
+    public String getCOMPANY_NAME() {
+        return COMPANY_NAME;
+    }
+
+    public void setCOMPANY_NAME(String COMPANY_NAME) {
+        this.COMPANY_NAME = COMPANY_NAME;
     }
 
     public String getCOUNTY() {
@@ -167,12 +197,36 @@ public class ReceiveGrain implements Parcelable {
         this.MODIFIED_DATE = MODIFIED_DATE;
     }
 
-    public int getNEED_PAY() {
+    public String getMostQuote() {
+        return mostQuote;
+    }
+
+    public void setMostQuote(String mostQuote) {
+        this.mostQuote = mostQuote;
+    }
+
+    public String getMyQuote() {
+        return myQuote;
+    }
+
+    public void setMyQuote(String myQuote) {
+        this.myQuote = myQuote;
+    }
+
+    public String getNEED_PAY() {
         return NEED_PAY;
     }
 
-    public void setNEED_PAY(int NEED_PAY) {
+    public void setNEED_PAY(String NEED_PAY) {
         this.NEED_PAY = NEED_PAY;
+    }
+
+    public String getPRICE() {
+        return PRICE;
+    }
+
+    public void setPRICE(String PRICE) {
+        this.PRICE = PRICE;
     }
 
     public String getPRODUCT_TYPE() {
@@ -221,6 +275,22 @@ public class ReceiveGrain implements Parcelable {
 
     public void setQUANTITY_JIN(int QUANTITY_JIN) {
         this.QUANTITY_JIN = QUANTITY_JIN;
+    }
+
+    public String getREAL_AMOUNT() {
+        return REAL_AMOUNT;
+    }
+
+    public void setREAL_AMOUNT(String REAL_AMOUNT) {
+        this.REAL_AMOUNT = REAL_AMOUNT;
+    }
+
+    public String getREAL_NEED_AMOUNT() {
+        return REAL_NEED_AMOUNT;
+    }
+
+    public void setREAL_NEED_AMOUNT(String REAL_NEED_AMOUNT) {
+        this.REAL_NEED_AMOUNT = REAL_NEED_AMOUNT;
     }
 
     public int getROWNUM_() {
@@ -302,9 +372,11 @@ public class ReceiveGrain implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.AMOUNT);
+        dest.writeString(this.AMOUNT);
         dest.writeString(this.CITY);
         dest.writeString(this.CITY_ID);
+        dest.writeString(this.COMPANY_ID);
+        dest.writeString(this.COMPANY_NAME);
         dest.writeString(this.COUNTY);
         dest.writeString(this.COUNTY_ID);
         dest.writeString(this.CREATED_BY);
@@ -314,13 +386,18 @@ public class ReceiveGrain implements Parcelable {
         dest.writeString(this.MODIFIED_BY);
         dest.writeString(this.MODIFIED_BY_ID);
         dest.writeString(this.MODIFIED_DATE);
-        dest.writeInt(this.NEED_PAY);
+        dest.writeString(this.mostQuote);
+        dest.writeString(this.myQuote);
+        dest.writeString(this.NEED_PAY);
+        dest.writeString(this.PRICE);
         dest.writeString(this.PRODUCT_TYPE);
         dest.writeString(this.PRODUCT_TYPE_ID);
         dest.writeString(this.PROVINCE);
         dest.writeString(this.PROVINCE_ID);
         dest.writeInt(this.QUANTITY);
         dest.writeInt(this.QUANTITY_JIN);
+        dest.writeString(this.REAL_AMOUNT);
+        dest.writeString(this.REAL_NEED_AMOUNT);
         dest.writeInt(this.ROWNUM_);
         dest.writeString(this.SELL_TYPE);
         dest.writeString(this.SELL_TYPE_ID);
@@ -336,9 +413,11 @@ public class ReceiveGrain implements Parcelable {
     }
 
     protected ReceiveGrain(Parcel in) {
-        this.AMOUNT = in.readInt();
+        this.AMOUNT = in.readString();
         this.CITY = in.readString();
         this.CITY_ID = in.readString();
+        this.COMPANY_ID = in.readString();
+        this.COMPANY_NAME = in.readString();
         this.COUNTY = in.readString();
         this.COUNTY_ID = in.readString();
         this.CREATED_BY = in.readString();
@@ -348,13 +427,18 @@ public class ReceiveGrain implements Parcelable {
         this.MODIFIED_BY = in.readString();
         this.MODIFIED_BY_ID = in.readString();
         this.MODIFIED_DATE = in.readString();
-        this.NEED_PAY = in.readInt();
+        this.mostQuote = in.readString();
+        this.myQuote = in.readString();
+        this.NEED_PAY = in.readString();
+        this.PRICE = in.readString();
         this.PRODUCT_TYPE = in.readString();
         this.PRODUCT_TYPE_ID = in.readString();
         this.PROVINCE = in.readString();
         this.PROVINCE_ID = in.readString();
         this.QUANTITY = in.readInt();
         this.QUANTITY_JIN = in.readInt();
+        this.REAL_AMOUNT = in.readString();
+        this.REAL_NEED_AMOUNT = in.readString();
         this.ROWNUM_ = in.readInt();
         this.SELL_TYPE = in.readString();
         this.SELL_TYPE_ID = in.readString();

@@ -73,10 +73,12 @@ public class MeansOfProductionAdapter extends BaseAdapter {
         TextView tv_myPrice = ViewHolder.get(view, R.id.tv_my_price);
         TextView tv_minPrice = ViewHolder.get(view, R.id.tv_min_price);
         TextView tv_name = ViewHolder.get(view, R.id.tv_name);
+        TextView tv_count = ViewHolder.get(view, R.id.tv_count);
         tv_town.setText(meansOfProduction.getVILLAGE());
         tv_name.setText(meansOfProduction.getPRODUCT_TYPE());
         tv_minPrice.setVisibility(minQuote > 0 ? View.VISIBLE : View.GONE);
         tv_myPrice.setVisibility(myQuote > 0 ? View.VISIBLE : View.GONE);
+        tv_count.setText(meansOfProduction.getQUANTITY() + "亩");
         tv_minPrice.setText("最低报价：" + minQuote + "元/亩");
         tv_myPrice.setText("我的报价：" + myQuote + "元/亩");
         bt.setText(showDeleteButton ? "修改" : "报价");
@@ -113,7 +115,7 @@ public class MeansOfProductionAdapter extends BaseAdapter {
         deleteDialog.show();
         deleteDialog.getWindow().setContentView(v);
         deleteDialog.getWindow().setGravity(Gravity.CENTER);
-        deleteDialog.getWindow().setLayout(700, 410);
+        deleteDialog.getWindow().setLayout(700, CommonUtils.dip2px(140, mContext));
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -55,6 +55,7 @@
 
         <EditText
             android:id="@+id/et_myQuote"
+            android:inputType="numberDecimal"
             android:layout_width="100dp"
             android:layout_height="wrap_content" />
 

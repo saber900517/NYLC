@@ -122,7 +122,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     SharedPreferencesUtil.setParam(LoginActivity.this, "empType", login.getEmpTypeName());
                     SharedPreferencesUtil.setParam(LoginActivity.this, "empTypeId", login.getEmpTypeId());
                     String empTypeName = login.getEmpTypeName();
-                    setAlias(et_userName.getText().toString());
+//                    setAlias(et_userName.getText().toString());
                     judgeType(empTypeName);
                 } else {
                     //登录失败

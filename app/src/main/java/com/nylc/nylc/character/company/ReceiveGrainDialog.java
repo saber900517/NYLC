@@ -30,10 +30,10 @@ import org.xutils.x;
 
 public class ReceiveGrainDialog extends BaseDialogFragment {
 
-    public static ReceiveGrainDialog getInstance(int maxQuote, String orderVillageId) {
+    public static ReceiveGrainDialog getInstance(String maxQuote, String orderVillageId) {
         ReceiveGrainDialog dialog = new ReceiveGrainDialog();
         Bundle arguments = new Bundle();
-        arguments.putInt("maxQuote", maxQuote);
+        arguments.putString("maxQuote", maxQuote);
         arguments.putString("orderVillageId", orderVillageId);
         dialog.setArguments(arguments);
         return dialog;
@@ -43,7 +43,7 @@ public class ReceiveGrainDialog extends BaseDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_receive_grain, container);
-        int maxQuote = getArguments().getInt("maxQuote");
+        String maxQuote = getArguments().getString("maxQuote");
         final String orderVillageId = getArguments().getString("orderVillageId");
         TextView tv_maxQuote = view.findViewById(R.id.tv_maxQuote);
         final EditText et_myQuote = view.findViewById(R.id.et_myQuote);

@@ -63,7 +63,7 @@
             android:id="@+id/et_count"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
             android:id="@+id/et_earnest"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
 
         <TextView
             android:layout_width="wrap_content"

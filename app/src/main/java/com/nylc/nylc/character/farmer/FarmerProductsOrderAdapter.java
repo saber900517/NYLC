@@ -1,10 +1,15 @@
 package com.nylc.nylc.character.farmer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,8 +62,11 @@ public class FarmerProductsOrderAdapter extends BaseAdapter {
         TextView tv_count = ViewHolder.get(view, R.id.tv_count);
         TextView tv_state = ViewHolder.get(view, R.id.tv_state);
         TextView btn = ViewHolder.get(view, R.id.btn);
+        TextView tv_date = ViewHolder.get(view, R.id.tv_date);
         final int position = i;
         final ProductOrder item = mList.get(i);
+        String created_date = item.getCREATED_DATE();
+        tv_date.setText(created_date);
         tv_name.setText(item.getFARMER_NAME());
         tv_products.setText(item.getPRODUCT_TYPE());
         tv_count.setText(item.getQUANTITY() + "亩");
@@ -68,11 +76,45 @@ public class FarmerProductsOrderAdapter extends BaseAdapter {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelProductOrder(item, position);
+                showCancelDialog(item, position);
             }
         });
         return view;
     }
+
+    AlertDialog cancelDialog;
+
+    private void showCancelDialog(final ProductOrder item, final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.dialog_title_content_towbtn, null);
+        Button btn_confirm = v.findViewById(R.id.btn_confirm);
+        Button btn_cancel = v.findViewById(R.id.btn_cancel);
+        TextView tv_title = v.findViewById(R.id.tv_title);
+        TextView tv_content = v.findViewById(R.id.tv_content);
+        tv_title.setText("取消订单");
+        tv_content.setText("您确定要取消当前订单吗？");
+        cancelDialog = builder.create();
+        cancelDialog.getWindow().setBackgroundDrawable(new BitmapDrawable());
+        cancelDialog.setCanceledOnTouchOutside(false);
+        cancelDialog.show();
+        cancelDialog.getWindow().setContentView(v);
+        cancelDialog.getWindow().setGravity(Gravity.CENTER);
+        cancelDialog.getWindow().setLayout(700, CommonUtils.dip2px(140, mContext));
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelProductOrder(item, position);
+                if (cancelDialog != null && cancelDialog.isShowing()) cancelDialog.dismiss();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cancelDialog != null && cancelDialog.isShowing()) cancelDialog.dismiss();
+            }
+        });
+    }
+
 
     private void cancelProductOrder(final ProductOrder item, final int position) {
         RequestParams params = new RequestParams(Urls.invalidProductOrder);
@@ -94,7 +136,7 @@ public class FarmerProductsOrderAdapter extends BaseAdapter {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(mContext, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

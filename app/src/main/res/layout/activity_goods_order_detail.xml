@@ -4,13 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center"
-        android:text="完成交易"
-        android:textColor="@color/bg_green_dark"
-        android:textSize="20sp" />
+        android:background="@color/bg_green_dark">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="订单详情"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -233,7 +246,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -293,16 +307,4 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/text_grey" />
-
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="50dp"
-        android:background="@drawable/selector_corner_btn_green"
-        android:text="确认"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
-
 </LinearLayout>

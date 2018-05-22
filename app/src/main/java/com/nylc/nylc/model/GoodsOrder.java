@@ -39,6 +39,7 @@ public class GoodsOrder implements Parcelable {
      * VILLAGE_ID : 670fd03ae25d4027975e25d658abe429
      */
 
+    private String AMOUNT;
     private String CITY;
     private String CITY_ID;
     private String COUNTY;
@@ -66,6 +67,14 @@ public class GoodsOrder implements Parcelable {
     private String TOWN_ID;
     private String VILLAGE;
     private String VILLAGE_ID;
+
+    public String getAMOUNT() {
+        return AMOUNT;
+    }
+
+    public void setAMOUNT(String AMOUNT) {
+        this.AMOUNT = AMOUNT;
+    }
 
     public String getCITY() {
         return CITY;
@@ -283,6 +292,9 @@ public class GoodsOrder implements Parcelable {
         this.VILLAGE_ID = VILLAGE_ID;
     }
 
+    public GoodsOrder() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -290,6 +302,7 @@ public class GoodsOrder implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.AMOUNT);
         dest.writeString(this.CITY);
         dest.writeString(this.CITY_ID);
         dest.writeString(this.COUNTY);
@@ -319,10 +332,8 @@ public class GoodsOrder implements Parcelable {
         dest.writeString(this.VILLAGE_ID);
     }
 
-    public GoodsOrder() {
-    }
-
     protected GoodsOrder(Parcel in) {
+        this.AMOUNT = in.readString();
         this.CITY = in.readString();
         this.CITY_ID = in.readString();
         this.COUNTY = in.readString();
@@ -352,15 +363,15 @@ public class GoodsOrder implements Parcelable {
         this.VILLAGE_ID = in.readString();
     }
 
-    public static final Parcelable.Creator<ApproveBuy> CREATOR = new Parcelable.Creator<ApproveBuy>() {
+    public static final Creator<GoodsOrder> CREATOR = new Creator<GoodsOrder>() {
         @Override
-        public ApproveBuy createFromParcel(Parcel source) {
-            return new ApproveBuy(source);
+        public GoodsOrder createFromParcel(Parcel source) {
+            return new GoodsOrder(source);
         }
 
         @Override
-        public ApproveBuy[] newArray(int size) {
-            return new ApproveBuy[size];
+        public GoodsOrder[] newArray(int size) {
+            return new GoodsOrder[size];
         }
     };
 }

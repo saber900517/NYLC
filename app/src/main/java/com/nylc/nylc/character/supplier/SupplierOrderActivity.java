@@ -24,6 +24,7 @@ import com.nylc.nylc.utils.Urls;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -76,8 +77,21 @@ public class SupplierOrderActivity extends BaseActivity implements View.OnClickL
         mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(500);
                 pageIndex++;
                 getGoodsOrders();
+            }
+        });
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(500);
+                pageIndex = 1;
+                if (goodsOrders != null && goodsOrders.size() > 0) {
+                    goodsOrders.clear();
+                }
+                getGoodsOrders();
+                mSmartRefreshLayout.setLoadmoreFinished(false);
             }
         });
         getGoodsOrders();
