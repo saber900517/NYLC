@@ -15,14 +15,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="" />
+            android:text="战三" />
 
         <TextView
             android:id="@+id/tv_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="" />
+            android:text="小麦" />
 
         <TextView
             android:id="@+id/tv_count"
@@ -38,24 +38,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="" />
+            android:text="1.2元/斤" />
 
         <TextView
             android:id="@+id/tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text="已完成" />
     </LinearLayout>
 
 
     <TextView
-        android:id="@+id/tv_water"
+        android:id="@+id/tv_earnest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
-        android:text="" />
+        android:text="定金" />
 
 
     <TextView

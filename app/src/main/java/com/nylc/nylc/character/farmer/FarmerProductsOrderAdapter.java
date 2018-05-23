@@ -63,6 +63,7 @@ public class FarmerProductsOrderAdapter extends BaseAdapter {
         TextView tv_state = ViewHolder.get(view, R.id.tv_state);
         TextView btn = ViewHolder.get(view, R.id.btn);
         TextView tv_date = ViewHolder.get(view, R.id.tv_date);
+        TextView tv_earnest = ViewHolder.get(view, R.id.tv_earnest);
         final int position = i;
         final ProductOrder item = mList.get(i);
         String created_date = item.getCREATED_DATE();
@@ -70,6 +71,7 @@ public class FarmerProductsOrderAdapter extends BaseAdapter {
         tv_name.setText(item.getFARMER_NAME());
         tv_products.setText(item.getPRODUCT_TYPE());
         tv_count.setText(item.getQUANTITY() + "亩");
+        tv_earnest.setText("定金：" + item.getSUBSCRIPTION() + "元");
         //（0：待确认10：被选中20：已发布 30：待发货 40：已发货 50：交易完成）
         tv_state.setText(getStateText(item.getSTATUS()));
         btn.setVisibility(item.getSTATUS() == 30 ? View.VISIBLE : View.INVISIBLE);

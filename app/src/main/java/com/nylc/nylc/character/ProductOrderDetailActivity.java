@@ -4,15 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
 import com.nylc.nylc.model.ApproveBuy;
+import com.nylc.nylc.model.ApproveSale;
 import com.nylc.nylc.model.GoodsOrder;
+import com.nylc.nylc.model.ProductOrder;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -21,11 +21,11 @@ import org.xutils.x;
 import java.math.BigDecimal;
 
 /**
- * 商品订单详情界面
+ * 农产品订单详情界面
  * Created by kasim on 2018/5/22.
  */
 
-public class GoodsOrderDetailActivity extends BaseActivity {
+public class ProductOrderDetailActivity extends BaseActivity {
     @ViewInject(R.id.tv_name)
     TextView tv_name;
 
@@ -47,53 +47,58 @@ public class GoodsOrderDetailActivity extends BaseActivity {
     @ViewInject(R.id.tv_state)
     TextView tv_state;
 
+    @ViewInject(R.id.tv_quantityJin)
+    TextView tv_quantityJin;
+
     @ViewInject(R.id.tv_time)
     TextView tv_time;
 
-    @ViewInject(R.id.ll)
-    LinearLayout ll;
+    @ViewInject(R.id.tv_water)
+    TextView tv_water;
+
+    @ViewInject(R.id.tv_price)
+    TextView tv_price;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goods_order_detail);
+        setContentView(R.layout.activity_products_order_detail);
         x.view().inject(this);
         init();
     }
 
     private void init() {
         Parcelable order = getIntent().getParcelableExtra("order");
-        GoodsOrder goodsOrder = null;
-        ApproveBuy approveBuy = null;
-        if (order instanceof GoodsOrder) {
-            goodsOrder = (GoodsOrder) order;
-//            ll.setVisibility(View.VISIBLE);
+        ProductOrder productOrder = null;
+        ApproveSale approveSale = null;
+        if (order instanceof ProductOrder) {
+            productOrder = (ProductOrder) order;
         } else {
-            approveBuy = (ApproveBuy) order;
-//            ll.setVisibility(View.GONE);
+            approveSale = (ApproveSale) order;
         }
-        String name = goodsOrder == null ? approveBuy.getFARMER_NAME() : goodsOrder.getFARMER_NAME();
-        if (TextUtils.isEmpty(name)) {
-            name = goodsOrder == null ? approveBuy.getVILLAGE() : goodsOrder.getVILLAGE();
-        }
-        tv_name.setText(name);
-        tv_productType.setText(goodsOrder == null ? approveBuy.getPRODUCT_TYPE() : goodsOrder.getPRODUCT_TYPE());
-        tv_count.setText(goodsOrder == null ? approveBuy.getQUANTITY() + "亩" : goodsOrder.getQUANTITY() + "亩");
-        tv_earnest.setText(goodsOrder == null ? approveBuy.getSUBSCRIPTION() + "元" : goodsOrder.getSUBSCRIPTION() + "元");
-        tv_amount.setText(goodsOrder == null ? approveBuy.getAMOUNT() + "元" : goodsOrder.getAMOUNT() + "元");
+        tv_name.setText(productOrder == null ? approveSale.getFARMER_NAME() : productOrder.getFARMER_NAME());
+        tv_productType.setText(productOrder == null ? approveSale.getPRODUCT_TYPE() : productOrder.getPRODUCT_TYPE());
+        tv_count.setText(productOrder == null ? approveSale.getQUANTITY() + "亩" : productOrder.getQUANTITY() + "亩");
+        tv_earnest.setText(productOrder == null ? approveSale.getSUBSCRIPTION() + "元" : productOrder.getSUBSCRIPTION() + "元");
+        tv_amount.setText(productOrder == null ? approveSale.getAMOUNT() + "元" : productOrder.getAMOUNT() + "元");
         try {
-            BigDecimal needPay = new BigDecimal(goodsOrder == null ? approveBuy.getAMOUNT() : goodsOrder.getAMOUNT())
-                    .subtract(new BigDecimal(goodsOrder == null ? approveBuy.getSUBSCRIPTION() : goodsOrder.getSUBSCRIPTION()));
+            BigDecimal needPay = new BigDecimal(productOrder == null ? approveSale.getAMOUNT() : productOrder.getAMOUNT())
+                    .subtract(new BigDecimal(productOrder == null ? approveSale.getSUBSCRIPTION() : productOrder.getSUBSCRIPTION()));
             tv_needPay.setText(needPay.toString());
         } catch (Exception e) {
             tv_needPay.setText("");
         }
-        tv_state.setText(getStateText(goodsOrder == null ? approveBuy.getSTATUS() : goodsOrder.getSTATUS()));
-        tv_time.setText(goodsOrder == null ? approveBuy.getCREATED_DATE() : goodsOrder.getCREATED_DATE());
+        tv_state.setText(getStateText(productOrder == null ? approveSale.getSTATUS() : productOrder.getSTATUS()));
+        tv_time.setText(productOrder == null ? approveSale.getCREATED_DATE() : productOrder.getCREATED_DATE());
+
+        tv_price.setText(productOrder == null ? approveSale.getPRICE() + "元/斤" : productOrder.getPRICE() + "元/斤");
+        tv_water.setText(productOrder == null ? approveSale.getWARTER() + "%" : productOrder.getWARTER() + "%");
+        tv_quantityJin.setText(productOrder == null ? approveSale.getQUANTITY_JIN() + "斤" : productOrder.getQUANTITY_JIN() + "斤");
     }
 
     public static void newInstance(BaseActivity start, Parcelable goodsOrder) {
-        Intent intent = new Intent(start, GoodsOrderDetailActivity.class);
+        Intent intent = new Intent(start, ProductOrderDetailActivity.class);
         intent.putExtra("order", goodsOrder);
         start.startActivity(intent);
     }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--、、、、订单状态、时间、、-->
+    <!--、、单价、、、、、、水分点、、-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="名称："
+                android:text="姓名："
                 android:textColor="@color/text_black" />
 
             <TextView
@@ -141,7 +141,6 @@
         android:background="@color/text_grey" />
 
     <LinearLayout
-        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -225,6 +224,84 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总斤数："
+                android:textColor="@color/text_black" />
+
+            <TextView
+                android:id="@+id/tv_quantityJin"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_black" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/text_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="水分点："
+                android:textColor="@color/text_black" />
+
+            <TextView
+                android:id="@+id/tv_water"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_black" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单价："
+                android:textColor="@color/text_black" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_black" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

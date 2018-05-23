@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.character.GoodsOrderDetailActivity;
+import com.nylc.nylc.character.ProductOrderDetailActivity;
 import com.nylc.nylc.character.TypeAdapter;
 import com.nylc.nylc.model.ApproveBuy;
 import com.nylc.nylc.model.ApproveSale;
@@ -145,6 +147,16 @@ public class ApproveActivity extends BaseActivity implements View.OnClickListene
             }
         });
         initSpinner();
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (state == STATE_GOODS) {
+                    GoodsOrderDetailActivity.newInstance(ApproveActivity.this, approveBuyList.get(i));
+                } else {
+                    ProductOrderDetailActivity.newInstance(ApproveActivity.this, approveSaleList.get(i));
+                }
+            }
+        });
     }
 
     private void initSpinner() {

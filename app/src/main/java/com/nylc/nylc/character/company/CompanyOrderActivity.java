@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.character.CompanyProductOrderDetailActivity;
+import com.nylc.nylc.character.ProductOrderDetailActivity;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.CompanyOrder;
 import com.nylc.nylc.utils.CommonUtils;
@@ -97,6 +99,13 @@ public class CompanyOrderActivity extends BaseActivity implements View.OnClickLi
         mSmartRefreshLayout.setEnableAutoLoadmore(false);
 
         getCompanyOrders();
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                CompanyProductOrderDetailActivity.newInstance(CompanyOrderActivity.this, companyOrders.get(i));
+            }
+        });
 
     }
 

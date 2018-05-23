@@ -72,7 +72,25 @@ public class CompanyOrder implements Parcelable {
     private String TOWN_ID;
     private String VILLAGE;
     private String VILLAGE_ID;
+    private String PRICE;
+    private String WATER;
 
+
+    public String getPRICE() {
+        return PRICE;
+    }
+
+    public void setPRICE(String PRICE) {
+        this.PRICE = PRICE;
+    }
+
+    public String getWATER() {
+        return WATER;
+    }
+
+    public void setWATER(String WATER) {
+        this.WATER = WATER;
+    }
 
     public int getAMOUNT() {
         return AMOUNT;
@@ -314,6 +332,9 @@ public class CompanyOrder implements Parcelable {
         this.VILLAGE_ID = VILLAGE_ID;
     }
 
+    public CompanyOrder() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -351,9 +372,8 @@ public class CompanyOrder implements Parcelable {
         dest.writeString(this.TOWN_ID);
         dest.writeString(this.VILLAGE);
         dest.writeString(this.VILLAGE_ID);
-    }
-
-    public CompanyOrder() {
+        dest.writeString(this.PRICE);
+        dest.writeString(this.WATER);
     }
 
     protected CompanyOrder(Parcel in) {
@@ -387,9 +407,11 @@ public class CompanyOrder implements Parcelable {
         this.TOWN_ID = in.readString();
         this.VILLAGE = in.readString();
         this.VILLAGE_ID = in.readString();
+        this.PRICE = in.readString();
+        this.WATER = in.readString();
     }
 
-    public static final Parcelable.Creator<CompanyOrder> CREATOR = new Parcelable.Creator<CompanyOrder>() {
+    public static final Creator<CompanyOrder> CREATOR = new Creator<CompanyOrder>() {
         @Override
         public CompanyOrder createFromParcel(Parcel source) {
             return new CompanyOrder(source);

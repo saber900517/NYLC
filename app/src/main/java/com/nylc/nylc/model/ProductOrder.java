@@ -47,6 +47,7 @@ public class ProductOrder implements Parcelable {
      * WARTER : 15
      */
 
+    private String AMOUNT;
     private String CITY;
     private String CITY_ID;
     private String COMPANY_ID;
@@ -73,6 +74,8 @@ public class ProductOrder implements Parcelable {
     private String PROVINCE_ID;
     private int QUANTITY;
     private int ROWNUM_;
+    private String mostQuote;
+    private String myQuote;
     private String SELL_TYPE;
     private String SELL_TYPE_ID;
     private int STATUS;
@@ -82,6 +85,40 @@ public class ProductOrder implements Parcelable {
     private String VILLAGE;
     private String VILLAGE_ID;
     private int WARTER;
+    private String QUANTITY_JIN;
+
+
+    public String getQUANTITY_JIN() {
+        return QUANTITY_JIN;
+    }
+
+    public void setQUANTITY_JIN(String QUANTITY_JIN) {
+        this.QUANTITY_JIN = QUANTITY_JIN;
+    }
+
+    public String getAMOUNT() {
+        return AMOUNT;
+    }
+
+    public void setAMOUNT(String AMOUNT) {
+        this.AMOUNT = AMOUNT;
+    }
+
+    public String getMostQuote() {
+        return mostQuote;
+    }
+
+    public void setMostQuote(String mostQuote) {
+        this.mostQuote = mostQuote;
+    }
+
+    public String getMyQuote() {
+        return myQuote;
+    }
+
+    public void setMyQuote(String myQuote) {
+        this.myQuote = myQuote;
+    }
 
     public String getCITY() {
         return CITY;
@@ -364,6 +401,9 @@ public class ProductOrder implements Parcelable {
         this.WARTER = WARTER;
     }
 
+    public ProductOrder() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -371,6 +411,7 @@ public class ProductOrder implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.AMOUNT);
         dest.writeString(this.CITY);
         dest.writeString(this.CITY_ID);
         dest.writeString(this.COMPANY_ID);
@@ -397,6 +438,8 @@ public class ProductOrder implements Parcelable {
         dest.writeString(this.PROVINCE_ID);
         dest.writeInt(this.QUANTITY);
         dest.writeInt(this.ROWNUM_);
+        dest.writeString(this.mostQuote);
+        dest.writeString(this.myQuote);
         dest.writeString(this.SELL_TYPE);
         dest.writeString(this.SELL_TYPE_ID);
         dest.writeInt(this.STATUS);
@@ -406,12 +449,11 @@ public class ProductOrder implements Parcelable {
         dest.writeString(this.VILLAGE);
         dest.writeString(this.VILLAGE_ID);
         dest.writeInt(this.WARTER);
-    }
-
-    public ProductOrder() {
+        dest.writeString(this.QUANTITY_JIN);
     }
 
     protected ProductOrder(Parcel in) {
+        this.AMOUNT = in.readString();
         this.CITY = in.readString();
         this.CITY_ID = in.readString();
         this.COMPANY_ID = in.readString();
@@ -438,6 +480,8 @@ public class ProductOrder implements Parcelable {
         this.PROVINCE_ID = in.readString();
         this.QUANTITY = in.readInt();
         this.ROWNUM_ = in.readInt();
+        this.mostQuote = in.readString();
+        this.myQuote = in.readString();
         this.SELL_TYPE = in.readString();
         this.SELL_TYPE_ID = in.readString();
         this.STATUS = in.readInt();
@@ -447,9 +491,10 @@ public class ProductOrder implements Parcelable {
         this.VILLAGE = in.readString();
         this.VILLAGE_ID = in.readString();
         this.WARTER = in.readInt();
+        this.QUANTITY_JIN = in.readString();
     }
 
-    public static final Parcelable.Creator<ProductOrder> CREATOR = new Parcelable.Creator<ProductOrder>() {
+    public static final Creator<ProductOrder> CREATOR = new Creator<ProductOrder>() {
         @Override
         public ProductOrder createFromParcel(Parcel source) {
             return new ProductOrder(source);

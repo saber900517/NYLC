@@ -64,11 +64,14 @@ public class ApproveBuyAdapter extends BaseAdapter {
         TextView tv_count = ViewHolder.get(view, R.id.tv_count);
         TextView tv_state = ViewHolder.get(view, R.id.tv_state);
         TextView btn = ViewHolder.get(view, R.id.btn);
+        TextView tv_earnest = ViewHolder.get(view, R.id.tv_earnest);
+        TextView tv_date = ViewHolder.get(view, R.id.tv_date);
 
         final ApproveBuy approveBuy = mList.get(i);
         tv_name.setText(approveBuy.getFARMER_NAME());
         tv_products.setText(approveBuy.getPRODUCT_TYPE());
         tv_count.setText(approveBuy.getQUANTITY() + "亩");
+        tv_earnest.setText("定金" + approveBuy.getSUBSCRIPTION() + "元");
         //（0：待确认10：被选中20：已发布 30：待发货 40：已发货 50：交易完成）
         tv_state.setText(getStateText(approveBuy.getSTATUS()));
         btn.setVisibility(approveBuy.getSTATUS() == 0 ? View.VISIBLE : View.GONE);
@@ -78,6 +81,7 @@ public class ApproveBuyAdapter extends BaseAdapter {
                 showDeleteDialog(i);
             }
         });
+        tv_date.setText(approveBuy.getCREATED_DATE());
         return view;
     }
 
@@ -122,10 +126,9 @@ public class ApproveBuyAdapter extends BaseAdapter {
      */
     private void deleteGoods(final int position) {
         ApproveBuy approveBuy = mList.get(position);
-        RequestParams params = new RequestParams(Urls.delProductOrder);
+        RequestParams params = new RequestParams(Urls.delGoodsOrder);
         params.addBodyParameter("tokenKey", CommonUtils.getToken(mContext));
-        params.addBodyParameter("orderId", approveBuy.getID());
-        params.addBodyParameter("farmerId", approveBuy.getFARMER_ID());
+        params.addBodyParameter("id", approveBuy.getID());
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

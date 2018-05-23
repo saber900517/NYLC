@@ -55,7 +55,16 @@
             android:name=".personal.ChangePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".character.ProductOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.GoodsOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".character.CompanyProductOrderDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".character.company.CompanyIndexActivity"

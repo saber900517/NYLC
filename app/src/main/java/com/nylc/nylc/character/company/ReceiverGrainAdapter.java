@@ -52,12 +52,15 @@ public class ReceiverGrainAdapter extends BaseAdapter {
         TextView tv_productType = ViewHolder.get(view, R.id.tv_name);
         TextView tv_count = ViewHolder.get(view, R.id.tv_count);
         TextView tv_price = ViewHolder.get(view, R.id.tv_price);
+        TextView tv_date = ViewHolder.get(view, R.id.tv_date);
+
         final ReceiveGrain receiveGrain = mList.get(i);
         tv_village.setText(receiveGrain.getVILLAGE());
         tv_productType.setText(receiveGrain.getPRODUCT_TYPE());
         tv_count.setText(receiveGrain.getQUANTITY() + "亩");
         tv_price.setText(receiveGrain.getMostQuote() + "元/斤");
         TextView bt = ViewHolder.get(view, R.id.btn);
+        tv_date.setText(receiveGrain.getCREATED_DATE());
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

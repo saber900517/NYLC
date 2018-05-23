@@ -46,6 +46,9 @@ public class ApproveSale implements Parcelable {
      * WARTER : 30
      */
 
+    private String AMOUNT;
+    private String myQuote;
+    private String mostQuote;
     private String CITY;
     private String CITY_ID;
     private String COUNTY;
@@ -80,6 +83,39 @@ public class ApproveSale implements Parcelable {
     private String VILLAGE_ID;
     private int WARTER;
 
+    private String QUANTITY_JIN;
+
+    public String getQUANTITY_JIN() {
+        return QUANTITY_JIN;
+    }
+
+    public void setQUANTITY_JIN(String QUANTITY_JIN) {
+        this.QUANTITY_JIN = QUANTITY_JIN;
+    }
+
+    public String getAMOUNT() {
+        return AMOUNT;
+    }
+
+    public void setAMOUNT(String AMOUNT) {
+        this.AMOUNT = AMOUNT;
+    }
+
+    public String getMyQuote() {
+        return myQuote;
+    }
+
+    public void setMyQuote(String myQuote) {
+        this.myQuote = myQuote;
+    }
+
+    public String getMostQuote() {
+        return mostQuote;
+    }
+
+    public void setMostQuote(String mostQuote) {
+        this.mostQuote = mostQuote;
+    }
 
     public String getCITY() {
         return CITY;
@@ -345,6 +381,9 @@ public class ApproveSale implements Parcelable {
         this.WARTER = WARTER;
     }
 
+    public ApproveSale() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -352,6 +391,9 @@ public class ApproveSale implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.AMOUNT);
+        dest.writeString(this.myQuote);
+        dest.writeString(this.mostQuote);
         dest.writeString(this.CITY);
         dest.writeString(this.CITY_ID);
         dest.writeString(this.COUNTY);
@@ -385,12 +427,13 @@ public class ApproveSale implements Parcelable {
         dest.writeString(this.VILLAGE);
         dest.writeString(this.VILLAGE_ID);
         dest.writeInt(this.WARTER);
-    }
-
-    public ApproveSale() {
+        dest.writeString(this.QUANTITY_JIN);
     }
 
     protected ApproveSale(Parcel in) {
+        this.AMOUNT = in.readString();
+        this.myQuote = in.readString();
+        this.mostQuote = in.readString();
         this.CITY = in.readString();
         this.CITY_ID = in.readString();
         this.COUNTY = in.readString();
@@ -424,9 +467,10 @@ public class ApproveSale implements Parcelable {
         this.VILLAGE = in.readString();
         this.VILLAGE_ID = in.readString();
         this.WARTER = in.readInt();
+        this.QUANTITY_JIN = in.readString();
     }
 
-    public static final Parcelable.Creator<ApproveSale> CREATOR = new Parcelable.Creator<ApproveSale>() {
+    public static final Creator<ApproveSale> CREATOR = new Creator<ApproveSale>() {
         @Override
         public ApproveSale createFromParcel(Parcel source) {
             return new ApproveSale(source);

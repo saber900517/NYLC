@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.nylc.nylc.BaseActivity;
 import com.nylc.nylc.R;
+import com.nylc.nylc.character.GoodsOrderDetailActivity;
+import com.nylc.nylc.character.ProductOrderDetailActivity;
 import com.nylc.nylc.model.BaseResult;
 import com.nylc.nylc.model.GoodsOrder;
 import com.nylc.nylc.model.ProductOrder;
@@ -136,6 +138,16 @@ public class FarmerOrderActivity extends BaseActivity implements View.OnClickLis
             }
         });
         initSpinner();
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (state == STATE_GOODS) {
+                    GoodsOrderDetailActivity.newInstance(FarmerOrderActivity.this, goodsOrders.get(i));
+                } else {
+                    ProductOrderDetailActivity.newInstance(FarmerOrderActivity.this, productOrders.get(i));
+                }
+            }
+        });
     }
 
     private void initSpinner() {

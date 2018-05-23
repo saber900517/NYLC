@@ -52,13 +52,17 @@ public class CompanyOrderAdapter extends BaseAdapter {
         TextView tv_state = ViewHolder.get(view, R.id.tv_state);
         TextView tv_village = ViewHolder.get(view, R.id.tv_village);
         TextView tv_sellType = ViewHolder.get(view, R.id.tv_sellType);
+        TextView tv_earnest = ViewHolder.get(view, R.id.tv_earnest);
+        TextView tv_date = ViewHolder.get(view, R.id.tv_date);
         CompanyOrder companyOrder = mList.get(i);
         tv_productType.setText(companyOrder.getPRODUCT_TYPE());
         tv_count.setText(companyOrder.getQUANTITY() + "亩");
-        tv_price.setText(companyOrder.getQUANTITY_JIN() + "元");
+        tv_price.setText(companyOrder.getQUANTITY_JIN() + "斤");
         tv_state.setText(getStateText(companyOrder.getSTATUS()));
         tv_village.setText(companyOrder.getVILLAGE());
         tv_sellType.setText(companyOrder.getSELL_TYPE());
+        tv_date.setText(companyOrder.getCREATED_DATE());
+        tv_earnest.setText("定金" + companyOrder.getSUBSCRIPTION() + "元");
         return view;
     }
 

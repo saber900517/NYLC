@@ -56,8 +56,8 @@ public class ApproveSaleAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = LayoutInflater.from(mContext).inflate(R.layout.item_approve_sale, null);
         final int position = i;
-        TextView tv_right1 = view.findViewById(R.id.tv_right1);
-        TextView tv_right2 = view.findViewById(R.id.tv_right2);
+        TextView tv_earnest = view.findViewById(R.id.tv_earnest);
+        TextView tv_state = view.findViewById(R.id.tv_state);
         TextView tv_name = view.findViewById(R.id.tv_name);
         TextView tv_productType = view.findViewById(R.id.tv_products);
         TextView tv_count = view.findViewById(R.id.tv_count);
@@ -67,20 +67,21 @@ public class ApproveSaleAdapter extends BaseAdapter {
         TextView btn = view.findViewById(R.id.btn);
         TextView btn_edit = view.findViewById(R.id.btn_edit);
         TextView btn_delete = view.findViewById(R.id.btn_delete);
+        TextView tv_date = view.findViewById(R.id.tv_date);
         final ApproveSale approveSale = mList.get(i);
         int subscription = approveSale.getSUBSCRIPTION();//定金
-        tv_right1.setVisibility(subscription > 0 ? View.VISIBLE : View.GONE);
-        tv_right1.setText("定金" + subscription);
+        tv_earnest.setVisibility(subscription > 0 ? View.VISIBLE : View.GONE);
+        tv_earnest.setText("定金" + subscription);
         tv_name.setText(approveSale.getFARMER_NAME());
         tv_productType.setText(approveSale.getPRODUCT_TYPE());
         tv_count.setText(approveSale.getQUANTITY() + "亩");
+        tv_date.setText(approveSale.getCREATED_DATE());
         tv_price.setText(approveSale.getPRICE() + "元/斤");
-        tv_water.setText("水分点" + approveSale.getWARTER() + "%");
         int status = approveSale.getSTATUS();
 
         if (status == 0) {
             btn.setVisibility(View.GONE);
-            tv_right2.setText(getStatusText(status));
+            tv_state.setText(getStatusText(status));
             btn_edit.setVisibility(View.VISIBLE);
             btn_delete.setVisibility(View.VISIBLE);
             btn_edit.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +101,7 @@ public class ApproveSaleAdapter extends BaseAdapter {
             btn_edit.setVisibility(View.GONE);
             btn_delete.setVisibility(View.GONE);
             if (status == 30 || status == 10) {
-                tv_right2.setVisibility(View.GONE);
+//                tv_state.setVisibility(View.GONE);
                 btn.setVisibility(View.VISIBLE);
                 btn.setText("完成交易");
                 btn.setOnClickListener(
@@ -113,9 +114,9 @@ public class ApproveSaleAdapter extends BaseAdapter {
                             }
                         });
             } else {
-                tv_right2.setVisibility(View.VISIBLE);
+//                tv_state.setVisibility(View.VISIBLE);
                 btn.setVisibility(View.GONE);
-                tv_right2.setText(getStatusText(status));
+                tv_state.setText(getStatusText(status));
             }
         }
 
